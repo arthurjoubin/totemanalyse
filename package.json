@@ -4,8 +4,7 @@
   "description": "Totem Analyse - Financial Analysis Website",
   "scripts": {
     "dev": "hugo server",
-    "build": "hugo --minify",
-    "postinstall": "npx tailwindcss -i ./themes/totem/assets/css/styles.css -o ./themes/totem/assets/css/styles.processed.css"
+    "build": "hugo --minify"
   },
   "dependencies": {
     "@tailwindcss/forms": "^0.5.7",
