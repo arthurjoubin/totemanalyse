@@ -1,0 +1,25 @@
+{{ define "main" }}
+{{ if .Params.banner }}
+<div class="w-full h-64 relative overflow-hidden">
+    <img 
+        src="{{ .Params.banner }}" 
+        alt="{{ $.Title }}" 
+        class="w-full h-full object-cover"
+    >
+</div>
+{{ end }}
+<article class="max-w-3xl mx-auto px-4 py-12">
+    <header class="mb-10">
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">{{ .Title }}</h1>
+        <div class="text-gray-600">
+            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "02 January 2006" }}</time>
+        </div>
+    </header>
+    
+    <div class="prose prose-lg max-w-none">
+        {{ .Content }}
+    </div>
+</article>
+
+<script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+{{ end }}

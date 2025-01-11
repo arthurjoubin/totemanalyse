@@ -1,0 +1,15 @@
+baseURL = 'http://localhost:1313/'
+languageCode = 'fr-fr'
+title = 'Totem Analyse'
+theme = 'totem'
+
+[params]
+  description = "Investissement, Bourse, Finance"
+  mainColor = "#006B3F"
+  secondaryColor = "#40A580"
+
+[markup]
+  [markup.highlight]
+    noClasses = false
+  [markup.goldmark.renderer]
+    unsafe = true 
