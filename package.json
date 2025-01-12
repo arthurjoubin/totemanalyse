@@ -1,9 +1,0 @@
-{
-  "name": "totem-analyse",
-  "version": "1.0.0",
-  "description": "Totem Analyse - Financial Analysis Website",
-  "scripts": {
-    "dev": "hugo server",
-    "build": "hugo --minify"
-  }
-} 
