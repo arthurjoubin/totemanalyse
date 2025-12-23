@@ -2,7 +2,7 @@
 title: "Apparté sur Duolingo"
 ticker: "DUOL"
 exchange: "NASDAQ"
-description: "Un échange entre nous autour de la thèse d'investissement de Duolingo. Beaucoup redoutent l'impact de l'IA sur la plateforme, mais Arthur y voit une belle opportunité, et ce pour plusieurs raisons que nous explorons ci-dessous."
+description: "Un échange entre Arthur et Jérémy autour de la thèse d'investissement de Duolingo. Beaucoup redoutent l'impact de l'IA sur la plateforme, mais Arthur y voit une belle opportunité, et ce pour plusieurs raisons que nous explorons ci-dessous."
 publishDate: "23 décembre 2025"
 readTime: "15 min de lecture"
 emoji: "🦉"
