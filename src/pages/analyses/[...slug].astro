@@ -14,6 +14,6 @@ const { analysis } = Astro.props;
 const { Content } = await analysis.render();
 ---
 
-<AnalysisLayout frontmatter={analysis.data}>
+<AnalysisLayout frontmatter={analysis.data} slug={analysis.slug}>
   <Content />
 </AnalysisLayout>

@@ -4,6 +4,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import StockBanner from '../components/StockBanner';
 import TradingViewChart from '../components/TradingViewChart';
+import RelatedAnalysisSidebar from '../components/RelatedAnalysisSidebar.astro';
 
 interface Props {
   frontmatter: {
@@ -28,65 +29,76 @@ interface Props {
     qoqGrowth?: string;
     dilution?: string;
   };
+  slug?: string;
 }
 
-const { frontmatter } = Astro.props;
+const { frontmatter, slug = '' } = Astro.props;
 ---
 
 <BaseLayout
   title={`${frontmatter.title} - Totem Analyse`}
   description={frontmatter.description}
 >
-  <div class="container mx-auto px-6 py-8 max-w-5xl">
+  <div class="container mx-auto px-6 py-8 max-w-6xl">
     <Header />
 
-    <StockBanner
-      ticker={frontmatter.ticker}
-      exchange={frontmatter.exchange}
-      companyName={frontmatter.title.replace('Apparté sur ', '')}
-      dataAsOf={frontmatter.dataAsOf}
-      marketCap={frontmatter.marketCap || '$0'}
-      ev={frontmatter.ev || '$0'}
-      revenue={frontmatter.revenue || '$0'}
-      yoyGrowth={frontmatter.yoyGrowth || '0%'}
-      evRevenue={frontmatter.evRevenue || '0x'}
-      cash={frontmatter.cash || '$0'}
-      debt={frontmatter.debt || '$0'}
-      opCashFlow={frontmatter.opCashFlow || '$0'}
-      qoqGrowth={frontmatter.qoqGrowth || '0%'}
-      dilution={frontmatter.dilution || '0%'}
-      client:load
-    />
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      <!-- Main Content -->
+      <div class="lg:col-span-3 space-y-6">
+        <StockBanner
+          ticker={frontmatter.ticker}
+          exchange={frontmatter.exchange}
+          companyName={frontmatter.title.replace('Apparté sur ', '')}
+          dataAsOf={frontmatter.dataAsOf}
+          marketCap={frontmatter.marketCap || '$0'}
+          ev={frontmatter.ev || '$0'}
+          revenue={frontmatter.revenue || '$0'}
+          yoyGrowth={frontmatter.yoyGrowth || '0%'}
+          evRevenue={frontmatter.evRevenue || '0x'}
+          cash={frontmatter.cash || '$0'}
+          debt={frontmatter.debt || '$0'}
+          opCashFlow={frontmatter.opCashFlow || '$0'}
+          qoqGrowth={frontmatter.qoqGrowth || '0%'}
+          dilution={frontmatter.dilution || '0%'}
+          client:load
+        />
 
-    {frontmatter.showChart !== false && (
-      <TradingViewChart
-        ticker={frontmatter.ticker}
-        exchange={frontmatter.exchange}
-        client:load
-      />
-    )}
+        {frontmatter.showChart !== false && (
+          <TradingViewChart
+            ticker={frontmatter.ticker}
+            exchange={frontmatter.exchange}
+            client:load
+          />
+        )}
 
-    <article class="bg-white border border-gray-200 p-8 md:p-12">
-      <!-- Article Header -->
-      <header class="mb-10 pb-8 border-b border-gray-200">
-        <div class="flex items-center gap-2 mb-4">
-          <span class="px-2 py-0.5 bg-totem-green text-white text-xs font-medium">{frontmatter.ticker}</span>
-          {frontmatter.tags.map((tag: string) => (
-            <span class="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs">{tag}</span>
-          ))}
-        </div>
-        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">{frontmatter.title}</h1>
-        <p class="text-lg text-gray-600 mb-4 leading-relaxed">{frontmatter.description}</p>
-        <p class="text-sm text-gray-500">
-          Publié le {frontmatter.publishDate} · {frontmatter.readTime}
-        </p>
-      </header>
+        <article class="bg-white border border-gray-200 p-8 md:p-12">
+          <!-- Article Header -->
+          <header class="mb-10 pb-8 border-b border-gray-200">
+            <div class="flex items-center gap-2 mb-4">
+              <span class="px-2 py-0.5 bg-totem-green text-white text-xs font-medium">{frontmatter.ticker}</span>
+              {frontmatter.tags.map((tag: string) => (
+                <span class="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs">{tag}</span>
+              ))}
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">{frontmatter.title}</h1>
+            <p class="text-lg text-gray-600 mb-4 leading-relaxed">{frontmatter.description}</p>
+            <p class="text-sm text-gray-500">
+              Publié le {frontmatter.publishDate} · {frontmatter.readTime}
+            </p>
+          </header>
 
-      <!-- Article Content -->
-      <div class="prose max-w-none">
-        <slot />
+          <!-- Article Content -->
+          <div class="prose max-w-none">
+            <slot />
+          </div>
+        </article>
       </div>
-    </article>
+
+      <!-- Sidebar -->
+      <div class="lg:col-span-1">
+        <RelatedAnalysisSidebar currentSlug={slug} />
+      </div>
+    </div>
 
     <Footer />
   </div>
