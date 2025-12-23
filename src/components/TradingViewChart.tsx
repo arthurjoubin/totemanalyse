@@ -16,6 +16,7 @@ const timeframes = [
 export default function TradingViewChart({ ticker, exchange }: TradingViewChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [dateRange, setDateRange] = useState('12M');
+  const [isOpen, setIsOpen] = useState(false);
 
   // Convert to TradingView format
   const getTradingViewSymbol = (): string => {
@@ -38,7 +39,7 @@ export default function TradingViewChart({ ticker, exchange }: TradingViewChartP
   };
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || !isOpen) return;
 
     // Clear any existing content
     containerRef.current.innerHTML = '';
@@ -82,32 +83,53 @@ export default function TradingViewChart({ ticker, exchange }: TradingViewChartP
         containerRef.current.innerHTML = '';
       }
     };
-  }, [ticker, exchange, dateRange]);
+  }, [ticker, exchange, dateRange, isOpen]);
 
   return (
-    <div className="bg-white border border-gray-200 mb-4">
-      <div
-        ref={containerRef}
-        className="h-[220px] w-full"
-      />
-      <div className="flex justify-between items-center px-3 py-1 border-t border-gray-200 bg-gray-50">
-        <div className="flex gap-1">
-          {timeframes.map((tf) => (
-            <button
-              key={tf.value}
-              onClick={() => setDateRange(tf.value)}
-              className={`px-2 py-0.5 text-xs rounded transition-colors ${
-                dateRange === tf.value
-                  ? 'bg-totem-green text-white'
-                  : 'text-gray-500 hover:bg-gray-200'
-              }`}
-            >
-              {tf.label}
-            </button>
-          ))}
-        </div>
-        <span className="text-xs text-gray-400">Chart par TradingView</span>
-      </div>
+    <div className="bg-white border border-gray-200">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full px-4 py-3 flex items-center justify-between text-left hover:bg-gray-50 transition-colors"
+      >
+        <span className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
+          Cours de l'action
+        </span>
+        <svg
+          className={`w-4 h-4 text-gray-500 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      {isOpen && (
+        <>
+          <div
+            ref={containerRef}
+            className="h-[220px] w-full border-t border-gray-200"
+          />
+          <div className="flex justify-between items-center px-3 py-1 border-t border-gray-200 bg-gray-50">
+            <div className="flex gap-1">
+              {timeframes.map((tf) => (
+                <button
+                  key={tf.value}
+                  onClick={() => setDateRange(tf.value)}
+                  className={`px-2 py-0.5 text-xs transition-colors ${
+                    dateRange === tf.value
+                      ? 'bg-totem-green text-white'
+                      : 'text-gray-500 hover:bg-gray-200'
+                  }`}
+                >
+                  {tf.label}
+                </button>
+              ))}
+            </div>
+            <span className="text-xs text-gray-400">TradingView</span>
+          </div>
+        </>
+      )}
     </div>
   );
 }

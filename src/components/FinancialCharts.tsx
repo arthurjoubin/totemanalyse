@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface FinancialChartsProps {
   ticker: string;
@@ -7,6 +7,7 @@ interface FinancialChartsProps {
 
 export default function FinancialCharts({ ticker, exchange }: FinancialChartsProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   // Convert to TradingView format
   const getTradingViewSymbol = (): string => {
@@ -29,7 +30,7 @@ export default function FinancialCharts({ ticker, exchange }: FinancialChartsPro
   };
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || !isOpen) return;
 
     // Clear any existing content
     containerRef.current.innerHTML = '';
@@ -71,20 +72,38 @@ export default function FinancialCharts({ ticker, exchange }: FinancialChartsPro
         containerRef.current.innerHTML = '';
       }
     };
-  }, [ticker, exchange]);
+  }, [ticker, exchange, isOpen]);
 
   return (
-    <div className="bg-white border border-gray-200 mb-4">
-      <div className="px-3 py-1.5 border-b border-gray-200 bg-gray-50">
-        <h3 className="text-xs font-semibold text-gray-700">Données Financières</h3>
-      </div>
-      <div
-        ref={containerRef}
-        className="h-[280px] w-full"
-      />
-      <div className="flex justify-end items-center px-3 py-1 border-t border-gray-200 bg-gray-50">
-        <span className="text-xs text-gray-400">Financials par TradingView</span>
-      </div>
+    <div className="bg-white border border-gray-200">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full px-4 py-3 flex items-center justify-between text-left hover:bg-gray-50 transition-colors"
+      >
+        <span className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
+          Données Financières
+        </span>
+        <svg
+          className={`w-4 h-4 text-gray-500 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      {isOpen && (
+        <>
+          <div
+            ref={containerRef}
+            className="h-[280px] w-full border-t border-gray-200"
+          />
+          <div className="flex justify-end items-center px-3 py-1 border-t border-gray-200 bg-gray-50">
+            <span className="text-xs text-gray-400">TradingView</span>
+          </div>
+        </>
+      )}
     </div>
   );
 }
