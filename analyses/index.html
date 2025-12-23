@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nos Analyses - Totem Analyse</title>
+    <link rel="icon" href="../images/logo_totem_analyse.png" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'totem-green': '#006B4F',
+                        'totem-light': '#00A67B'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <!-- Header -->
+        <header class="flex items-center justify-between mb-12">
+            <a href="../" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                <img src="../images/logo_totem_analyse.png" alt="Totem Analyse Logo" class="w-12">
+                <span class="text-xl font-bold text-totem-green">Totem Analyse</span>
+            </a>
+            <nav>
+                <a href="../" class="text-gray-600 hover:text-totem-green transition-colors">Accueil</a>
+            </nav>
+        </header>
+
+        <!-- Page Title -->
+        <div class="mb-12">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">Nos Analyses</h1>
+            <p class="text-gray-600 text-lg">Analyses approfondies d'entreprises cotées en bourse</p>
+        </div>
+
+        <!-- Analyses Grid -->
+        <div class="grid gap-6">
+            <!-- Duolingo Analysis Card -->
+            <a href="duolingo.html" class="group block bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100">
+                <div class="flex flex-col md:flex-row">
+                    <div class="md:w-48 h-48 md:h-auto bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center">
+                        <span class="text-6xl">🦉</span>
+                    </div>
+                    <div class="flex-1 p-6">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded">DUOL</span>
+                            <span class="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded">Tech</span>
+                            <span class="px-2 py-1 bg-purple-100 text-purple-700 text-xs font-medium rounded">EdTech</span>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-900 group-hover:text-totem-green transition-colors mb-2">Duolingo</h2>
+                        <p class="text-gray-600 mb-4">L'application d'apprentissage qui défie les sceptiques de l'IA. Une analyse complète de leur modèle économique, leur expansion horizontale et pourquoi l'IA est leur meilleur allié.</p>
+                        <div class="flex items-center gap-4 text-sm text-gray-500">
+                            <span>23 décembre 2025</span>
+                            <span>•</span>
+                            <span>10 min de lecture</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-16 pt-8 border-t border-gray-200 text-center text-gray-500 text-sm">
+            <p>© 2025 Totem Analyse - Tous droits réservés.</p>
+        </footer>
+    </div>
+</body>
+</html>
