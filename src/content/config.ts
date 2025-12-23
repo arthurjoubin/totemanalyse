@@ -11,6 +11,8 @@ const analysesCollection = defineCollection({
     readTime: z.string(),
     emoji: z.string(),
     tags: z.array(z.string()),
+    // Display options
+    showChart: z.boolean().optional().default(true), // Afficher le graphique TradingView
     // Stock metrics
     dataAsOf: z.string().optional(), // Date des données financières (e.g., "Mai 2022")
     marketCap: z.string().optional(),

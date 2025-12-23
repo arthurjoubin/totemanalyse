@@ -15,6 +15,7 @@ interface Props {
     readTime: string;
     emoji: string;
     tags: string[];
+    showChart?: boolean;
     dataAsOf?: string;
     marketCap?: string;
     ev?: string;
@@ -57,11 +58,13 @@ const { frontmatter } = Astro.props;
       client:load
     />
 
-    <TradingViewChart
-      ticker={frontmatter.ticker}
-      exchange={frontmatter.exchange}
-      client:load
-    />
+    {frontmatter.showChart !== false && (
+      <TradingViewChart
+        ticker={frontmatter.ticker}
+        exchange={frontmatter.exchange}
+        client:load
+      />
+    )}
 
     <article class="bg-white border border-gray-200 p-8 md:p-12">
       <!-- Article Header -->

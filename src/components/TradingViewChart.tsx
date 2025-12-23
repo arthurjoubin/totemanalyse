@@ -17,20 +17,24 @@ export default function TradingViewChart({ ticker, exchange }: TradingViewChartP
   const containerRef = useRef<HTMLDivElement>(null);
   const [dateRange, setDateRange] = useState('12M');
 
-  // Get clean ticker for TradingView
+  // Convert to TradingView format
   const getTradingViewSymbol = (): string => {
-    // Handle tickers like "HKG: 1843" -> "1843"
+    const exchangeMap: Record<string, string> = {
+      'HKG': 'HKEX',
+      'NASDAQ': 'NASDAQ',
+      'NYSE': 'NYSE',
+      'EURONEXT': 'EURONEXT',
+      'LSE': 'LSE',
+      'TSE': 'TSE',
+      'SGX': 'SGX',
+    };
+
+    const tvExchange = exchangeMap[exchange] || exchange;
     const cleanTicker = ticker.includes(':')
       ? ticker.split(':')[1].trim()
       : ticker;
 
-    // TradingView can resolve symbols automatically
-    // Only add exchange prefix for US stocks where it's needed
-    if (exchange === 'NASDAQ' || exchange === 'NYSE') {
-      return `${exchange}:${cleanTicker}`;
-    }
-
-    return cleanTicker;
+    return `${tvExchange}:${cleanTicker}`;
   };
 
   useEffect(() => {
