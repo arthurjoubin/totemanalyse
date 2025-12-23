@@ -1,11 +1,15 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const analyses = await getCollection('analyses');
+const latestAnalysis = analyses[0];
 ---
 
 <BaseLayout title="Totem Analyse - Lettre d'Investissement">
   <div class="container mx-auto px-6 py-12 max-w-3xl">
     <!-- Logo and Header -->
-    <header class="text-center mb-16 pt-8">
+    <header class="text-center mb-12 pt-8">
       <img src="/images/logo_totem_analyse.png" alt="Totem Analyse Logo" class="w-40 mx-auto mb-8">
       <h1 class="text-4xl font-bold text-totem-green mb-3 tracking-tight">Totem Analyse</h1>
       <p class="text-gray-600 text-lg">Lettre d'Investissement indépendante</p>
@@ -13,20 +17,66 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </header>
 
     <!-- Main CTA -->
-    <div class="mb-12">
+    <div class="mb-6">
       <a href="/analyses"
          class="block w-full py-4 px-6 bg-totem-green text-white
                 text-center font-semibold text-lg hover:bg-totem-light transition-colors
                 duration-200 border border-totem-green">
-        Accéder aux Analyses
+        Toutes les Analyses
       </a>
     </div>
 
+    <!-- Ticker Banner -->
+    <div class="mb-10 border border-gray-200 bg-white overflow-hidden">
+      <div class="flex items-center">
+        <span class="bg-totem-green text-white text-xs font-semibold px-3 py-2 uppercase tracking-wide shrink-0">
+          Analyses
+        </span>
+        <div class="ticker-wrapper overflow-hidden flex-1">
+          <div class="ticker-content flex items-center gap-8 py-2 px-4">
+            {analyses.map((analysis) => (
+              <a href={`/analyses/${analysis.slug}`} class="ticker-item flex items-center gap-2 text-sm whitespace-nowrap hover:text-totem-green transition-colors">
+                <span class="font-semibold text-totem-green">{analysis.data.ticker}</span>
+                <span class="text-gray-600">{analysis.data.title.replace('Apparté sur ', '')}</span>
+                <span class="text-gray-400">•</span>
+              </a>
+            ))}
+            {analyses.map((analysis) => (
+              <a href={`/analyses/${analysis.slug}`} class="ticker-item flex items-center gap-2 text-sm whitespace-nowrap hover:text-totem-green transition-colors">
+                <span class="font-semibold text-totem-green">{analysis.data.ticker}</span>
+                <span class="text-gray-600">{analysis.data.title.replace('Apparté sur ', '')}</span>
+                <span class="text-gray-400">•</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Latest Analysis -->
+    {latestAnalysis && (
+      <div class="mb-10">
+        <p class="text-xs text-gray-500 uppercase tracking-wide mb-3">Dernière analyse</p>
+        <a href={`/analyses/${latestAnalysis.slug}`} class="group block bg-white border border-gray-200 hover:border-totem-green transition-colors">
+          <div class="p-5">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-2xl">{latestAnalysis.data.emoji}</span>
+              <span class="px-2 py-0.5 bg-totem-green text-white text-xs font-medium">{latestAnalysis.data.ticker}</span>
+            </div>
+            <h2 class="text-xl font-bold text-gray-900 group-hover:text-totem-green transition-colors mb-2">
+              {latestAnalysis.data.title.replace('Apparté sur ', '')}
+            </h2>
+            <p class="text-gray-600 text-sm mb-3">{latestAnalysis.data.description}</p>
+            <p class="text-xs text-gray-500">{latestAnalysis.data.publishDate} · {latestAnalysis.data.readTime}</p>
+          </div>
+        </a>
+      </div>
+    )}
+
     <!-- Description -->
-    <div class="mb-12 text-center">
-      <p class="text-gray-600 leading-relaxed">
-        Analyses approfondies d'entreprises cotées.
-        Recherche fondamentale, valorisation et thèses d'investissement.
+    <div class="mb-10 text-center">
+      <p class="text-gray-600 leading-relaxed text-sm">
+        Recherche fondamentale, valorisation et thèses d'investissement sur des entreprises cotées.
       </p>
     </div>
 
@@ -35,14 +85,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <a href="https://twitter.com/TotemAnalyse" target="_blank" rel="noopener noreferrer"
          class="block py-3 px-4 bg-white border border-gray-300 text-gray-700
                 text-center font-medium hover:border-totem-green hover:text-totem-green
-                transition-colors duration-200">
+                transition-colors duration-200 text-sm">
         Twitter / X
       </a>
 
       <a href="https://totemanalyse.substack.com" target="_blank" rel="noopener noreferrer"
          class="block py-3 px-4 bg-white border border-gray-300 text-gray-700
                 text-center font-medium hover:border-totem-green hover:text-totem-green
-                transition-colors duration-200">
+                transition-colors duration-200 text-sm">
         Substack
       </a>
     </div>
@@ -54,3 +104,27 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </footer>
   </div>
 </BaseLayout>
+
+<style>
+  .ticker-wrapper {
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  }
+
+  .ticker-content {
+    animation: ticker 20s linear infinite;
+  }
+
+  .ticker-content:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes ticker {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+</style>
