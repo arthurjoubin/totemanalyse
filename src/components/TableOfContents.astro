@@ -50,21 +50,12 @@ const h2Headings = headings.filter(h => h.depth === 2);
     padding: 0;
     margin: 0;
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem 0;
+    flex-direction: column;
+    gap: 0.35rem;
   }
 
   .toc-list li {
     margin: 0;
-    display: flex;
-    align-items: center;
-  }
-
-  .toc-list li:not(:last-child)::after {
-    content: "·";
-    margin: 0 0.75rem;
-    color: #9ca3af;
-    font-weight: 700;
   }
 
   .toc-list a {
