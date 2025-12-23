@@ -1,8 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import { sortAnalysesByDate } from '../utils/sort';
 
-const analyses = await getCollection('analyses');
+const analyses = sortAnalysesByDate(await getCollection('analyses'));
 const latestAnalysis = analyses[0];
 ---
 
