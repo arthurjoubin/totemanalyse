@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import { sortAnalysesByDate } from '../utils/sort';
+
+interface Props {
+  currentSlug: string;
+}
+
+const { currentSlug } = Astro.props;
+
+const allAnalyses = sortAnalysesByDate(await getCollection('analyses'));
+const relatedAnalyses = allAnalyses.filter((analysis) => analysis.slug !== currentSlug);
+---
+
+{relatedAnalyses.length > 0 && (
+  <aside class="space-y-3">
+    <h3 class="text-sm font-semibold text-gray-700 uppercase tracking-wide px-4">Autres analyses</h3>
+    <div class="space-y-2">
+      {relatedAnalyses.map((analysis) => (
+        <a
+          href={`/analyses/${analysis.slug}`}
+          class="flex items-start gap-3 p-3 bg-white border border-gray-200 hover:border-totem-green hover:bg-gray-50 transition-all duration-200 group"
+        >
+          <span class="text-3xl flex-shrink-0 mt-0.5">{analysis.data.emoji}</span>
+          <div class="flex-1 min-w-0">
+            <h4 class="text-sm font-semibold text-gray-900 group-hover:text-totem-green transition-colors leading-tight">
+              {analysis.data.title.replace('Apparté sur ', '')}
+            </h4>
+            <div class="flex flex-wrap gap-1 mt-1">
+              <span class="inline-block px-2 py-0.5 bg-totem-green text-white text-xs font-medium">
+                {analysis.data.ticker}
+              </span>
+              {analysis.data.tags.slice(0, 1).map((tag: string) => (
+                <span class="inline-block px-2 py-0.5 bg-gray-100 text-gray-600 text-xs">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </aside>
+)}
