@@ -2,7 +2,6 @@
 title: "Snack Empire Holdings"
 ticker: "1843"
 exchange: "HKG"
-yahooTicker: "1843.HK"
 description: "\"If Taiwan has it, Shihlin has it.\" Une analyse d'un groupe spécialisé dans la vente et la distribution de snacks et boissons taïwanaises sous la marque Shihlin Taiwan Street Snacks."
 publishDate: "21 mai 2022"
 readTime: "10 min de lecture"

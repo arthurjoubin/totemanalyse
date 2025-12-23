@@ -10,7 +10,6 @@ interface Props {
     title: string;
     ticker: string;
     exchange: string;
-    yahooTicker?: string;
     description: string;
     publishDate: string;
     readTime: string;
@@ -43,7 +42,6 @@ const { frontmatter } = Astro.props;
     <StockBanner
       ticker={frontmatter.ticker}
       exchange={frontmatter.exchange}
-      yahooTicker={frontmatter.yahooTicker}
       companyName={frontmatter.title.replace('Apparté sur ', '')}
       dataAsOf={frontmatter.dataAsOf}
       marketCap={frontmatter.marketCap || '$0'}
