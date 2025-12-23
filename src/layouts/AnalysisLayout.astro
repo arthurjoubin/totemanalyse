@@ -6,6 +6,13 @@ import StockBanner from '../components/StockBanner';
 import TradingViewChart from '../components/TradingViewChart';
 import FinancialCharts from '../components/FinancialCharts';
 import RelatedAnalysisSidebar from '../components/RelatedAnalysisSidebar.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
 
 interface Props {
   frontmatter: {
@@ -31,9 +38,10 @@ interface Props {
     dilution?: string;
   };
   slug?: string;
+  headings?: Heading[];
 }
 
-const { frontmatter, slug = '' } = Astro.props;
+const { frontmatter, slug = '', headings = [] } = Astro.props;
 ---
 
 <BaseLayout
@@ -95,6 +103,9 @@ const { frontmatter, slug = '' } = Astro.props;
               Publié le {frontmatter.publishDate} · {frontmatter.readTime}
             </p>
           </header>
+
+          <!-- Table of Contents -->
+          <TableOfContents headings={headings} />
 
           <!-- Article Content -->
           <div class="prose max-w-none">

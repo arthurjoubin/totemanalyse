@@ -11,9 +11,9 @@ export async function getStaticPaths() {
 }
 
 const { analysis } = Astro.props;
-const { Content } = await analysis.render();
+const { Content, headings } = await analysis.render();
 ---
 
-<AnalysisLayout frontmatter={analysis.data} slug={analysis.slug}>
+<AnalysisLayout frontmatter={analysis.data} slug={analysis.slug} headings={headings}>
   <Content />
 </AnalysisLayout>
