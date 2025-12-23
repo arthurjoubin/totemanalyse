@@ -20,66 +20,64 @@
         }
     </script>
     <style>
-        .prose h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 1rem; color: #006B4F; border-bottom: 2px solid #006B4F; padding-bottom: 0.5rem; }
+        .prose h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: #111827;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
         .prose p { margin-bottom: 1rem; line-height: 1.8; color: #374151; }
         .prose ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
         .prose li { margin-bottom: 0.5rem; color: #374151; }
         .prose strong { color: #111827; font-weight: 600; }
-        .prose blockquote { border-left: 4px solid #006B4F; padding-left: 1rem; margin: 1.5rem 0; font-style: italic; color: #6b7280; background: #f9fafb; padding: 1rem; border-radius: 0 0.5rem 0.5rem 0; }
+        .prose blockquote { border-left: 2px solid #d1d5db; padding-left: 1rem; margin: 1.5rem 0; font-style: italic; color: #6b7280; }
         .prose img { max-width: 100%; height: auto; border-radius: 0.5rem; margin: 1.5rem 0; }
         .prose a { color: #006B4F; text-decoration: underline; }
         .prose a:hover { color: #00A67B; }
+        .prose hr { border: none; border-top: 1px solid #e5e7eb; margin: 2rem 0; }
 
-        /* Interview styles */
+        /* Interview styles - Newspaper style */
         .question {
-            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-            border-left: 4px solid #006B4F;
-            padding: 1.25rem 1.5rem;
-            margin: 2rem 0 1rem 0;
-            border-radius: 0 1rem 1rem 0;
+            margin: 1.5rem 0 0.75rem 0;
             font-weight: 600;
-            color: #065f46;
-            font-size: 1.1rem;
+            font-style: italic;
+            color: #111827;
+            font-size: 1rem;
+            line-height: 1.6;
         }
         .question::before {
-            content: "🎙️ Journaliste";
-            display: block;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: #059669;
-            margin-bottom: 0.5rem;
+            content: "Jérémy — ";
+            font-style: normal;
             font-weight: 700;
+            color: #006B4F;
         }
         .answer {
-            padding: 0 0 0 1.5rem;
             margin-bottom: 1.5rem;
             color: #374151;
             line-height: 1.8;
         }
         .answer::before {
-            content: "💼 Investisseur";
+            content: "Arthur — ";
             display: block;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: #6b7280;
-            margin-bottom: 0.5rem;
             font-weight: 700;
+            color: #374151;
+            margin-bottom: 0.25rem;
         }
         .concession {
-            background: #fef3c7;
-            border-left: 4px solid #f59e0b;
-            padding: 1rem 1.5rem;
+            border-left: 2px solid #d1d5db;
+            padding-left: 1rem;
             margin: 1rem 0;
-            border-radius: 0 0.5rem 0.5rem 0;
             font-style: italic;
+            color: #6b7280;
         }
         .highlight-box {
-            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
-            border: 1px solid #a7f3d0;
-            padding: 1.5rem;
-            border-radius: 1rem;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-left: 3px solid #006B4F;
+            padding: 1.25rem;
             margin: 1.5rem 0;
         }
     </style>
@@ -98,90 +96,72 @@
             </nav>
         </header>
 
-        <!-- Enhanced Stock Banner -->
-        <div class="bg-gradient-to-br from-green-600 to-green-800 rounded-2xl shadow-lg p-6 mb-8 text-white">
-            <div class="flex flex-col lg:flex-row lg:items-center gap-6">
-                <!-- Company Info -->
-                <div class="flex items-center gap-4">
-                    <div class="w-20 h-20 bg-white/20 backdrop-blur rounded-2xl flex items-center justify-center">
-                        <span class="text-5xl">🦉</span>
-                    </div>
-                    <div>
-                        <h1 class="text-3xl font-bold">Duolingo</h1>
-                        <span class="text-green-200 font-mono text-lg">NASDAQ: DUOL</span>
-                    </div>
+        <!-- Stock Banner - Minimalist -->
+        <div class="bg-white border border-gray-200 rounded-lg mb-8">
+            <!-- Header -->
+            <div class="flex items-center justify-between p-4 border-b border-gray-200">
+                <div>
+                    <h1 class="text-xl font-bold text-gray-900">Duolingo</h1>
+                    <span class="text-gray-500 font-mono text-sm">NASDAQ: DUOL</span>
                 </div>
-
-                <!-- Live Price -->
-                <div class="lg:ml-auto text-right">
-                    <p class="text-green-200 text-sm uppercase tracking-wide">Prix actuel</p>
-                    <p class="text-4xl font-bold" id="stock-price">--</p>
-                    <p class="text-lg" id="stock-change">--</p>
+                <div class="text-right">
+                    <p class="text-2xl font-bold text-gray-900" id="stock-price">--</p>
+                    <p class="text-sm" id="stock-change">--</p>
                 </div>
             </div>
 
-            <!-- Key Metrics Grid -->
-            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 mt-6 pt-6 border-t border-white/20">
-                <div class="bg-white/10 backdrop-blur rounded-xl p-3 text-center">
-                    <p class="text-xs text-green-200 uppercase tracking-wide">Market Cap</p>
-                    <p class="text-xl font-bold" id="market-cap">$9.25B</p>
+            <!-- Metrics Grid -->
+            <div class="grid grid-cols-3 md:grid-cols-5 text-center text-sm">
+                <div class="p-3 border-r border-b border-gray-200">
+                    <p class="text-gray-500 text-xs">Market Cap</p>
+                    <p class="font-semibold text-gray-900" id="market-cap">$9.25B</p>
                 </div>
-                <div class="bg-white/10 backdrop-blur rounded-xl p-3 text-center">
-                    <p class="text-xs text-green-200 uppercase tracking-wide">EV</p>
-                    <p class="text-xl font-bold">$8.09B</p>
+                <div class="p-3 border-r border-b border-gray-200">
+                    <p class="text-gray-500 text-xs">EV</p>
+                    <p class="font-semibold text-gray-900">$8.09B</p>
                 </div>
-                <div class="bg-white/10 backdrop-blur rounded-xl p-3 text-center">
-                    <p class="text-xs text-green-200 uppercase tracking-wide">Revenus (Q3)</p>
-                    <p class="text-xl font-bold">$271.7M</p>
+                <div class="p-3 border-r border-b border-gray-200 md:border-r">
+                    <p class="text-gray-500 text-xs">Revenus Q3</p>
+                    <p class="font-semibold text-gray-900">$271.7M</p>
                 </div>
-                <div class="bg-white/10 backdrop-blur rounded-xl p-3 text-center">
-                    <p class="text-xs text-green-200 uppercase tracking-wide">Croissance QoQ</p>
-                    <p class="text-xl font-bold text-green-300">+8%</p>
+                <div class="p-3 border-r border-b border-gray-200">
+                    <p class="text-gray-500 text-xs">Croissance YoY</p>
+                    <p class="font-semibold text-green-600">+41%</p>
                 </div>
-                <div class="bg-white/10 backdrop-blur rounded-xl p-3 text-center">
-                    <p class="text-xs text-green-200 uppercase tracking-wide">Cash</p>
-                    <p class="text-xl font-bold">$1.2B</p>
+                <div class="p-3 border-b border-gray-200">
+                    <p class="text-gray-500 text-xs">EV/Revenus</p>
+                    <p class="font-semibold text-gray-900">~5x</p>
                 </div>
-                <div class="bg-white/10 backdrop-blur rounded-xl p-3 text-center">
-                    <p class="text-xs text-green-200 uppercase tracking-wide">Dette</p>
-                    <p class="text-xl font-bold text-green-300">$40M</p>
+                <div class="p-3 border-r border-gray-200">
+                    <p class="text-gray-500 text-xs">Cash</p>
+                    <p class="font-semibold text-gray-900">$1.2B</p>
                 </div>
-            </div>
-
-            <!-- Additional Metrics Row -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
-                <div class="bg-white/10 backdrop-blur rounded-xl p-3 text-center">
-                    <p class="text-xs text-green-200 uppercase tracking-wide">EV/Revenus</p>
-                    <p class="text-xl font-bold">~5x</p>
+                <div class="p-3 border-r border-gray-200">
+                    <p class="text-gray-500 text-xs">Dette</p>
+                    <p class="font-semibold text-gray-900">$40M</p>
                 </div>
-                <div class="bg-white/10 backdrop-blur rounded-xl p-3 text-center">
-                    <p class="text-xs text-green-200 uppercase tracking-wide">Croissance YoY</p>
-                    <p class="text-xl font-bold text-green-300">+41%</p>
+                <div class="p-3 border-r border-gray-200">
+                    <p class="text-gray-500 text-xs">Op. Cash Flow Q3</p>
+                    <p class="font-semibold text-gray-900">$84.4M</p>
                 </div>
-                <div class="bg-white/10 backdrop-blur rounded-xl p-3 text-center">
-                    <p class="text-xs text-green-200 uppercase tracking-wide">Op. Cash Flow (Q3)</p>
-                    <p class="text-xl font-bold">$84.4M</p>
+                <div class="p-3 border-r border-gray-200">
+                    <p class="text-gray-500 text-xs">Croissance QoQ</p>
+                    <p class="font-semibold text-green-600">+8%</p>
                 </div>
-                <div class="bg-white/10 backdrop-blur rounded-xl p-3 text-center">
-                    <p class="text-xs text-green-200 uppercase tracking-wide">Dilution</p>
-                    <p class="text-xl font-bold">~1%/an</p>
+                <div class="p-3">
+                    <p class="text-gray-500 text-xs">Dilution</p>
+                    <p class="font-semibold text-gray-900">~1%/an</p>
                 </div>
             </div>
 
-            <p class="text-xs text-green-300/70 mt-4 text-right" id="last-update">Dernière mise à jour: --</p>
+            <p class="text-xs text-gray-400 p-2 text-right border-t border-gray-200" id="last-update">Dernière mise à jour: --</p>
         </div>
 
         <!-- Article Content -->
         <article class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 md:p-12">
             <div class="mb-8 pb-8 border-b border-gray-100">
-                <div class="flex flex-wrap gap-2 mb-4">
-                    <span class="px-3 py-1 bg-green-100 text-green-700 text-sm font-medium rounded-full">EdTech</span>
-                    <span class="px-3 py-1 bg-blue-100 text-blue-700 text-sm font-medium rounded-full">Growth</span>
-                    <span class="px-3 py-1 bg-purple-100 text-purple-700 text-sm font-medium rounded-full">IA</span>
-                    <span class="px-3 py-1 bg-amber-100 text-amber-700 text-sm font-medium rounded-full">Freemium</span>
-                </div>
-                <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Duolingo : L'app d'apprentissage qui va profiter de l'IA</h1>
-                <p class="text-lg text-gray-600 mb-2">Un aparté entre un journaliste et un investisseur sur la thèse Duolingo</p>
+<h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Duolingo : L'app d'apprentissage qui va profiter de l'IA</h1>
+                <p class="text-lg text-gray-600 mb-2">Un aparté entre Jérémy et Arthur sur la thèse Duolingo</p>
                 <p class="text-gray-500">Publié le 23 décembre 2025 • 15 min de lecture</p>
             </div>
 
@@ -244,10 +224,10 @@
         const analysisContent = `
 
 <div class="highlight-box">
-<strong>📋 En bref :</strong> Duolingo est souvent présentée comme une perdante potentielle face à l'IA. Notre thèse est inverse : l'entreprise est idéalement positionnée pour <strong>profiter de la révolution IA</strong> plutôt que d'en souffrir.
+<strong>En bref :</strong> Duolingo est souvent présentée comme une perdante potentielle face à l'IA. Notre thèse est inverse : l'entreprise est idéalement positionnée pour <strong>profiter de la révolution IA</strong> plutôt que d'en souffrir.
 </div>
 
-## Le Business Model
+<h2>Le Business Model</h2>
 
 <div class="question">
 Commençons par les bases. Comment Duolingo gagne de l'argent exactement ?
@@ -269,7 +249,7 @@ C'est justement la force du modèle. Le désabonnement est limité par deux fact
 Mais surtout, il faut comprendre qui est le vrai compétiteur. Ce n'est pas Rosetta Stone ou Babbel. C'est Netflix, YouTube, TikTok. Duolingo ne vend pas de l'apprentissage efficace — ils vendent de l'apprentissage engageant. Du temps d'écran "productif" qui fait que les gens se sentent bien.
 </div>
 
-## La menace IA
+<h2>La menace IA</h2>
 
 <div class="question">
 Parlons du sujet qui fâche. L'IA, ChatGPT en mode vocal... Tu parles avec une IA, c'est comme avoir un prof à la maison en temps réel pour quelques centimes. Pourquoi Duolingo ne serait pas balayé ?
@@ -319,7 +299,7 @@ Exactement. C'est comme Google avec la recherche. Oui il y a des nouveaux produi
 Duolingo représente ce que Ben Thompson de Stratechery appelle un "agrégateur" : une fois que le contenu est créé, le distribuer a un coût marginal quasi nul. Et l'IA réduit encore le coût de création de ce contenu. C'est un cercle vertueux.
 </div>
 
-## L'expansion horizontale
+<h2>L'expansion horizontale</h2>
 
 <div class="question">
 Tu mentionnes souvent que Duolingo se diversifie. C'est pas risqué de sortir de leur core business ?
@@ -343,7 +323,7 @@ Ce qui est transférable, c'est la méthode : la gamification, les micro-leçons
 D'ailleurs, j'ai toujours pensé que ça marcherait bien pour le code aussi. Imagine apprendre Python avec la méthode Duolingo...
 </div>
 
-## La force de la marque
+<h2>La force de la marque</h2>
 
 <div class="question">
 Tu parles beaucoup de la marque. Comment tu mesures ça concrètement ?
@@ -357,7 +337,7 @@ Ce type de partenariat démontre une reconnaissance de marque exceptionnelle. Pe
 Aussi, si tu regardes les classements d'apps sur Android, Duolingo est l'une des seules grandes apps qui continue de croître. Environ 3% de croissance mensuelle des installations, cohérent avec leur croissance annuelle de 40%.
 </div>
 
-## Les risques
+<h2>Les risques</h2>
 
 <div class="question">
 Soyons honnêtes sur les risques. Qu'est-ce qui pourrait mal tourner ?
@@ -407,7 +387,7 @@ L'avantage c'est qu'ils sont déjà très rentables. Ils génèrent du cash, ils
 Et attention au net income du Q3 : il y a eu un effet exceptionnel de 222,7 millions de dollars lié à une libération de provision fiscale. Ce n'est pas récurrent. Moi je regarde l'operating cash flow, qui est solide et régulier.
 </div>
 
-## Le CEO
+<h2>Le CEO</h2>
 
 <div class="question">
 Parle-moi du management.
@@ -419,7 +399,7 @@ Luis von Ahn est le fondateur et CEO. Profil remarquable : c'est un gros techno 
 Il possède environ 10% de la boîte. C'est un fondateur-CEO aligné avec les actionnaires, avec un track record prouvé. Ce n'est pas un random manager corporate.
 </div>
 
-## La valorisation
+<h2>La valorisation</h2>
 
 <div class="question">
 Dernière question : à cette valorisation, c'est pas déjà trop tard ?
@@ -438,10 +418,10 @@ C'est surtout un actif de super qualité :
 Je pense que l'actif tel qu'il existe aujourd'hui vaut la valorisation. L'optionalité sur l'expansion horizontale et les bénéfices de l'IA, c'est du bonus gratuit.
 </div>
 
-## Conclusion
+<h2>Conclusion</h2>
 
 <div class="highlight-box">
-<strong>🎯 La thèse en une phrase :</strong> L'IA n'est pas un problème pour Duolingo, c'est eux qui vont en profiter. Comme Google et les autres plateformes établies, ce sont les acteurs en place avec le savoir-faire et la base utilisateurs qui gagnent en intégrant les nouvelles technologies.
+<strong>La thèse en une phrase :</strong> L'IA n'est pas un problème pour Duolingo, c'est eux qui vont en profiter. Comme Google et les autres plateformes établies, ce sont les acteurs en place avec le savoir-faire et la base utilisateurs qui gagnent en intégrant les nouvelles technologies.
 
 <br><br>
 
