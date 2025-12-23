@@ -10,11 +10,13 @@ interface Props {
     title: string;
     ticker: string;
     exchange: string;
+    yahooTicker?: string;
     description: string;
     publishDate: string;
     readTime: string;
     emoji: string;
     tags: string[];
+    dataAsOf?: string;
     marketCap?: string;
     ev?: string;
     revenue?: string;
@@ -41,7 +43,9 @@ const { frontmatter } = Astro.props;
     <StockBanner
       ticker={frontmatter.ticker}
       exchange={frontmatter.exchange}
+      yahooTicker={frontmatter.yahooTicker}
       companyName={frontmatter.title.replace('Apparté sur ', '')}
+      dataAsOf={frontmatter.dataAsOf}
       marketCap={frontmatter.marketCap || '$0'}
       ev={frontmatter.ev || '$0'}
       revenue={frontmatter.revenue || '$0'}

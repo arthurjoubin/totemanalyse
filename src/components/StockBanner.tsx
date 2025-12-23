@@ -3,7 +3,9 @@ import { useState, useEffect } from 'react';
 interface StockBannerProps {
   ticker: string;
   exchange: string;
+  yahooTicker?: string; // Yahoo Finance ticker format (e.g., "1843.HK")
   companyName: string;
+  dataAsOf?: string; // Date des données financières (e.g., "Mai 2022")
   marketCap: string;
   ev: string;
   revenue: string;
@@ -19,7 +21,9 @@ interface StockBannerProps {
 export default function StockBanner({
   ticker,
   exchange,
+  yahooTicker,
   companyName,
+  dataAsOf,
   marketCap,
   ev,
   revenue,
@@ -40,7 +44,9 @@ export default function StockBanner({
   useEffect(() => {
     const fetchStockData = async () => {
       try {
-        const yahooUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=1d`;
+        // Use yahooTicker if provided, otherwise fall back to ticker
+        const apiTicker = yahooTicker || ticker;
+        const yahooUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${apiTicker}?interval=1d&range=1d`;
         const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(yahooUrl);
 
         const response = await fetch(proxyUrl);
@@ -78,7 +84,7 @@ export default function StockBanner({
     const interval = setInterval(fetchStockData, 5 * 60 * 1000);
 
     return () => clearInterval(interval);
-  }, [ticker]);
+  }, [ticker, yahooTicker]);
 
   const formatNumber = (num: number): string => {
     if (num >= 1e12) return `$${(num / 1e12).toFixed(2)}T`;
@@ -146,7 +152,10 @@ export default function StockBanner({
         </div>
       </div>
 
-      <p className="text-xs text-gray-400 p-2 text-right border-t border-gray-200 bg-gray-50">{lastUpdate}</p>
+      <div className="flex justify-between text-xs text-gray-400 p-2 border-t border-gray-200 bg-gray-50">
+        {dataAsOf && <span>Données financières: {dataAsOf}</span>}
+        <span className={dataAsOf ? '' : 'ml-auto'}>{lastUpdate}</span>
+      </div>
     </div>
   );
 }
