@@ -1,0 +1,19 @@
+---
+import { getCollection } from 'astro:content';
+import AnalysisLayout from '../../layouts/AnalysisLayout.astro';
+
+export async function getStaticPaths() {
+  const analyses = await getCollection('analyses');
+  return analyses.map((analysis) => ({
+    params: { slug: analysis.slug },
+    props: { analysis },
+  }));
+}
+
+const { analysis } = Astro.props;
+const { Content } = await analysis.render();
+---
+
+<AnalysisLayout frontmatter={analysis.data}>
+  <Content />
+</AnalysisLayout>
