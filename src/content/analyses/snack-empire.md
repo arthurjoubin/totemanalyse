@@ -7,6 +7,7 @@ publishDate: "21 mai 2022"
 readTime: "10 min de lecture"
 emoji: "🧋"
 tags: ["Food & Beverage", "Franchise", "Asie"]
+showChart: false
 dataAsOf: "Mai 2022"
 marketCap: "~31M SGD"
 ev: "~6M SGD"
