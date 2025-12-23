@@ -20,19 +20,68 @@
         }
     </script>
     <style>
-        .prose h2 { font-size: 1.75rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 1rem; color: #111827; }
-        .prose h3 { font-size: 1.25rem; font-weight: 600; margin-top: 2rem; margin-bottom: 0.75rem; color: #374151; }
-        .prose p { margin-bottom: 1rem; line-height: 1.75; color: #4b5563; }
+        .prose h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 1rem; color: #006B4F; border-bottom: 2px solid #006B4F; padding-bottom: 0.5rem; }
+        .prose p { margin-bottom: 1rem; line-height: 1.8; color: #374151; }
         .prose ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
-        .prose li { margin-bottom: 0.5rem; color: #4b5563; }
+        .prose li { margin-bottom: 0.5rem; color: #374151; }
         .prose strong { color: #111827; font-weight: 600; }
-        .prose blockquote { border-left: 4px solid #006B4F; padding-left: 1rem; margin: 1.5rem 0; font-style: italic; color: #6b7280; }
-        .prose table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
-        .prose th, .prose td { border: 1px solid #e5e7eb; padding: 0.75rem; text-align: left; }
-        .prose th { background-color: #f9fafb; font-weight: 600; }
+        .prose blockquote { border-left: 4px solid #006B4F; padding-left: 1rem; margin: 1.5rem 0; font-style: italic; color: #6b7280; background: #f9fafb; padding: 1rem; border-radius: 0 0.5rem 0.5rem 0; }
         .prose img { max-width: 100%; height: auto; border-radius: 0.5rem; margin: 1.5rem 0; }
         .prose a { color: #006B4F; text-decoration: underline; }
         .prose a:hover { color: #00A67B; }
+
+        /* Interview styles */
+        .question {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-left: 4px solid #006B4F;
+            padding: 1.25rem 1.5rem;
+            margin: 2rem 0 1rem 0;
+            border-radius: 0 1rem 1rem 0;
+            font-weight: 600;
+            color: #065f46;
+            font-size: 1.1rem;
+        }
+        .question::before {
+            content: "🎙️ Journaliste";
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #059669;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        .answer {
+            padding: 0 0 0 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #374151;
+            line-height: 1.8;
+        }
+        .answer::before {
+            content: "💼 Investisseur";
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        .concession {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 0.5rem 0.5rem 0;
+            font-style: italic;
+        }
+        .highlight-box {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border: 1px solid #a7f3d0;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            margin: 1.5rem 0;
+        }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
@@ -49,42 +98,77 @@
             </nav>
         </header>
 
-        <!-- Stock Widget -->
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
-            <div class="flex flex-col md:flex-row md:items-center gap-6">
+        <!-- Enhanced Stock Banner -->
+        <div class="bg-gradient-to-br from-green-600 to-green-800 rounded-2xl shadow-lg p-6 mb-8 text-white">
+            <div class="flex flex-col lg:flex-row lg:items-center gap-6">
                 <!-- Company Info -->
                 <div class="flex items-center gap-4">
-                    <div class="w-16 h-16 bg-gradient-to-br from-green-400 to-green-600 rounded-xl flex items-center justify-center">
-                        <span class="text-3xl">🦉</span>
+                    <div class="w-20 h-20 bg-white/20 backdrop-blur rounded-2xl flex items-center justify-center">
+                        <span class="text-5xl">🦉</span>
                     </div>
                     <div>
-                        <h1 class="text-2xl font-bold text-gray-900">Duolingo</h1>
-                        <span class="text-gray-500 font-mono">NASDAQ: DUOL</span>
+                        <h1 class="text-3xl font-bold">Duolingo</h1>
+                        <span class="text-green-200 font-mono text-lg">NASDAQ: DUOL</span>
                     </div>
                 </div>
 
-                <!-- Stock Data -->
-                <div class="flex-1 grid grid-cols-2 md:grid-cols-4 gap-4" id="stock-data">
-                    <div class="bg-gray-50 rounded-xl p-4">
-                        <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">Prix</p>
-                        <p class="text-xl font-bold text-gray-900" id="stock-price">--</p>
-                        <p class="text-sm" id="stock-change">--</p>
-                    </div>
-                    <div class="bg-gray-50 rounded-xl p-4">
-                        <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">Market Cap</p>
-                        <p class="text-xl font-bold text-gray-900" id="market-cap">--</p>
-                    </div>
-                    <div class="bg-gray-50 rounded-xl p-4">
-                        <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">Volume</p>
-                        <p class="text-xl font-bold text-gray-900" id="volume">--</p>
-                    </div>
-                    <div class="bg-gray-50 rounded-xl p-4">
-                        <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">52W Range</p>
-                        <p class="text-sm font-semibold text-gray-900" id="range-52w">--</p>
-                    </div>
+                <!-- Live Price -->
+                <div class="lg:ml-auto text-right">
+                    <p class="text-green-200 text-sm uppercase tracking-wide">Prix actuel</p>
+                    <p class="text-4xl font-bold" id="stock-price">--</p>
+                    <p class="text-lg" id="stock-change">--</p>
                 </div>
             </div>
-            <p class="text-xs text-gray-400 mt-4 text-right" id="last-update">Dernière mise à jour: --</p>
+
+            <!-- Key Metrics Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 mt-6 pt-6 border-t border-white/20">
+                <div class="bg-white/10 backdrop-blur rounded-xl p-3 text-center">
+                    <p class="text-xs text-green-200 uppercase tracking-wide">Market Cap</p>
+                    <p class="text-xl font-bold" id="market-cap">$9.25B</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur rounded-xl p-3 text-center">
+                    <p class="text-xs text-green-200 uppercase tracking-wide">EV</p>
+                    <p class="text-xl font-bold">$8.09B</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur rounded-xl p-3 text-center">
+                    <p class="text-xs text-green-200 uppercase tracking-wide">Revenus (Q3)</p>
+                    <p class="text-xl font-bold">$271.7M</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur rounded-xl p-3 text-center">
+                    <p class="text-xs text-green-200 uppercase tracking-wide">Croissance QoQ</p>
+                    <p class="text-xl font-bold text-green-300">+8%</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur rounded-xl p-3 text-center">
+                    <p class="text-xs text-green-200 uppercase tracking-wide">Cash</p>
+                    <p class="text-xl font-bold">$1.2B</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur rounded-xl p-3 text-center">
+                    <p class="text-xs text-green-200 uppercase tracking-wide">Dette</p>
+                    <p class="text-xl font-bold text-green-300">$40M</p>
+                </div>
+            </div>
+
+            <!-- Additional Metrics Row -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
+                <div class="bg-white/10 backdrop-blur rounded-xl p-3 text-center">
+                    <p class="text-xs text-green-200 uppercase tracking-wide">EV/Revenus</p>
+                    <p class="text-xl font-bold">~5x</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur rounded-xl p-3 text-center">
+                    <p class="text-xs text-green-200 uppercase tracking-wide">Croissance YoY</p>
+                    <p class="text-xl font-bold text-green-300">+41%</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur rounded-xl p-3 text-center">
+                    <p class="text-xs text-green-200 uppercase tracking-wide">Op. Cash Flow (Q3)</p>
+                    <p class="text-xl font-bold">$84.4M</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur rounded-xl p-3 text-center">
+                    <p class="text-xs text-green-200 uppercase tracking-wide">Dilution</p>
+                    <p class="text-xl font-bold">~1%/an</p>
+                </div>
+            </div>
+
+            <p class="text-xs text-green-300/70 mt-4 text-right" id="last-update">Dernière mise à jour: --</p>
         </div>
 
         <!-- Article Content -->
@@ -94,9 +178,11 @@
                     <span class="px-3 py-1 bg-green-100 text-green-700 text-sm font-medium rounded-full">EdTech</span>
                     <span class="px-3 py-1 bg-blue-100 text-blue-700 text-sm font-medium rounded-full">Growth</span>
                     <span class="px-3 py-1 bg-purple-100 text-purple-700 text-sm font-medium rounded-full">IA</span>
+                    <span class="px-3 py-1 bg-amber-100 text-amber-700 text-sm font-medium rounded-full">Freemium</span>
                 </div>
                 <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Duolingo : L'app d'apprentissage qui va profiter de l'IA</h1>
-                <p class="text-gray-500">Publié le 23 décembre 2025 • 10 min de lecture</p>
+                <p class="text-lg text-gray-600 mb-2">Un aparté entre un journaliste et un investisseur sur la thèse Duolingo</p>
+                <p class="text-gray-500">Publié le 23 décembre 2025 • 15 min de lecture</p>
             </div>
 
             <div class="prose max-w-none" id="article-content"></div>
@@ -113,7 +199,6 @@
         // Stock data fetching using Yahoo Finance via CORS proxy
         async function fetchStockData() {
             try {
-                // Use corsproxy.io to bypass CORS restrictions
                 const yahooUrl = 'https://query1.finance.yahoo.com/v8/finance/chart/DUOL?interval=1d&range=1d';
                 const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(yahooUrl);
 
@@ -131,26 +216,18 @@
 
                     const changeEl = document.getElementById('stock-change');
                     const isPositive = change >= 0;
-                    changeEl.textContent = `${isPositive ? '+' : ''}${change.toFixed(2)} (${isPositive ? '+' : ''}${changePercent.toFixed(2)}%)`;
-                    changeEl.className = `text-sm font-medium ${isPositive ? 'text-green-600' : 'text-red-600'}`;
+                    changeEl.textContent = `${isPositive ? '▲' : '▼'} ${Math.abs(change).toFixed(2)} (${isPositive ? '+' : ''}${changePercent.toFixed(2)}%)`;
+                    changeEl.className = `text-lg font-medium ${isPositive ? 'text-green-300' : 'text-red-300'}`;
 
-                    // Market cap (shares outstanding * price)
                     const marketCap = quote.regularMarketPrice * (quote.sharesOutstanding || 44000000);
                     document.getElementById('market-cap').textContent = formatNumber(marketCap);
-
-                    document.getElementById('volume').textContent = formatNumber(quote.regularMarketVolume || 0);
-                    document.getElementById('range-52w').textContent = `$${quote.fiftyTwoWeekLow?.toFixed(0) || '--'} - $${quote.fiftyTwoWeekHigh?.toFixed(0) || '--'}`;
 
                     document.getElementById('last-update').textContent = `Dernière mise à jour: ${new Date().toLocaleString('fr-FR')}`;
                 }
             } catch (error) {
                 console.error('Error fetching stock data:', error);
-                // Fallback: show static data from thesis
                 document.getElementById('stock-price').textContent = '$210';
                 document.getElementById('stock-change').textContent = '--';
-                document.getElementById('market-cap').textContent = '$9.25B';
-                document.getElementById('volume').textContent = '--';
-                document.getElementById('range-52w').textContent = '--';
                 document.getElementById('last-update').textContent = 'Données statiques (API indisponible)';
             }
         }
@@ -158,186 +235,226 @@
         function formatNumber(num) {
             if (num >= 1e12) return `$${(num / 1e12).toFixed(2)}T`;
             if (num >= 1e9) return `$${(num / 1e9).toFixed(2)}B`;
-            if (num >= 1e6) return `${(num / 1e6).toFixed(2)}M`;
-            if (num >= 1e3) return `${(num / 1e3).toFixed(1)}K`;
-            return num.toString();
+            if (num >= 1e6) return `$${(num / 1e6).toFixed(0)}M`;
+            if (num >= 1e3) return `$${(num / 1e3).toFixed(0)}K`;
+            return '$' + num.toString();
         }
 
-        // Markdown content
+        // Interview content
         const analysisContent = `
-## Synthèse
 
-**Duolingo (DUOL)** est souvent présentée comme une perdante potentielle face à l'arrivée de l'IA. Notre thèse est inverse : l'entreprise est idéalement positionnée pour **profiter de la révolution IA** plutôt que d'en souffrir.
-
-| Métrique | Valeur |
-|----------|--------|
-| Market Cap | ~9 250 M$ |
-| Dilution annuelle | ~1%/an |
-| Cash & équivalents | 1 200 M$ |
-| Dette | 40 M$ |
-| Enterprise Value | ~8 090 M$ |
-
----
+<div class="highlight-box">
+<strong>📋 En bref :</strong> Duolingo est souvent présentée comme une perdante potentielle face à l'IA. Notre thèse est inverse : l'entreprise est idéalement positionnée pour <strong>profiter de la révolution IA</strong> plutôt que d'en souffrir.
+</div>
 
 ## Le Business Model
 
-Duolingo opère un modèle **freemium** très efficace :
+<div class="question">
+Commençons par les bases. Comment Duolingo gagne de l'argent exactement ?
+</div>
 
-- **Abonnements** : 229,5M$ (84% du CA)
-- **Publicités** : 21M$ (7,7% du CA)
-- **Autres revenus** : ~8% du CA
+<div class="answer">
+C'est un modèle freemium assez classique mais très bien exécuté. La majorité du chiffre d'affaires vient des abonnements : environ 229,5 millions de dollars au dernier trimestre, soit 84% du CA. Les publicités ne représentent que 7,7% avec 21 millions de dollars.
 
-L'équilibre est subtil : pousser l'usage gratuit pour maximiser l'adoption et créer une barrière à l'entrée pour la concurrence, tout en convertissant progressivement les utilisateurs vers les abonnements payants.
+L'équilibre est subtil. Ils doivent pousser l'usage gratuit pour maximiser l'adoption — c'est ça qui crée la barrière à l'entrée contre la concurrence — tout en convertissant progressivement vers les abonnements payants. D'ailleurs, au Q4, ils ont annoncé vouloir se reconcentrer sur la croissance du parc d'utilisateurs gratuits car ils voient encore beaucoup d'opportunités.
+</div>
 
-> "Leur compétiteur c'est pas Rosetta Stone, c'est Netflix ou YouTube"
+<div class="question">
+84% du CA en abonnements, c'est pas risqué ? Si les gens désabonnent massivement...
+</div>
 
-Cette citation résume parfaitement leur positionnement : ils ne vendent pas de l'apprentissage efficace, ils vendent de l'**apprentissage engageant**. Les gens ont besoin d'être poussés et gamifiés pour apprendre.
+<div class="answer">
+C'est justement la force du modèle. Le désabonnement est limité par deux facteurs. D'abord la gamification : les séries, les points, les classements. Les gens ne veulent pas "perdre" leur série de 300 jours. Ensuite, le coût de l'abonnement est suffisamment bas pour que les gens ne se posent pas vraiment la question chaque mois.
 
----
+Mais surtout, il faut comprendre qui est le vrai compétiteur. Ce n'est pas Rosetta Stone ou Babbel. C'est Netflix, YouTube, TikTok. Duolingo ne vend pas de l'apprentissage efficace — ils vendent de l'apprentissage engageant. Du temps d'écran "productif" qui fait que les gens se sentent bien.
+</div>
 
-## Performance Financière
+## La menace IA
 
-| Trimestre | Revenus (M$) | Operating CF (M$) | Croissance |
-|-----------|-------------|-------------------|------------|
-| Q3 FY25 | 271,7 | 84,4 | 8% |
-| Q2 FY25 | 252,2 | 90,6 | 9% |
-| Q1 FY25 | 230,7 | 105,6 | 10% |
-| Q4 FY24 | 209,5 | 83,3 | 9% |
-| Q3 FY24 | 192,5 | 56,2 | 8% |
-| Q2 FY24 | 178,3 | 62,3 | 6% |
-| Q1 FY24 | 167,5 | 83,5 | 11% |
-| Q4 FY23 | 150,9 | 49,1 | - |
+<div class="question">
+Parlons du sujet qui fâche. L'IA, ChatGPT en mode vocal... Tu parles avec une IA, c'est comme avoir un prof à la maison en temps réel pour quelques centimes. Pourquoi Duolingo ne serait pas balayé ?
+</div>
 
-**Points clés :**
-- Croissance constante entre 6% et 11% par trimestre
-- Génération de cash flow opérationnel très solide
-- Pas de dette significative, trésorerie pleine (~1.2B$)
+<div class="answer">
+C'est LA question que tout le monde se pose, et c'est pour ça que le marché sous-valorise Duolingo à mon avis.
 
----
+Premièrement, la marque est trop forte. Je vis à Lisbonne, et je vois l'effet au quotidien : tout le monde utilise Duolingo pour apprendre les langues. L'effet word-of-mouth est phénoménal. Combien de fois j'ai entendu des gens en soirée dire "attends faut que je fasse mon Duolingo pour pas perdre ma série", ou parler de leurs parents qui le font comme ma mère.
+</div>
 
-## Pourquoi l'IA est leur allié, pas leur ennemi
+<div class="question">
+Ok mais ça c'est l'existant. Qu'est-ce qui empêche ces mêmes utilisateurs de migrer vers ChatGPT demain ?
+</div>
 
-### L'argument contre Duolingo
+<div class="answer">
+Plusieurs choses. D'abord, utiliser l'IA générative coûte cher, et ça va coûter de plus en plus cher à mesure que l'usage explose. Un tuteur IA à 30€/mois, c'est une niche. La masse veut un truc simple, gratuit, qu'ils peuvent partager socialement.
 
-Beaucoup pensent que ChatGPT et les tuteurs IA vont remplacer Duolingo. "Tu parles avec ChatGPT en mode vocal, c'est comme avoir un prof à la maison en temps réel pour quelques centimes."
+Ensuite, les gens ont besoin d'être poussés et guidés. C'est complexe de gérer tout un système d'évolution, de suivi des compétences, de progression. ChatGPT ne fait pas ça. Tu lui parles, et après ? Il n'y a pas de structure, pas de gamification, pas cette sensation de progression.
 
-### Notre contre-argument
+<div class="concession">
+Je concède que pour les utilisateurs vraiment motivés, avec un objectif précis et la discipline pour s'y tenir, un tuteur IA pourrait être supérieur. Mais ce n'est pas le marché de masse de Duolingo.
+</div>
+</div>
 
-**1. La marque est trop forte**
+<div class="question">
+Mais Duolingo ne peut pas juste être dépassé technologiquement ? L'IA évolue vite...
+</div>
 
-À Lisbonne, tout le monde utilise Duolingo pour apprendre les langues. L'effet word-of-mouth est phénoménal : "Combien de fois j'ai entendu les gens en soirée dire qu'il faut qu'ils fassent leur Duolingo pour pas perdre leur série."
+<div class="answer">
+C'est là que ma thèse devient vraiment bullish. Duolingo n'est pas une victime de l'IA, ils vont être un des grands gagnants.
 
-**2. Le contenu existe déjà**
+D'abord, ils intègrent déjà l'IA dans leur écosystème. Leur offre Max propose des conversations vocales style ChatGPT. Ils prennent ce qui marche et l'intègrent à leur plateforme.
 
-Ils ont déjà créé tout le contenu pédagogique. Le distribuer a un coût marginal quasi nul.
+Mais le point le plus important, c'est ce qu'ils ont dit dans leurs earnings calls : l'IA est révolutionnaire pour eux, pas pour les features utilisateur, mais parce que ça leur permet de créer du contenu pédagogique de manière bien plus productive grâce à toute leur infrastructure et leurs processus déjà en place.
 
-**3. L'IA a des limitations**
+Regarde : ils ont lancé 148 nouveaux cours de langues récemment, en grande partie grâce à l'IA. C'est dans les process internes que l'IA est la plus performante — là où elle s'ajoute à une expertise existante avec de la supervision humaine.
+</div>
 
-- Utiliser l'IA coûte cher et coûtera de plus en plus
-- Les gens ont besoin de structure, de suivi des compétences, de gamification
-- Un tuteur IA à 30€/mois c'est une niche. La masse veut du simple, gratuit, social
+<div class="question">
+C'est l'argument "les plateformes établies gagnent toujours" ?
+</div>
 
-**4. Duolingo intègre l'IA dans son écosystème**
+<div class="answer">
+Exactement. C'est comme Google avec la recherche. Oui il y a des nouveaux produits qui sortent vite et te vendent des trucs magiques sur l'IA, mais à terme ce sont les plateformes présentes qui gagnent en intégrant ce qui marche tout en ayant tout le savoir-faire et la distribution.
 
-Ils ont déjà lancé des options IA (conversation vocale style ChatGPT) dans leur offre Max.
+Duolingo représente ce que Ben Thompson de Stratechery appelle un "agrégateur" : une fois que le contenu est créé, le distribuer a un coût marginal quasi nul. Et l'IA réduit encore le coût de création de ce contenu. C'est un cercle vertueux.
+</div>
 
-**5. L'IA révolutionne leur production de contenu**
+## L'expansion horizontale
 
-> "L'IA est révolutionnaire pour eux pas pour les options utilisateur, mais parce que ça leur permet de créer du contenu de manière bien plus productive grâce à toute leur infra/process déjà en place."
+<div class="question">
+Tu mentionnes souvent que Duolingo se diversifie. C'est pas risqué de sortir de leur core business ?
+</div>
 
-Preuve : [148 nouveaux cours de langues lancés](https://investors.duolingo.com/news-releases/news-release-details/duolingo-launches-148-new-language-courses) grâce à l'IA.
+<div class="answer">
+Au contraire, c'est là que je vois le vrai potentiel. Ils sont en train de se transformer en plateforme d'apprentissage globale, pas juste les langues.
 
----
+Ils ont lancé Music il y a deux ans, les Maths aussi. Cet été ils ont racheté une app de jeux musicaux. Et surtout, il y a six mois ils ont sorti un cours pour apprendre les échecs — et apparemment c'est un gros succès.
 
-## L'expansion horizontale : le vrai potentiel
+Math et Music sont maintenant disponibles dans des dizaines de langues : Bengali, Tchèque, Grec, Hongrois, Indonésien, Coréen, Néerlandais, Polonais, Roumain, Russe... La liste est longue.
+</div>
 
-Duolingo se transforme en **plateforme d'apprentissage globale** :
+<div class="question">
+Mais c'est pas la même chose d'apprendre une langue et d'apprendre les maths ou les échecs...
+</div>
 
-- **Music** : lancé il y a 2 ans, amélioration continue
-- **Maths** : également lancé, disponible dans des dizaines de langues
-- **Échecs** : lancé il y a 6 mois avec un gros succès
-- **Acquisition récente** : une app de jeux musicaux cet été
+<div class="answer">
+Ce qui est transférable, c'est la méthode : la gamification, les micro-leçons, le système de progression, l'engagement quotidien. Les gens ont besoin de ce côté gamifié maintenant pour se concentrer. Et tout le monde connaît déjà Duolingo.
 
-> "Math and Music sont maintenant disponibles dans des dizaines de langues, incluant Bengali, Tchèque, Grec, Hongrois, Indonésien, Coréen, Néerlandais, Polonais, Roumain, Russe, Telugu, Thai, Tagalog, Turc et Ukrainien."
-
-Le potentiel est énorme : les gens ont besoin de gamification pour se concentrer, et tout le monde connaît déjà Duolingo.
-
----
+D'ailleurs, j'ai toujours pensé que ça marcherait bien pour le code aussi. Imagine apprendre Python avec la méthode Duolingo...
+</div>
 
 ## La force de la marque
 
-Un exemple parlant de leur puissance marketing :
+<div class="question">
+Tu parles beaucoup de la marque. Comment tu mesures ça concrètement ?
+</div>
 
-> "Plus de 26 000 magasins Luckin en Asie se sont associés avec nous, vendant plus de 10 millions de boissons Duolingo en deux semaines."
+<div class="answer">
+Un exemple récent : plus de 26 000 magasins Luckin en Asie se sont associés avec eux, vendant plus de 10 millions de boissons Duolingo en deux semaines. DIX MILLIONS de boissons. En deux semaines.
 
-Ce type de partenariat démontre la reconnaissance de marque exceptionnelle.
+Ce type de partenariat démontre une reconnaissance de marque exceptionnelle. Peu d'apps peuvent faire ça. C'est du niveau des grandes marques consumer.
 
----
+Aussi, si tu regardes les classements d'apps sur Android, Duolingo est l'une des seules grandes apps qui continue de croître. Environ 3% de croissance mensuelle des installations, cohérent avec leur croissance annuelle de 40%.
+</div>
+
+## Les risques
+
+<div class="question">
+Soyons honnêtes sur les risques. Qu'est-ce qui pourrait mal tourner ?
+</div>
+
+<div class="answer">
+Le premier risque, et je dois être honnête là-dessus : l'efficacité pédagogique est limitée.
+
+<div class="concession">
+Je l'admets : leur méthode d'apprentissage n'est pas la plus efficace. Tu restes scotché par leurs mécanismes de dopamine, mais les fois où j'ai essayé sérieusement, j'ai eu l'impression de ne pas apprendre grand-chose par rapport au temps investi. Mais encore une fois, ce n'est pas vraiment leur promesse — ils ne prétendent pas remplacer une école de langue.
+</div>
+</div>
+
+<div class="question">
+Et le risque que la marque devienne "ringarde" ?
+</div>
+
+<div class="answer">
+C'est un vrai risque. Si Duolingo devient ringard, toutes leurs nouvelles catégories — musique, maths, échecs — utilisant le même branding en souffriront. C'est le revers de la médaille d'une marque forte.
+
+<div class="concession">
+Je ne peux pas garantir que Duo le hibou sera toujours cool dans 10 ans. Mais pour l'instant, tous les jeunes que je connais utilisent l'app. Elle n'a pas cette image poussiéreuse qu'ont d'autres apps éducatives.
+</div>
+</div>
+
+<div class="question">
+Comment ils peuvent continuer à croître sans brûler du cash ?
+</div>
+
+<div class="answer">
+C'est justement ce qui me plaît et qui différencie Duolingo des autres growth stocks sur lesquels j'ai investi. Ils ont déjà une vraie marque reconnue, un vrai savoir-faire. Et ça, ils l'ont, ce n'est pas une vision.
+
+Les 50 millions d'utilisateurs quotidiens qui continuent de croître fortement — je pense que juste ça, ça vaut la valorisation actuelle. Le reste, l'expansion horizontale, l'IA, ce serait du bonus.
+</div>
+
+<div class="question">
+Mais leurs belles stratégies sur le papier, ça peut prendre 5-10 ans à se matérialiser non ?
+</div>
+
+<div class="answer">
+<div class="concession">
+C'est vrai. Sur le papier c'est joli et cohérent, mais dans la vraie vie tout est différent. Comment continuer à grossir ta base si ce n'est en faisant du cash burn ? Comment investir dans de nouveaux domaines sans dépenser beaucoup ?
+</div>
+
+L'avantage c'est qu'ils sont déjà très rentables. Ils génèrent du cash, ils n'ont pas de dette, ils ont 1,2 milliard en trésorerie. Ils peuvent se permettre d'expérimenter sans mettre en danger le business principal.
+
+Et attention au net income du Q3 : il y a eu un effet exceptionnel de 222,7 millions de dollars lié à une libération de provision fiscale. Ce n'est pas récurrent. Moi je regarde l'operating cash flow, qui est solide et régulier.
+</div>
 
 ## Le CEO
 
-**Luis von Ahn** est le fondateur et CEO. Profil remarquable :
+<div class="question">
+Parle-moi du management.
+</div>
 
-- Possède environ **10% de la société**
-- Background tech/mathématiques (nombreux prix)
-- Créateur de **reCAPTCHA**, revendu à Google avant Duolingo
+<div class="answer">
+Luis von Ahn est le fondateur et CEO. Profil remarquable : c'est un gros techno et mathématicien, il a eu plein de prix académiques. Avant Duolingo, il a créé reCAPTCHA — tu sais, ces tests pour prouver que tu n'es pas un robot — et l'a revendu à Google.
 
-Un fondateur-CEO aligné avec les actionnaires et avec un track record prouvé.
+Il possède environ 10% de la boîte. C'est un fondateur-CEO aligné avec les actionnaires, avec un track record prouvé. Ce n'est pas un random manager corporate.
+</div>
 
----
+## La valorisation
 
-## Risques identifiés
+<div class="question">
+Dernière question : à cette valorisation, c'est pas déjà trop tard ?
+</div>
 
-**1. Efficacité pédagogique limitée**
+<div class="answer">
+L'EV est à environ 5x le revenu annuel. Oui c'est cher par rapport à un business mature. Mais si tu projettes une croissance continue à ces niveaux — 40% par an — ce n'est vraiment pas si cher payé.
 
-"Je trouve leur méthode d'apprentissage pas efficace. Tu restes scotché par leur mécanisme de dopamine, mais les fois où j'ai tenté j'ai toujours eu l'impression de ne pas apprendre grand chose par rapport au temps investi."
-
-**2. Risque de marque "ringarde"**
-
-Si Duolingo devient ringard, toutes leurs nouvelles catégories (musique, maths, échecs) utilisant le même branding en souffriront.
-
-**3. Croissance future**
-
-Comment continuer à grossir la base sans cash burn massif ? Comment investir dans de nouveaux domaines sans dépenser beaucoup ?
-
-**4. Matérialisation de la stratégie**
-
-"C'est joli sur le papier, mais ça peut ne pas se matérialiser avant 5-10 ans."
-
----
-
-## Valorisation
-
-L'EV est à **~5x le revenu annuel**.
-
-Ce n'est pas si cher payé si l'on projette une croissance continue à ces niveaux. C'est surtout un **actif de qualité** :
+C'est surtout un actif de super qualité :
 - Marque reconnue mondialement
 - 50M+ d'utilisateurs quotidiens en croissance
 - Cash flow positif
-- Pas de dette
-- Management aligné
+- Zéro dette significative
+- Management aligné et compétent
 
-> "Je pense que juste ça, ça vaut la valorisation. Le reste ce serait du bonus."
-
----
+Je pense que l'actif tel qu'il existe aujourd'hui vaut la valorisation. L'optionalité sur l'expansion horizontale et les bénéfices de l'IA, c'est du bonus gratuit.
+</div>
 
 ## Conclusion
 
-Notre thèse est simple : **l'IA n'est pas un problème pour Duolingo, c'est eux qui vont en profiter**.
+<div class="highlight-box">
+<strong>🎯 La thèse en une phrase :</strong> L'IA n'est pas un problème pour Duolingo, c'est eux qui vont en profiter. Comme Google et les autres plateformes établies, ce sont les acteurs en place avec le savoir-faire et la base utilisateurs qui gagnent en intégrant les nouvelles technologies.
 
-Comme Google et les autres plateformes établies, ce sont les acteurs en place avec le savoir-faire et la base utilisateurs qui gagnent en intégrant les nouvelles technologies. Les tuteurs IA indépendants resteront une niche.
+<br><br>
 
-Duolingo représente un cas d'**agrégateur** au sens de Ben Thompson (Stratechery) : une fois le contenu créé, le distribuer est gratuit. L'IA réduit encore le coût de création de ce contenu.
-
-**Position : Bullish sur DUOL**
+<strong>Position : Bullish sur DUOL</strong>
+</div>
 
 ---
 
-*Disclaimer : Ceci n'est pas un conseil en investissement. Faites vos propres recherches avant d'investir.*
+*Disclaimer : Ceci n'est pas un conseil en investissement. Faites vos propres recherches avant d'investir. L'auteur peut détenir des positions sur les titres mentionnés.*
 `;
 
-        // Render markdown
-        document.getElementById('article-content').innerHTML = marked.parse(analysisContent);
+        // Render content
+        document.getElementById('article-content').innerHTML = analysisContent;
 
         // Fetch stock data on load
         fetchStockData();
