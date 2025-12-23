@@ -59,7 +59,6 @@ export default function FinancialCharts({ ticker, exchange }: FinancialChartsPro
       locale: 'fr',
       colorTheme: 'light',
       isTransparent: true,
-      displayMode: 'compact',
       largeChartUrl: '',
       autosize: true
     });
