@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { getCollection } from 'astro:content';
+
+const analyses = await getCollection('analyses');
+---
+
+<BaseLayout title="Nos Analyses - Totem Analyse">
+  <div class="container mx-auto px-4 py-8 max-w-4xl">
+    <Header showAnalysesLink={false} />
+
+    <!-- Page Title -->
+    <div class="mb-12">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">Nos Analyses</h1>
+      <p class="text-gray-600 text-lg">Analyses approfondies d'entreprises cotées en bourse</p>
+    </div>
+
+    <!-- Analyses Grid -->
+    <div class="grid gap-6">
+      {analyses.map((analysis) => (
+        <a href={`/analyses/${analysis.slug}`} class="group block bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100">
+          <div class="flex flex-col md:flex-row">
+            <div class="md:w-48 h-48 md:h-auto bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center">
+              <span class="text-6xl">{analysis.data.emoji}</span>
+            </div>
+            <div class="flex-1 p-6">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded">{analysis.data.ticker}</span>
+                {analysis.data.tags.map((tag: string) => (
+                  <span class="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded">{tag}</span>
+                ))}
+              </div>
+              <h2 class="text-2xl font-bold text-gray-900 group-hover:text-totem-green transition-colors mb-2">{analysis.data.title.replace('Apparté sur ', '')}</h2>
+              <p class="text-gray-600 mb-4">{analysis.data.description}</p>
+              <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>{analysis.data.publishDate}</span>
+                <span>•</span>
+                <span>{analysis.data.readTime}</span>
+              </div>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <Footer />
+  </div>
+</BaseLayout>

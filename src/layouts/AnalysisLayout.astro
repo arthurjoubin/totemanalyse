@@ -1,0 +1,71 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import StockBanner from '../components/StockBanner';
+
+interface Props {
+  frontmatter: {
+    title: string;
+    ticker: string;
+    exchange: string;
+    description: string;
+    publishDate: string;
+    readTime: string;
+    emoji: string;
+    tags: string[];
+    marketCap?: string;
+    ev?: string;
+    revenue?: string;
+    yoyGrowth?: string;
+    evRevenue?: string;
+    cash?: string;
+    debt?: string;
+    opCashFlow?: string;
+    qoqGrowth?: string;
+    dilution?: string;
+  };
+}
+
+const { frontmatter } = Astro.props;
+---
+
+<BaseLayout
+  title={`Analyse ${frontmatter.ticker} - Totem Analyse`}
+  description={frontmatter.description}
+>
+  <div class="container mx-auto px-4 py-8 max-w-4xl">
+    <Header />
+
+    <StockBanner
+      ticker={frontmatter.ticker}
+      exchange={frontmatter.exchange}
+      companyName={frontmatter.title.replace('Apparté sur ', '')}
+      marketCap={frontmatter.marketCap || '$0'}
+      ev={frontmatter.ev || '$0'}
+      revenue={frontmatter.revenue || '$0'}
+      yoyGrowth={frontmatter.yoyGrowth || '0%'}
+      evRevenue={frontmatter.evRevenue || '0x'}
+      cash={frontmatter.cash || '$0'}
+      debt={frontmatter.debt || '$0'}
+      opCashFlow={frontmatter.opCashFlow || '$0'}
+      qoqGrowth={frontmatter.qoqGrowth || '0%'}
+      dilution={frontmatter.dilution || '0%'}
+      client:load
+    />
+
+    <article class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 md:p-12">
+      <div class="mb-8 pb-8 border-b border-gray-100">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{frontmatter.title}</h1>
+        <p class="text-lg text-gray-600 mb-2">{frontmatter.description}</p>
+        <p class="text-gray-500">Publié le {frontmatter.publishDate} • {frontmatter.readTime}</p>
+      </div>
+
+      <div class="prose max-w-none">
+        <slot />
+      </div>
+    </article>
+
+    <Footer />
+  </div>
+</BaseLayout>

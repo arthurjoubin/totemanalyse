@@ -1,0 +1,18 @@
+---
+interface Props {
+  showAnalysesLink?: boolean;
+}
+
+const { showAnalysesLink = true } = Astro.props;
+---
+
+<header class="flex items-center justify-between mb-8">
+    <a href="/" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+        <img src="/images/logo_totem_analyse.png" alt="Totem Analyse Logo" class="w-12">
+        <span class="text-xl font-bold text-totem-green">Totem Analyse</span>
+    </a>
+    <nav class="flex gap-4">
+        {showAnalysesLink && <a href="/analyses" class="text-gray-600 hover:text-totem-green transition-colors">Analyses</a>}
+        <a href="/" class="text-gray-600 hover:text-totem-green transition-colors">Accueil</a>
+    </nav>
+</header>

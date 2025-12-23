@@ -1,0 +1,26 @@
+{
+  "name": "totemanalyse",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://local_proxy@127.0.0.1:35377/git/arthurjoubin/totemanalyse"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@astrojs/react": "^4.4.2",
+    "@astrojs/tailwind": "^6.0.2",
+    "astro": "^5.16.6",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "tailwindcss": "^3.4.19"
+  }
+}
