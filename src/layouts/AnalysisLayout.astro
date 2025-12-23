@@ -3,6 +3,7 @@ import BaseLayout from './BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import StockBanner from '../components/StockBanner';
+import TradingViewChart from '../components/TradingViewChart';
 
 interface Props {
   frontmatter: {
@@ -51,6 +52,12 @@ const { frontmatter } = Astro.props;
       opCashFlow={frontmatter.opCashFlow || '$0'}
       qoqGrowth={frontmatter.qoqGrowth || '0%'}
       dilution={frontmatter.dilution || '0%'}
+      client:load
+    />
+
+    <TradingViewChart
+      ticker={frontmatter.ticker}
+      exchange={frontmatter.exchange}
       client:load
     />
 
