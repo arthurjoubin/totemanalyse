@@ -70,7 +70,6 @@ export default function TradingViewChart({ ticker, exchange }: TradingViewChartP
       colorTheme: 'light',
       isTransparent: true,
       autosize: true,
-      largeChartUrl: `https://www.tradingview.com/chart/?symbol=${symbol}`,
       noTimeScale: false,
       chartOnly: false
     });
