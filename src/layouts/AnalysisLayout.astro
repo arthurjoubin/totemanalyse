@@ -34,7 +34,7 @@ const { frontmatter } = Astro.props;
   title={`Analyse ${frontmatter.ticker} - Totem Analyse`}
   description={frontmatter.description}
 >
-  <div class="container mx-auto px-4 py-8 max-w-4xl">
+  <div class="container mx-auto px-6 py-8 max-w-5xl">
     <Header />
 
     <StockBanner
@@ -54,13 +54,23 @@ const { frontmatter } = Astro.props;
       client:load
     />
 
-    <article class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 md:p-12">
-      <div class="mb-8 pb-8 border-b border-gray-100">
-        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{frontmatter.title}</h1>
-        <p class="text-lg text-gray-600 mb-2">{frontmatter.description}</p>
-        <p class="text-gray-500">Publié le {frontmatter.publishDate} • {frontmatter.readTime}</p>
-      </div>
+    <article class="bg-white border border-gray-200 p-8 md:p-12">
+      <!-- Article Header -->
+      <header class="mb-10 pb-8 border-b border-gray-200">
+        <div class="flex items-center gap-2 mb-4">
+          <span class="px-2 py-0.5 bg-totem-green text-white text-xs font-medium">{frontmatter.ticker}</span>
+          {frontmatter.tags.map((tag: string) => (
+            <span class="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs">{tag}</span>
+          ))}
+        </div>
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">{frontmatter.title}</h1>
+        <p class="text-lg text-gray-600 mb-4 leading-relaxed">{frontmatter.description}</p>
+        <p class="text-sm text-gray-500">
+          Publié le {frontmatter.publishDate} · {frontmatter.readTime}
+        </p>
+      </header>
 
+      <!-- Article Content -->
       <div class="prose max-w-none">
         <slot />
       </div>

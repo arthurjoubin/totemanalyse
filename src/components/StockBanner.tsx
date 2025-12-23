@@ -89,11 +89,11 @@ export default function StockBanner({
   };
 
   return (
-    <div className="bg-gradient-to-br from-slate-50 to-green-50 border border-green-100 rounded-lg mb-8 shadow-sm">
+    <div className="bg-white border border-gray-200 mb-8">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-green-100">
+      <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-gray-50">
         <div>
-          <h1 className="text-xl font-bold text-gray-900">{companyName}</h1>
+          <h1 className="text-lg font-bold text-gray-900">{companyName}</h1>
           <span className="text-gray-500 font-mono text-sm">{exchange}: {ticker}</span>
         </div>
         <div className="text-right">
@@ -104,49 +104,49 @@ export default function StockBanner({
 
       {/* Metrics Grid */}
       <div className="grid grid-cols-3 md:grid-cols-5 text-center text-sm">
-        <div className="p-3 border-r border-b border-green-100">
-          <p className="text-gray-500 text-xs">Market Cap</p>
+        <div className="p-3 border-r border-b border-gray-200">
+          <p className="text-gray-500 text-xs uppercase tracking-wide">Market Cap</p>
           <p className="font-semibold text-gray-900">{computedMarketCap}</p>
         </div>
-        <div className="p-3 border-r border-b border-green-100">
-          <p className="text-gray-500 text-xs">EV</p>
+        <div className="p-3 border-r border-b border-gray-200">
+          <p className="text-gray-500 text-xs uppercase tracking-wide">EV</p>
           <p className="font-semibold text-gray-900">{ev}</p>
         </div>
-        <div className="p-3 border-r border-b border-green-100 md:border-r">
-          <p className="text-gray-500 text-xs">Revenus Q3</p>
+        <div className="p-3 border-r border-b border-gray-200 md:border-r">
+          <p className="text-gray-500 text-xs uppercase tracking-wide">Revenus Q3</p>
           <p className="font-semibold text-gray-900">{revenue}</p>
         </div>
-        <div className="p-3 border-r border-b border-green-100">
-          <p className="text-gray-500 text-xs">Croissance YoY</p>
+        <div className="p-3 border-r border-b border-gray-200">
+          <p className="text-gray-500 text-xs uppercase tracking-wide">Croiss. YoY</p>
           <p className="font-semibold text-totem-green">{yoyGrowth}</p>
         </div>
-        <div className="p-3 border-b border-green-100">
-          <p className="text-gray-500 text-xs">EV/Revenus</p>
+        <div className="p-3 border-b border-gray-200">
+          <p className="text-gray-500 text-xs uppercase tracking-wide">EV/Rev</p>
           <p className="font-semibold text-gray-900">{evRevenue}</p>
         </div>
-        <div className="p-3 border-r border-green-100">
-          <p className="text-gray-500 text-xs">Cash</p>
+        <div className="p-3 border-r border-gray-200">
+          <p className="text-gray-500 text-xs uppercase tracking-wide">Cash</p>
           <p className="font-semibold text-gray-900">{cash}</p>
         </div>
-        <div className="p-3 border-r border-green-100">
-          <p className="text-gray-500 text-xs">Dette</p>
+        <div className="p-3 border-r border-gray-200">
+          <p className="text-gray-500 text-xs uppercase tracking-wide">Dette</p>
           <p className="font-semibold text-gray-900">{debt}</p>
         </div>
-        <div className="p-3 border-r border-green-100">
-          <p className="text-gray-500 text-xs">Op. Cash Flow Q3</p>
+        <div className="p-3 border-r border-gray-200">
+          <p className="text-gray-500 text-xs uppercase tracking-wide">Op. CF Q3</p>
           <p className="font-semibold text-gray-900">{opCashFlow}</p>
         </div>
-        <div className="p-3 border-r border-green-100">
-          <p className="text-gray-500 text-xs">Croissance QoQ</p>
+        <div className="p-3 border-r border-gray-200">
+          <p className="text-gray-500 text-xs uppercase tracking-wide">Croiss. QoQ</p>
           <p className="font-semibold text-totem-green">{qoqGrowth}</p>
         </div>
         <div className="p-3">
-          <p className="text-gray-500 text-xs">Dilution</p>
+          <p className="text-gray-500 text-xs uppercase tracking-wide">Dilution</p>
           <p className="font-semibold text-gray-900">{dilution}</p>
         </div>
       </div>
 
-      <p className="text-xs text-gray-400 p-2 text-right border-t border-green-100">{lastUpdate}</p>
+      <p className="text-xs text-gray-400 p-2 text-right border-t border-gray-200 bg-gray-50">{lastUpdate}</p>
     </div>
   );
 }

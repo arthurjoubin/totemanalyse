@@ -8,35 +8,37 @@ const analyses = await getCollection('analyses');
 ---
 
 <BaseLayout title="Nos Analyses - Totem Analyse">
-  <div class="container mx-auto px-4 py-8 max-w-4xl">
+  <div class="container mx-auto px-6 py-8 max-w-5xl">
     <Header showAnalysesLink={false} />
 
     <!-- Page Title -->
-    <div class="mb-12">
-      <h1 class="text-4xl font-bold text-gray-900 mb-4">Nos Analyses</h1>
-      <p class="text-gray-600 text-lg">Analyses approfondies d'entreprises cotées en bourse</p>
+    <div class="mb-10 border-b border-gray-200 pb-6">
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">Analyses</h1>
+      <p class="text-gray-600">Recherche fondamentale sur des entreprises cotées</p>
     </div>
 
-    <!-- Analyses Grid -->
-    <div class="grid gap-6">
+    <!-- Analyses List -->
+    <div class="space-y-6">
       {analyses.map((analysis) => (
-        <a href={`/analyses/${analysis.slug}`} class="group block bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100">
+        <a href={`/analyses/${analysis.slug}`} class="group block bg-white border border-gray-200 hover:border-totem-green transition-colors duration-200">
           <div class="flex flex-col md:flex-row">
-            <div class="md:w-48 h-48 md:h-auto bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center">
-              <span class="text-6xl">{analysis.data.emoji}</span>
+            <div class="md:w-36 h-32 md:h-auto bg-gray-100 flex items-center justify-center border-b md:border-b-0 md:border-r border-gray-200">
+              <span class="text-5xl">{analysis.data.emoji}</span>
             </div>
-            <div class="flex-1 p-6">
+            <div class="flex-1 p-5">
               <div class="flex items-center gap-2 mb-2">
-                <span class="px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded">{analysis.data.ticker}</span>
+                <span class="px-2 py-0.5 bg-totem-green text-white text-xs font-medium">{analysis.data.ticker}</span>
                 {analysis.data.tags.map((tag: string) => (
-                  <span class="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded">{tag}</span>
+                  <span class="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs">{tag}</span>
                 ))}
               </div>
-              <h2 class="text-2xl font-bold text-gray-900 group-hover:text-totem-green transition-colors mb-2">{analysis.data.title.replace('Apparté sur ', '')}</h2>
-              <p class="text-gray-600 mb-4">{analysis.data.description}</p>
-              <div class="flex items-center gap-4 text-sm text-gray-500">
+              <h2 class="text-xl font-bold text-gray-900 group-hover:text-totem-green transition-colors mb-2">
+                {analysis.data.title.replace('Apparté sur ', '')}
+              </h2>
+              <p class="text-gray-600 text-sm mb-3 line-clamp-2">{analysis.data.description}</p>
+              <div class="flex items-center gap-3 text-xs text-gray-500">
                 <span>{analysis.data.publishDate}</span>
-                <span>•</span>
+                <span class="text-gray-300">|</span>
                 <span>{analysis.data.readTime}</span>
               </div>
             </div>
