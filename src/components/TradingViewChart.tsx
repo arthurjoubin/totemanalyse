@@ -1,12 +1,21 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface TradingViewChartProps {
   ticker: string;
   exchange: string;
 }
 
+const timeframes = [
+  { label: '1M', value: '1M' },
+  { label: '3M', value: '3M' },
+  { label: '1A', value: '12M' },
+  { label: '5A', value: '60M' },
+  { label: 'Max', value: 'ALL' },
+];
+
 export default function TradingViewChart({ ticker, exchange }: TradingViewChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [dateRange, setDateRange] = useState('12M');
 
   // Convert to TradingView format
   const getTradingViewSymbol = (): string => {
@@ -60,7 +69,7 @@ export default function TradingViewChart({ ticker, exchange }: TradingViewChartP
       width: '100%',
       height: '100%',
       locale: 'fr',
-      dateRange: '12M',
+      dateRange: dateRange,
       colorTheme: 'light',
       isTransparent: true,
       autosize: true,
@@ -77,7 +86,7 @@ export default function TradingViewChart({ ticker, exchange }: TradingViewChartP
         containerRef.current.innerHTML = '';
       }
     };
-  }, [ticker, exchange]);
+  }, [ticker, exchange, dateRange]);
 
   return (
     <div className="bg-white border border-gray-200 mb-4">
@@ -85,9 +94,24 @@ export default function TradingViewChart({ ticker, exchange }: TradingViewChartP
         ref={containerRef}
         className="h-[220px] w-full"
       />
-      <p className="text-xs text-gray-400 px-3 py-1 text-right border-t border-gray-200 bg-gray-50">
-        Chart par TradingView
-      </p>
+      <div className="flex justify-between items-center px-3 py-1 border-t border-gray-200 bg-gray-50">
+        <div className="flex gap-1">
+          {timeframes.map((tf) => (
+            <button
+              key={tf.value}
+              onClick={() => setDateRange(tf.value)}
+              className={`px-2 py-0.5 text-xs rounded transition-colors ${
+                dateRange === tf.value
+                  ? 'bg-totem-green text-white'
+                  : 'text-gray-500 hover:bg-gray-200'
+              }`}
+            >
+              {tf.label}
+            </button>
+          ))}
+        </div>
+        <span className="text-xs text-gray-400">Chart par TradingView</span>
+      </div>
     </div>
   );
 }

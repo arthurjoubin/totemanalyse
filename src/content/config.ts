@@ -12,6 +12,7 @@ const analysesCollection = defineCollection({
     emoji: z.string(),
     tags: z.array(z.string()),
     // Stock metrics
+    dataAsOf: z.string().optional(), // Date des données financières (e.g., "Mai 2022")
     marketCap: z.string().optional(),
     ev: z.string().optional(),
     revenue: z.string().optional(),
