@@ -16,6 +16,17 @@ const indicators: IndicatorInfo[] = [
   { key: 'eurusd', name: 'EUR/USD' },
   { key: 'bitcoin', name: 'Bitcoin' },
   { key: 'fr10y', name: 'US 10Y' },
+  // EIA Energy indicators
+  { key: 'oil_consumption_world', name: 'Pétrole Monde' },
+  { key: 'oil_consumption_usa', name: 'Pétrole USA' },
+  { key: 'oil_consumption_china', name: 'Pétrole Chine' },
+  { key: 'oil_consumption_oecd', name: 'Pétrole OCDE' },
+  { key: 'us_oil_stocks', name: 'Stocks US' },
+  { key: 'energy_petroleum', name: 'Conso. Pétrole' },
+  { key: 'energy_natgas', name: 'Conso. Gaz' },
+  { key: 'energy_coal', name: 'Conso. Charbon' },
+  { key: 'energy_nuclear', name: 'Conso. Nucléaire' },
+  { key: 'energy_renewables', name: 'Conso. Renouvelables' },
 ];
 
 interface IndicatorNavigationProps {

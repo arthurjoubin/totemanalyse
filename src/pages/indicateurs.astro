@@ -138,6 +138,34 @@ import ChartCard from '../components/ChartCard.astro';
         </div>
       </section>
 
+      <!-- Énergie - Consommation par région -->
+      <section class="mb-10">
+        <div class="flex items-center gap-3 mb-4">
+          <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Énergie - Consommation de Pétrole</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <ChartCard indicatorKey="oil_consumption_world" color="#1e3a5f" name="la Conso. Pétrole Monde" />
+          <ChartCard indicatorKey="oil_consumption_usa" color="#3b82f6" name="la Conso. Pétrole USA" />
+          <ChartCard indicatorKey="oil_consumption_china" color="#ef4444" name="la Conso. Pétrole Chine" />
+          <ChartCard indicatorKey="oil_consumption_oecd" color="#8b5cf6" name="la Conso. Pétrole OCDE" />
+          <ChartCard indicatorKey="us_oil_stocks" color="#059669" name="les Stocks Pétrole US" />
+        </div>
+      </section>
+
+      <!-- Énergie - Mix énergétique mondial -->
+      <section class="mb-10">
+        <div class="flex items-center gap-3 mb-4">
+          <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Énergie - Mix Énergétique Mondial</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <ChartCard indicatorKey="energy_petroleum" color="#0f172a" name="la Conso. Mondiale Pétrole" />
+          <ChartCard indicatorKey="energy_natgas" color="#0ea5e9" name="la Conso. Mondiale Gaz" />
+          <ChartCard indicatorKey="energy_coal" color="#374151" name="la Conso. Mondiale Charbon" />
+          <ChartCard indicatorKey="energy_nuclear" color="#eab308" name="la Conso. Mondiale Nucléaire" />
+          <ChartCard indicatorKey="energy_renewables" color="#22c55e" name="la Conso. Mondiale Renouvelables" />
+        </div>
+      </section>
+
       <!-- Note sur les données -->
       <section class="mb-10">
         <div class="bg-gray-50 border border-gray-200 p-6">
@@ -150,6 +178,7 @@ import ChartCard from '../components/ChartCard.astro';
             <li><strong>Matières premières</strong> — Yahoo Finance (Or, Brent)</li>
             <li><strong>Cryptomonnaies</strong> — Yahoo Finance (Bitcoin)</li>
             <li><strong>Taux</strong> — Yahoo Finance (US 10 ans)</li>
+            <li><strong>Énergie</strong> — EIA (Energy Information Administration)</li>
           </ul>
         </div>
       </section>
