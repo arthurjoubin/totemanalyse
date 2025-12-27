@@ -67,15 +67,24 @@ import ChartCard from '../components/ChartCard.astro';
 
         <!-- Toggle tri par performance (seulement pour l'onglet Marchés) -->
         <div id="sort-controls" class="flex items-center justify-between mt-4 pt-4 border-t border-gray-200">
-          <span class="text-sm font-medium text-gray-700">Trier par performance :</span>
-          <button
-            id="sort-by-performance"
-            class="px-4 py-2 text-sm rounded transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200 flex items-center gap-2"
-          >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
             </svg>
-            <span id="sort-label">Désactivé</span>
+            <span class="text-sm font-medium text-gray-700">Trier par performance</span>
+          </div>
+          <button
+            id="sort-by-performance"
+            type="button"
+            role="switch"
+            aria-checked="false"
+            class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-200 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-totem-green focus:ring-offset-2"
+          >
+            <span class="sr-only">Trier par performance</span>
+            <span
+              id="sort-toggle-dot"
+              class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out translate-x-0"
+            ></span>
           </button>
         </div>
       </div>
@@ -403,9 +412,14 @@ import ChartCard from '../components/ChartCard.astro';
       if (sortByPerformance) {
         sortByPerformance = false;
         const sortButton = document.getElementById('sort-by-performance');
-        const sortLabel = document.getElementById('sort-label');
-        sortButton.className = 'px-4 py-2 text-sm rounded transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200 flex items-center gap-2';
-        sortLabel.textContent = 'Désactivé';
+        const sortToggleDot = document.getElementById('sort-toggle-dot');
+        if (sortButton && sortToggleDot) {
+          sortButton.classList.remove('bg-totem-green');
+          sortButton.classList.add('bg-gray-200');
+          sortButton.setAttribute('aria-checked', 'false');
+          sortToggleDot.classList.remove('translate-x-5');
+          sortToggleDot.classList.add('translate-x-0');
+        }
         reorganizeByPerformance();
       }
     }
@@ -467,20 +481,26 @@ import ChartCard from '../components/ChartCard.astro';
     });
   }
 
-  // Gérer le bouton de tri par performance
+  // Gérer le toggle de tri par performance
   const sortButton = document.getElementById('sort-by-performance');
-  const sortLabel = document.getElementById('sort-label');
+  const sortToggleDot = document.getElementById('sort-toggle-dot');
 
-  if (sortButton && sortLabel) {
+  if (sortButton && sortToggleDot) {
     sortButton.addEventListener('click', () => {
       sortByPerformance = !sortByPerformance;
 
       if (sortByPerformance) {
-        sortButton.className = 'px-4 py-2 text-sm rounded transition-colors bg-totem-green text-white flex items-center gap-2';
-        sortLabel.textContent = 'Activé';
+        sortButton.classList.remove('bg-gray-200');
+        sortButton.classList.add('bg-totem-green');
+        sortButton.setAttribute('aria-checked', 'true');
+        sortToggleDot.classList.remove('translate-x-0');
+        sortToggleDot.classList.add('translate-x-5');
       } else {
-        sortButton.className = 'px-4 py-2 text-sm rounded transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200 flex items-center gap-2';
-        sortLabel.textContent = 'Désactivé';
+        sortButton.classList.remove('bg-totem-green');
+        sortButton.classList.add('bg-gray-200');
+        sortButton.setAttribute('aria-checked', 'false');
+        sortToggleDot.classList.remove('translate-x-5');
+        sortToggleDot.classList.add('translate-x-0');
       }
 
       reorganizeByPerformance();
