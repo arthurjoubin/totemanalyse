@@ -313,6 +313,7 @@ def main():
         "oil_consumption_world": ("WORL", "Conso. Pétrole Monde", "Consommation mondiale de pétrole", "quad Btu"),
         "oil_consumption_usa": ("USA", "Conso. Pétrole USA", "Consommation de pétrole des États-Unis", "quad Btu"),
         "oil_consumption_china": ("CHN", "Conso. Pétrole Chine", "Consommation de pétrole de la Chine", "quad Btu"),
+        "oil_consumption_europe": ("EU27", "Conso. Pétrole Europe", "Consommation de pétrole de l'Union Européenne", "quad Btu"),
         "oil_consumption_oecd": ("OECD", "Conso. Pétrole OCDE", "Consommation de pétrole des pays de l'OCDE", "quad Btu"),
     }
 
@@ -357,20 +358,6 @@ def main():
         elif key in indicators:
             print(f"    ⚠ Données existantes conservées")
 
-    # Stocks de pétrole US
-    print(f"  → Stocks Pétrole US")
-    data = get_eia_petroleum_stocks()
-    if data:
-        indicators["us_oil_stocks"] = {
-            "name": "Stocks Pétrole US",
-            "description": "Stocks de pétrole brut aux États-Unis",
-            "unit": "milliers barils",
-            "source": "EIA",
-            "data": data
-        }
-        print(f"    ✓ {len(data)} points")
-    elif "us_oil_stocks" in indicators:
-        print(f"    ⚠ Données existantes conservées")
 
     # Sauvegarder
     result = {
