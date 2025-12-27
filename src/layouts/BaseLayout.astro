@@ -76,6 +76,27 @@ const { title, description = "Investissement • Bourse • Finance" } = Astro.p
         margin: 1.75rem auto;
         display: block;
     }
+
+    /* Support pour les images flottantes */
+    .prose img.float-right {
+        float: right;
+        display: inline;
+        margin: 0 0 1rem 1.5rem;
+        max-width: 250px;
+    }
+    .prose img.float-left {
+        float: left;
+        display: inline;
+        margin: 0 1.5rem 1rem 0;
+        max-width: 250px;
+    }
+
+    /* Clearfix pour les conteneurs avec images flottantes */
+    .prose::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
     .prose a { color: #006B4F; text-decoration: underline; text-underline-offset: 2px; }
     .prose a:hover { color: #00A67B; }
     .prose hr { border: none; border-top: 1px solid #d1d5db; margin: 2.5rem 0; }

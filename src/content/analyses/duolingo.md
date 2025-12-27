@@ -131,6 +131,15 @@ Le CEO Luis von Ahn a qualifié cette activation de "home run". Ce type de parte
 
 Si on regarde les classements d'apps sur Android, Duolingo est l'une des seules grandes apps qui continue de croître. Environ 3% de croissance mensuelle des installations, cohérent avec leur croissance annuelle de 40%.
 
+<div class="my-6 py-4 px-5 border-l-4 border-totem-green bg-gray-50" style="border-left: 4px solid #006B4F; background: #f9fafb; padding: 1rem 1.25rem; margin: 1.5rem 0;">
+  <p style="margin: 0; font-size: 0.875rem; color: #374151;">
+    <strong>📬 Newsletter Totem Analyse</strong> — Recevez nos analyses approfondies chaque mois.
+    <a href="https://totemanalyse.substack.com/subscribe" target="_blank" rel="noopener noreferrer" style="color: #006B4F; font-weight: 500; margin-left: 0.25rem;">
+      S'abonner →
+    </a>
+  </p>
+</div>
+
 ## Performance Financière
 
 ### Résultats Q3 2024

@@ -33,26 +33,26 @@ portfolio:
 # === WATCHLIST ===
 # Entreprises suivies mais pas encore en portefeuille
 watchlist:
-  - name: "Dino Polska"
-    ticker: "DNP"
-    exchange: "WSE"
-    flag: "🇵🇱"
-    thesis: "Supermarchés de proximité en Pologne, croissance organique exceptionnelle."
-    # analysisSlug: "dino-polska"
-
-  - name: "Sprouts Farmers Market"
-    ticker: "SFM"
-    exchange: "NASDAQ"
+  - name: "Figma"
+    ticker: "FIGM"
+    exchange: "Private"
     flag: "🇺🇸"
-    thesis: "Épiceries bio US, valorisation attractive après correction."
-    # analysisSlug: "sprouts"
+    thesis: "Leader du design collaboratif, adoption massive par les équipes produit. Potentiel IPO."
+    # analysisSlug: "figma"
 
-  - name: "Evolution Gaming"
-    ticker: "EVO"
-    exchange: "OMX"
-    flag: "🇸🇪"
-    thesis: "Leader du casino en ligne live, marges exceptionnelles."
-    # analysisSlug: "evolution"
+  - name: "Rakuten"
+    ticker: "4755"
+    exchange: "TSE"
+    flag: "🇯🇵"
+    thesis: "Développement du réseau mobile et écosystème tech. Pari sur la monétisation du réseau 4G/5G."
+    # analysisSlug: "rakuten"
+
+  - name: "Redbubble"
+    ticker: "RBL"
+    exchange: "ASX"
+    flag: "🇦🇺"
+    thesis: "Marketplace print-on-demand pour artistes, restructuration en cours avec potentiel de redressement."
+    # analysisSlug: "redbubble"
 ---
 
 ## Philosophie d'investissement
