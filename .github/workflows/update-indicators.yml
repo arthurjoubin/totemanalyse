@@ -1,0 +1,58 @@
+# GitHub Action pour mettre à jour les indicateurs financiers
+# Fréquence configurable via cron
+
+name: Update Financial Indicators
+
+on:
+  # Déclenchement manuel
+  workflow_dispatch:
+
+  # Planification automatique
+  schedule:
+    # Le 1er de chaque mois à 6h UTC (7h heure de Paris)
+    - cron: '0 6 1 * *'
+
+    # OU tous les lundis à 6h UTC (décommenter si préféré)
+    # - cron: '0 6 * * 1'
+
+    # OU tous les jours à 6h UTC (décommenter si préféré)
+    # - cron: '0 6 * * *'
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install yfinance requests pandas
+
+      - name: Run update script
+        env:
+          # Optionnel: clé API FRED pour les taux Fed
+          # Créer un secret dans Settings > Secrets > Actions
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+        run: |
+          python scripts/update-indicators.py
+
+      - name: Check for changes
+        id: changes
+        run: |
+          git diff --quiet public/data/indicators.json || echo "changed=true" >> $GITHUB_OUTPUT
+
+      - name: Commit and push changes
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add public/data/indicators.json
+          git commit -m "Update financial indicators data [automated]"
+          git push
