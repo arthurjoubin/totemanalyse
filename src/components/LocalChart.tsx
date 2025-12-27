@@ -236,6 +236,9 @@ export default function LocalChart({ indicatorKey, color = '#006B4F', globalTime
               return `$${value.toLocaleString()}`;
             } else if (indicator.unit === '€/m²') {
               return `${value.toLocaleString()} €/m²`;
+            } else if (indicator.unit === '' && value < 10) {
+              // Pour les devises comme EUR/USD
+              return value.toFixed(4);
             }
             return value.toLocaleString();
           },
@@ -263,6 +266,9 @@ export default function LocalChart({ indicatorKey, color = '#006B4F', globalTime
           callback: (value: any) => {
             if (indicator.unit === '%') {
               return `${value}%`;
+            } else if (indicator.unit === '' && value < 10) {
+              // Pour les devises comme EUR/USD, afficher 2 décimales sur l'axe
+              return value.toFixed(2);
             } else if (value >= 1000) {
               return `${(value / 1000).toFixed(0)}k`;
             }
@@ -286,8 +292,11 @@ export default function LocalChart({ indicatorKey, color = '#006B4F', globalTime
       return `${val.toLocaleString()} €/m²`;
     } else if (indicator.unit === 'points') {
       return val.toLocaleString();
+    } else if (indicator.unit === '' && val < 10) {
+      // Pour les devises comme EUR/USD, limiter à 4 décimales
+      return val.toFixed(4);
     }
-    return val.toString();
+    return val.toLocaleString();
   };
 
   return (
