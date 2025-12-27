@@ -183,6 +183,7 @@ def main():
         "gold": ("GC=F", "Or (Gold)", "Prix de l'once d'or en USD", "$/oz"),
         "brent": ("BZ=F", "Brent (Pétrole)", "Prix du baril de Brent en USD", "$/baril"),
         "fr10y": ("^TNX", "Taux US 10 ans", "Rendement des obligations d'État américaines à 10 ans", "%"),
+        "bitcoin": ("BTC-USD", "Bitcoin (BTC)", "Prix du Bitcoin en USD", "$"),
     }
 
     # Yahoo Finance
@@ -202,19 +203,19 @@ def main():
         elif key in indicators:
             print(f"    ⚠ Données existantes conservées")
 
-    # CoinGecko
-    print("\n🪙 CoinGecko...")
-    print("  → Bitcoin")
-    btc_data = get_coingecko_data("bitcoin")
-    if btc_data:
-        indicators["bitcoin"] = {
-            "name": "Bitcoin (BTC)",
-            "description": "Prix du Bitcoin en USD",
-            "unit": "$",
-            "source": "CoinGecko",
-            "data": btc_data
-        }
-        print(f"    ✓ {len(btc_data)} points")
+    # CoinGecko (désactivé - Bitcoin récupéré via Yahoo Finance)
+    # print("\n🪙 CoinGecko...")
+    # print("  → Bitcoin")
+    # btc_data = get_coingecko_data("bitcoin")
+    # if btc_data:
+    #     indicators["bitcoin"] = {
+    #         "name": "Bitcoin (BTC)",
+    #         "description": "Prix du Bitcoin en USD",
+    #         "unit": "$",
+    #         "source": "CoinGecko",
+    #         "data": btc_data
+    #     }
+    #     print(f"    ✓ {len(btc_data)} points")
 
     # ECB
     print("\n🏦 ECB...")
