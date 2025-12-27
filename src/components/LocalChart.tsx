@@ -352,7 +352,16 @@ export default function LocalChart({ indicatorKey, color = '#006B4F', globalTime
               </button>
             </div>
 
-            <div className="flex gap-1">
+            <div className="flex gap-1 items-center">
+              <a
+                href={`/indicateurs/${indicatorKey}/`}
+                className="p-1.5 text-gray-600 hover:bg-gray-100 rounded transition-colors"
+                title="Voir en détail"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
               <button
                 onClick={handleShare}
                 className="p-1.5 text-gray-600 hover:bg-gray-100 rounded transition-colors relative"
