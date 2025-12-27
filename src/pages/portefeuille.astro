@@ -1,0 +1,157 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import { getEntry } from 'astro:content';
+
+const portefeuille = await getEntry('portefeuille', 'index');
+const { Content } = await portefeuille.render();
+const { portfolio, watchlist, lastUpdated } = portefeuille.data;
+
+// Trier par poids décroissant
+const sortedPortfolio = [...portfolio].sort((a, b) => (b.weight || 0) - (a.weight || 0));
+---
+
+<BaseLayout title="Portefeuille - Totem Analyse" description="Nos positions actuelles et watchlist">
+  <Header />
+
+  <main class="container mx-auto px-4 py-8 max-w-4xl">
+    <!-- Header -->
+    <div class="text-center mb-10">
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">Notre Portefeuille</h1>
+      <p class="text-gray-500 text-sm">Dernière mise à jour : {lastUpdated}</p>
+    </div>
+
+    <!-- Portfolio Section -->
+    <section class="mb-12">
+      <div class="flex items-center gap-3 mb-4">
+        <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Positions Actuelles</h2>
+        <span class="px-2 py-0.5 bg-totem-green text-white text-xs font-medium rounded-full">{sortedPortfolio.length}</span>
+      </div>
+
+      <div class="bg-white border border-gray-200 overflow-hidden">
+        <!-- Header -->
+        <div class="flex items-center justify-between px-5 py-3 border-b border-gray-100 bg-gray-50">
+          <span class="text-xs text-gray-500 uppercase tracking-wide font-medium">Position</span>
+          <span class="text-xs text-gray-500 uppercase tracking-wide font-medium">Poids</span>
+        </div>
+
+        {sortedPortfolio.map((position, index) => {
+          const isLast = index === sortedPortfolio.length - 1;
+          const hasAnalysis = !!position.analysisSlug;
+
+          const content = (
+            <div class="px-5 py-4">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-4">
+                  <span class="rank-number text-2xl font-bold text-totem-green w-8">{index + 1}</span>
+                  <div>
+                    <div class="flex items-center gap-2 mb-1">
+                      <span class={`font-semibold text-gray-900 ${hasAnalysis ? 'group-hover:text-totem-green transition-colors' : ''}`}>{position.name}</span>
+                      <span class={`px-2 py-0.5 text-xs font-medium ${hasAnalysis ? 'bg-totem-green text-white' : 'bg-gray-100 text-gray-600'}`}>{position.ticker}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <span class="text-xs text-gray-500">{position.flag} {position.exchange}</span>
+                      <span class="text-xs text-gray-400">•</span>
+                      {hasAnalysis ? (
+                        <span class="text-xs text-totem-green font-medium">Voir l'analyse →</span>
+                      ) : (
+                        <span class="text-xs text-amber-600">Analyse à venir</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <div class="weight-bar w-24">
+                  <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
+                    <div class="h-full bg-totem-green rounded-full" style={`width: ${position.weight || 0}%`}></div>
+                  </div>
+                </div>
+              </div>
+              <p class="text-sm text-gray-600 italic pl-12 border-l-2 border-gray-100 ml-1">{position.thesis}</p>
+            </div>
+          );
+
+          return hasAnalysis ? (
+            <a href={`/analyses/${position.analysisSlug}`}
+               class={`group block hover:bg-gray-50 transition-colors ${!isLast ? 'border-b border-gray-100' : ''}`}>
+              {content}
+            </a>
+          ) : (
+            <div class={!isLast ? 'border-b border-gray-100' : ''}>
+              {content}
+            </div>
+          );
+        })}
+      </div>
+      <p class="text-xs text-gray-400 mt-2 text-center italic">Classé par taille de position</p>
+    </section>
+
+    <!-- Watchlist Section -->
+    <section class="mb-12">
+      <div class="flex items-center gap-3 mb-4">
+        <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Watchlist</h2>
+        <span class="px-2 py-0.5 bg-gray-200 text-gray-600 text-xs font-medium rounded-full">{watchlist.length}</span>
+      </div>
+
+      <div class="bg-white border border-gray-200 overflow-hidden">
+        {watchlist.map((item, index) => {
+          const isLast = index === watchlist.length - 1;
+          const hasAnalysis = !!item.analysisSlug;
+
+          const content = (
+            <div class="px-5 py-4">
+              <div class="flex items-center justify-between mb-1">
+                <div class="flex items-center gap-3">
+                  <span class="text-xl">{item.flag}</span>
+                  <div>
+                    <div class="flex items-center gap-2">
+                      <span class={`font-semibold text-gray-900 ${hasAnalysis ? 'group-hover:text-totem-green transition-colors' : ''}`}>{item.name}</span>
+                      <span class="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs font-medium">{item.ticker}</span>
+                    </div>
+                    <div class="flex items-center gap-2 mt-0.5">
+                      <span class="text-xs text-gray-500">{item.exchange}</span>
+                      {hasAnalysis && (
+                        <>
+                          <span class="text-xs text-gray-400">•</span>
+                          <span class="text-xs text-totem-green font-medium">Voir l'analyse →</span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <p class="text-sm text-gray-600 italic pl-10 border-l-2 border-gray-100 ml-1 mt-2">{item.thesis}</p>
+            </div>
+          );
+
+          return hasAnalysis ? (
+            <a href={`/analyses/${item.analysisSlug}`}
+               class={`group block hover:bg-gray-50 transition-colors ${!isLast ? 'border-b border-gray-100' : ''}`}>
+              {content}
+            </a>
+          ) : (
+            <div class={!isLast ? 'border-b border-gray-100' : ''}>
+              {content}
+            </div>
+          );
+        })}
+      </div>
+      <p class="text-xs text-gray-400 mt-2 text-center italic">Entreprises suivies, pas encore en portefeuille</p>
+    </section>
+
+    <!-- Philosophy from markdown content -->
+    <section class="mb-12">
+      <div class="bg-white border border-gray-200 p-6">
+        <div class="prose prose-sm max-w-none">
+          <Content />
+        </div>
+      </div>
+    </section>
+
+    <!-- Back link -->
+    <div class="text-center">
+      <a href="/" class="text-totem-green hover:text-totem-light text-sm font-medium">
+        ← Retour à l'accueil
+      </a>
+    </div>
+  </main>
+</BaseLayout>
