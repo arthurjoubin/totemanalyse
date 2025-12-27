@@ -7,14 +7,45 @@ import ChartCard from '../components/ChartCard.astro';
 
 <BaseLayout title="Indicateurs Clés - Totem Analyse" description="Évolution sur 20 ans des principaux indicateurs économiques et financiers">
   <div class="container mx-auto px-6 py-8 max-w-6xl">
-    <Header />
+    <Header currentPage="indicateurs" />
 
     <main>
       <!-- Header -->
-      <div class="text-center mb-8">
+      <div class="text-center mb-6">
         <h1 class="text-3xl font-bold text-gray-900 mb-2">Indicateurs Clés</h1>
         <p class="text-gray-600">Évolution sur 20 ans des principaux indicateurs économiques et financiers</p>
         <p class="text-xs text-gray-400 mt-2" id="last-updated"></p>
+      </div>
+
+      <!-- Navigation rapide -->
+      <div class="border-t border-b border-gray-200 py-3 mb-8 overflow-x-auto">
+        <div class="flex items-center gap-2 min-w-max">
+          <span class="text-xs text-gray-400 uppercase tracking-wide shrink-0">Aller à</span>
+          <span class="text-gray-300 shrink-0">—</span>
+          <a href="#sp500" class="text-sm text-gray-600 hover:text-totem-green transition-colors">S&P 500</a>
+          <span class="text-gray-300">·</span>
+          <a href="#nasdaq" class="text-sm text-gray-600 hover:text-totem-green transition-colors">NASDAQ</a>
+          <span class="text-gray-300">·</span>
+          <a href="#cac40" class="text-sm text-gray-600 hover:text-totem-green transition-colors">CAC 40</a>
+          <span class="text-gray-300">·</span>
+          <a href="#dax" class="text-sm text-gray-600 hover:text-totem-green transition-colors">DAX</a>
+          <span class="text-gray-300">·</span>
+          <a href="#nikkei" class="text-sm text-gray-600 hover:text-totem-green transition-colors">Nikkei</a>
+          <span class="text-gray-300">·</span>
+          <a href="#gold" class="text-sm text-gray-600 hover:text-totem-green transition-colors">Or</a>
+          <span class="text-gray-300">·</span>
+          <a href="#silver" class="text-sm text-gray-600 hover:text-totem-green transition-colors">Argent</a>
+          <span class="text-gray-300">·</span>
+          <a href="#brent" class="text-sm text-gray-600 hover:text-totem-green transition-colors">Pétrole</a>
+          <span class="text-gray-300">·</span>
+          <a href="#natgas" class="text-sm text-gray-600 hover:text-totem-green transition-colors">Gaz</a>
+          <span class="text-gray-300">·</span>
+          <a href="#eurusd" class="text-sm text-gray-600 hover:text-totem-green transition-colors">EUR/USD</a>
+          <span class="text-gray-300">·</span>
+          <a href="#fr10y" class="text-sm text-gray-600 hover:text-totem-green transition-colors">US 10Y</a>
+          <span class="text-gray-300">·</span>
+          <a href="#bitcoin" class="text-sm text-gray-600 hover:text-totem-green transition-colors">Bitcoin</a>
+        </div>
       </div>
 
       <!-- Contrôles globaux de timeline -->
@@ -56,11 +87,11 @@ import ChartCard from '../components/ChartCard.astro';
           <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Indices Boursiers</h2>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <ChartCard indicatorKey="sp500" color="#006B4F" name="S&P 500" />
-          <ChartCard indicatorKey="nasdaq" color="#00d4aa" name="NASDAQ" />
-          <ChartCard indicatorKey="cac40" color="#1e40af" name="CAC 40" />
-          <ChartCard indicatorKey="dax" color="#dc2626" name="DAX" />
-          <ChartCard indicatorKey="nikkei" color="#ec4899" name="Nikkei 225" />
+          <ChartCard id="sp500" indicatorKey="sp500" color="#006B4F" name="S&P 500" />
+          <ChartCard id="nasdaq" indicatorKey="nasdaq" color="#00d4aa" name="NASDAQ" />
+          <ChartCard id="cac40" indicatorKey="cac40" color="#1e40af" name="CAC 40" />
+          <ChartCard id="dax" indicatorKey="dax" color="#dc2626" name="DAX" />
+          <ChartCard id="nikkei" indicatorKey="nikkei" color="#ec4899" name="Nikkei 225" />
         </div>
       </section>
 
@@ -70,10 +101,10 @@ import ChartCard from '../components/ChartCard.astro';
           <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Matières Premières</h2>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <ChartCard indicatorKey="gold" color="#ca8a04" name="l'Or" />
-          <ChartCard indicatorKey="silver" color="#94a3b8" name="l'Argent" />
-          <ChartCard indicatorKey="brent" color="#0f172a" name="le Brent" />
-          <ChartCard indicatorKey="natgas" color="#0ea5e9" name="le Gaz Naturel" />
+          <ChartCard id="gold" indicatorKey="gold" color="#ca8a04" name="l'Or" />
+          <ChartCard id="silver" indicatorKey="silver" color="#94a3b8" name="l'Argent" />
+          <ChartCard id="brent" indicatorKey="brent" color="#0f172a" name="le Brent" />
+          <ChartCard id="natgas" indicatorKey="natgas" color="#0ea5e9" name="le Gaz Naturel" />
         </div>
       </section>
 
@@ -83,7 +114,7 @@ import ChartCard from '../components/ChartCard.astro';
           <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Devises</h2>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <ChartCard indicatorKey="eurusd" color="#2563eb" name="EUR/USD" />
+          <ChartCard id="eurusd" indicatorKey="eurusd" color="#2563eb" name="EUR/USD" />
         </div>
       </section>
 
@@ -93,7 +124,7 @@ import ChartCard from '../components/ChartCard.astro';
           <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Taux et Obligations</h2>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <ChartCard indicatorKey="fr10y" color="#dc2626" name="le Taux US 10 ans" />
+          <ChartCard id="fr10y" indicatorKey="fr10y" color="#dc2626" name="le Taux US 10 ans" />
         </div>
       </section>
 
@@ -103,7 +134,7 @@ import ChartCard from '../components/ChartCard.astro';
           <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Cryptomonnaies</h2>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <ChartCard indicatorKey="bitcoin" color="#f7931a" name="le Bitcoin" />
+          <ChartCard id="bitcoin" indicatorKey="bitcoin" color="#f7931a" name="le Bitcoin" />
         </div>
       </section>
 
