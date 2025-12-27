@@ -24,6 +24,18 @@ const indicators: IndicatorInfo[] = [
   { key: 'bitcoin', name: 'Bitcoin', category: 'Crypto', color: '#f7931a', icon: '₿' },
   // Taux
   { key: 'fr10y', name: 'US 10 ans', category: 'Taux', color: '#dc2626', icon: '📊' },
+  // Énergie - Consommation de pétrole
+  { key: 'oil_consumption_world', name: 'Pétrole Monde', category: 'Énergie', color: '#1e3a5f', icon: '🌍' },
+  { key: 'oil_consumption_usa', name: 'Pétrole USA', category: 'Énergie', color: '#3b82f6', icon: '🇺🇸' },
+  { key: 'oil_consumption_china', name: 'Pétrole Chine', category: 'Énergie', color: '#ef4444', icon: '🇨🇳' },
+  { key: 'oil_consumption_oecd', name: 'Pétrole OCDE', category: 'Énergie', color: '#8b5cf6', icon: '🏛️' },
+  { key: 'us_oil_stocks', name: 'Stocks US', category: 'Énergie', color: '#059669', icon: '📦' },
+  // Énergie - Mix énergétique mondial
+  { key: 'energy_petroleum', name: 'Pétrole', category: 'Mix Énergie', color: '#0f172a', icon: '🛢️' },
+  { key: 'energy_natgas', name: 'Gaz', category: 'Mix Énergie', color: '#0ea5e9', icon: '💨' },
+  { key: 'energy_coal', name: 'Charbon', category: 'Mix Énergie', color: '#374151', icon: '⬛' },
+  { key: 'energy_nuclear', name: 'Nucléaire', category: 'Mix Énergie', color: '#eab308', icon: '⚛️' },
+  { key: 'energy_renewables', name: 'Renouvelables', category: 'Mix Énergie', color: '#22c55e', icon: '🌱' },
 ];
 
 interface IndicatorNavigationProps {

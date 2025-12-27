@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Script de mise à jour des indicateurs financiers.
-Sources: Yahoo Finance (API directe), CoinGecko, ECB, FRED
+Sources: Yahoo Finance (API directe), CoinGecko, ECB, FRED, EIA
 
 Dépendances: pip install requests
 Automatisation: GitHub Actions (voir .github/workflows/update-indicators.yml)
@@ -15,6 +15,9 @@ import os
 from datetime import datetime, timedelta
 from pathlib import Path
 import requests
+
+# Clé API EIA (Energy Information Administration)
+EIA_API_KEY = os.environ.get("EIA_API_KEY", "VjJrmmL7OcvnsjVp2Ngphybwd00eYhG1En0tOTcE")
 
 # Chemin du fichier de données
 SCRIPT_DIR = Path(__file__).parent
@@ -154,6 +157,92 @@ def get_fred_data(series_id: str) -> list:
         return []
 
 
+def get_eia_international_data(activity_id: int, product_id: int, country_id: str) -> list:
+    """
+    Récupère les données internationales depuis l'API EIA.
+
+    Args:
+        activity_id: 1=Production, 2=Consumption, 3=Imports, 4=Exports, 5=Stocks
+        product_id: 57=Total petroleum, 26=Natural gas, 1=Coal, 12=Nuclear, 28=Renewables
+        country_id: WORL, USA, CHN, OECD, etc.
+    """
+    try:
+        url = "https://api.eia.gov/v2/international/data/"
+        params = {
+            "api_key": EIA_API_KEY,
+            "frequency": "annual",
+            "data[0]": "value",
+            "facets[activityId][]": str(activity_id),
+            "facets[productId][]": str(product_id),
+            "facets[countryRegionId][]": country_id,
+            "sort[0][column]": "period",
+            "sort[0][direction]": "desc",
+            "length": 100
+        }
+
+        response = requests.get(url, params=params, timeout=30)
+        response.raise_for_status()
+
+        result = response.json()
+        data_points = result.get("response", {}).get("data", [])
+
+        data = []
+        for item in data_points:
+            period = item.get("period")
+            value = item.get("value")
+            if period and value is not None:
+                # Format annuel: YYYY -> YYYY-01 pour cohérence
+                data.append({
+                    "date": f"{period}-01",
+                    "value": round(float(value), 2)
+                })
+
+        # Trier par date croissante
+        return sorted(data, key=lambda x: x["date"])
+
+    except Exception as e:
+        print(f"    ✗ Erreur EIA International: {e}")
+        return []
+
+
+def get_eia_petroleum_stocks() -> list:
+    """Récupère les stocks de pétrole US depuis l'API EIA."""
+    try:
+        url = "https://api.eia.gov/v2/petroleum/stoc/wstk/data/"
+        params = {
+            "api_key": EIA_API_KEY,
+            "frequency": "weekly",
+            "data[0]": "value",
+            "facets[product][]": "EPC0",  # Crude Oil
+            "facets[duoarea][]": "NUS",   # U.S.
+            "sort[0][column]": "period",
+            "sort[0][direction]": "desc",
+            "length": 1000
+        }
+
+        response = requests.get(url, params=params, timeout=30)
+        response.raise_for_status()
+
+        result = response.json()
+        data_points = result.get("response", {}).get("data", [])
+
+        seen = {}
+        for item in data_points:
+            period = item.get("period")
+            value = item.get("value")
+            if period and value is not None:
+                # Dédupliquer par mois (garder la dernière valeur)
+                month_key = period[:7]  # YYYY-MM
+                if month_key not in seen:
+                    seen[month_key] = round(float(value), 2)
+
+        return [{"date": k, "value": v} for k, v in sorted(seen.items())]
+
+    except Exception as e:
+        print(f"    ✗ Erreur EIA Stocks: {e}")
+        return []
+
+
 def load_existing_data() -> dict:
     if DATA_FILE.exists():
         with open(DATA_FILE, "r", encoding="utf-8") as f:
@@ -213,6 +302,75 @@ def main():
             print(f"    ✓ {len(data)} points")
         elif key in indicators:
             print(f"    ⚠ Données existantes conservées")
+
+    # EIA (Energy Information Administration)
+    print()
+    print("🛢️ EIA (Energy Information Administration)...")
+
+    # Configuration EIA - Consommation de pétrole par région
+    # activityId: 2 = Consumption, productId: 4415 = Petroleum and other liquids
+    eia_oil_consumption = {
+        "oil_consumption_world": ("WORL", "Conso. Pétrole Monde", "Consommation mondiale de pétrole", "quad Btu"),
+        "oil_consumption_usa": ("USA", "Conso. Pétrole USA", "Consommation de pétrole des États-Unis", "quad Btu"),
+        "oil_consumption_china": ("CHN", "Conso. Pétrole Chine", "Consommation de pétrole de la Chine", "quad Btu"),
+        "oil_consumption_oecd": ("OECD", "Conso. Pétrole OCDE", "Consommation de pétrole des pays de l'OCDE", "quad Btu"),
+    }
+
+    for key, (country_id, name, desc, unit) in eia_oil_consumption.items():
+        print(f"  → {name} ({country_id})")
+        data = get_eia_international_data(activity_id=2, product_id=4415, country_id=country_id)
+        if data:
+            indicators[key] = {
+                "name": name,
+                "description": desc,
+                "unit": unit,
+                "source": "EIA",
+                "data": data
+            }
+            print(f"    ✓ {len(data)} points")
+        elif key in indicators:
+            print(f"    ⚠ Données existantes conservées")
+
+    # Configuration EIA - Consommation mondiale par type d'énergie
+    # activityId: 2 = Consumption, countryId: WORL
+    # ProductIds: 4415=Petroleum, 4413=Natural gas, 4411=Coal, 4417=Nuclear, 4418=Renewables
+    eia_energy_types = {
+        "energy_petroleum": (4415, "Conso. Mondiale Pétrole", "Consommation mondiale de pétrole", "quad Btu"),
+        "energy_natgas": (4413, "Conso. Mondiale Gaz", "Consommation mondiale de gaz naturel", "quad Btu"),
+        "energy_coal": (4411, "Conso. Mondiale Charbon", "Consommation mondiale de charbon", "quad Btu"),
+        "energy_nuclear": (4417, "Conso. Mondiale Nucléaire", "Consommation mondiale d'énergie nucléaire", "quad Btu"),
+        "energy_renewables": (4418, "Conso. Mondiale Renouvelables", "Consommation mondiale d'énergies renouvelables", "quad Btu"),
+    }
+
+    for key, (product_id, name, desc, unit) in eia_energy_types.items():
+        print(f"  → {name} (productId={product_id})")
+        data = get_eia_international_data(activity_id=2, product_id=product_id, country_id="WORL")
+        if data:
+            indicators[key] = {
+                "name": name,
+                "description": desc,
+                "unit": unit,
+                "source": "EIA",
+                "data": data
+            }
+            print(f"    ✓ {len(data)} points")
+        elif key in indicators:
+            print(f"    ⚠ Données existantes conservées")
+
+    # Stocks de pétrole US
+    print(f"  → Stocks Pétrole US")
+    data = get_eia_petroleum_stocks()
+    if data:
+        indicators["us_oil_stocks"] = {
+            "name": "Stocks Pétrole US",
+            "description": "Stocks de pétrole brut aux États-Unis",
+            "unit": "milliers barils",
+            "source": "EIA",
+            "data": data
+        }
+        print(f"    ✓ {len(data)} points")
+    elif "us_oil_stocks" in indicators:
+        print(f"    ⚠ Données existantes conservées")
 
     # Sauvegarder
     result = {

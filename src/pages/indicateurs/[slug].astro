@@ -91,11 +91,92 @@ const indicatorsConfig = {
     color: '#dc2626',
     longDescription: `Le taux des obligations américaines à 10 ans est un indicateur clé des marchés financiers. Il influence les taux hypothécaires, les rendements obligataires et sert de référence pour évaluer le risque de crédit.`,
   },
+  // EIA - Consommation de pétrole par région
+  oil_consumption_world: {
+    name: 'Conso. Pétrole Monde',
+    description: 'Consommation mondiale de pétrole en quadrillions de BTU',
+    category: 'Énergie',
+    color: '#1e3a5f',
+    longDescription: `La consommation mondiale de pétrole est un indicateur clé de l'activité économique globale. Elle reflète la demande énergétique des secteurs du transport, de l'industrie et du chauffage. Les données proviennent de l'EIA (Energy Information Administration).`,
+  },
+  oil_consumption_usa: {
+    name: 'Conso. Pétrole USA',
+    description: 'Consommation de pétrole des États-Unis en quadrillions de BTU',
+    category: 'Énergie',
+    color: '#3b82f6',
+    longDescription: `Les États-Unis sont l'un des plus grands consommateurs de pétrole au monde. Cette consommation est principalement tirée par le secteur des transports et l'industrie pétrochimique.`,
+  },
+  oil_consumption_china: {
+    name: 'Conso. Pétrole Chine',
+    description: 'Consommation de pétrole de la Chine en quadrillions de BTU',
+    category: 'Énergie',
+    color: '#ef4444',
+    longDescription: `La Chine est devenue le deuxième plus grand consommateur de pétrole au monde. Sa consommation a explosé avec l'industrialisation rapide et la croissance du parc automobile.`,
+  },
+  oil_consumption_oecd: {
+    name: 'Conso. Pétrole OCDE',
+    description: 'Consommation de pétrole des pays de l\'OCDE en quadrillions de BTU',
+    category: 'Énergie',
+    color: '#8b5cf6',
+    longDescription: `Les pays de l'OCDE représentent historiquement une grande part de la consommation mondiale de pétrole. Cette part diminue progressivement au profit des économies émergentes.`,
+  },
+  // EIA - Stocks de pétrole
+  us_oil_stocks: {
+    name: 'Stocks Pétrole US',
+    description: 'Stocks de pétrole brut aux États-Unis en milliers de barils',
+    category: 'Énergie',
+    color: '#059669',
+    longDescription: `Les stocks de pétrole brut américains sont un indicateur crucial pour les marchés pétroliers. Ils reflètent l'équilibre entre l'offre et la demande et influencent directement les prix du pétrole.`,
+  },
+  // EIA - Consommation mondiale par type d'énergie
+  energy_petroleum: {
+    name: 'Conso. Mondiale Pétrole',
+    description: 'Consommation mondiale de pétrole en quadrillions de BTU',
+    category: 'Énergie',
+    color: '#0f172a',
+    longDescription: `Le pétrole reste la principale source d'énergie mondiale, représentant environ un tiers de la consommation énergétique totale. Il est essentiel pour les transports et la pétrochimie.`,
+  },
+  energy_natgas: {
+    name: 'Conso. Mondiale Gaz',
+    description: 'Consommation mondiale de gaz naturel en quadrillions de BTU',
+    category: 'Énergie',
+    color: '#0ea5e9',
+    longDescription: `Le gaz naturel est une source d'énergie en forte croissance, utilisée pour la production d'électricité, le chauffage et l'industrie. Il est considéré comme une énergie de transition vers les renouvelables.`,
+  },
+  energy_coal: {
+    name: 'Conso. Mondiale Charbon',
+    description: 'Consommation mondiale de charbon en quadrillions de BTU',
+    category: 'Énergie',
+    color: '#374151',
+    longDescription: `Le charbon reste une source majeure d'énergie, particulièrement en Asie. Bien que sa consommation soit en déclin dans les pays développés pour des raisons environnementales, elle continue de croître dans certains pays émergents.`,
+  },
+  energy_nuclear: {
+    name: 'Conso. Mondiale Nucléaire',
+    description: 'Consommation mondiale d\'énergie nucléaire en quadrillions de BTU',
+    category: 'Énergie',
+    color: '#eab308',
+    longDescription: `L'énergie nucléaire fournit une source d'électricité bas carbone. Sa part dans le mix énergétique mondial est relativement stable, avec des variations selon les politiques nationales.`,
+  },
+  energy_renewables: {
+    name: 'Conso. Mondiale Renouvelables',
+    description: 'Consommation mondiale d\'énergies renouvelables en quadrillions de BTU',
+    category: 'Énergie',
+    color: '#22c55e',
+    longDescription: `Les énergies renouvelables (solaire, éolien, hydraulique, biomasse) connaissent une croissance exponentielle. Elles représentent l'avenir de la transition énergétique mondiale.`,
+  },
 };
 
 export function getStaticPaths() {
   // Liste statique des indicateurs disponibles pour la génération
-  const slugs = ['sp500', 'nasdaq', 'cac40', 'dax', 'nikkei', 'gold', 'silver', 'brent', 'natgas', 'eurusd', 'bitcoin', 'fr10y'];
+  const slugs = [
+    'sp500', 'nasdaq', 'cac40', 'dax', 'nikkei',
+    'gold', 'silver', 'brent', 'natgas',
+    'eurusd', 'bitcoin', 'fr10y',
+    // EIA Energy indicators
+    'oil_consumption_world', 'oil_consumption_usa', 'oil_consumption_china', 'oil_consumption_oecd',
+    'us_oil_stocks',
+    'energy_petroleum', 'energy_natgas', 'energy_coal', 'energy_nuclear', 'energy_renewables'
+  ];
   return slugs.map((slug) => ({
     params: { slug },
   }));
