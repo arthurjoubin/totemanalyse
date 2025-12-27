@@ -2,9 +2,13 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import { sortAnalysesByDate } from '../utils/sort';
+import { portfolio, watchlist, updates } from '../data/portfolio';
 
 const analyses = sortAnalysesByDate(await getCollection('analyses'));
 const latestAnalysis = analyses[0];
+
+// Trier le portefeuille par poids décroissant
+const sortedPortfolio = [...portfolio].sort((a, b) => b.weight - a.weight);
 ---
 
 <BaseLayout title="Totem Analyse - Lettre d'Investissement">
@@ -84,89 +88,120 @@ const latestAnalysis = analyses[0];
           <span class="text-xs text-gray-500 uppercase tracking-wide font-medium">Poids</span>
         </div>
 
-        <!-- Position 1 - Harris Technology -->
-        <div class="portfolio-item group border-b border-gray-100 last:border-b-0">
-          <div class="flex items-center justify-between px-5 py-4">
-            <div class="flex items-center gap-4">
-              <span class="rank-number text-2xl font-bold text-totem-green">1</span>
-              <div>
-                <div class="flex items-center gap-2 mb-1">
-                  <span class="font-semibold text-gray-900">Harris Technology</span>
-                  <span class="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs font-medium">HT8</span>
-                </div>
-                <div class="flex items-center gap-2">
-                  <span class="text-xs text-gray-500">🇦🇺 ASX</span>
-                  <span class="text-xs text-gray-400">•</span>
-                  <span class="text-xs text-amber-600">Analyse à venir</span>
-                </div>
-              </div>
-            </div>
-            <div class="weight-bar w-24">
-              <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
-                <div class="h-full bg-totem-green rounded-full" style="width: 100%"></div>
-              </div>
-            </div>
-          </div>
-        </div>
+        {sortedPortfolio.map((position, index) => {
+          const isLast = index === sortedPortfolio.length - 1;
+          const hasAnalysis = !!position.analysisSlug;
+          const Tag = hasAnalysis ? 'a' : 'div';
 
-        <!-- Position 2 - Snack Empire -->
-        <a href="/analyses/snack-empire" class="portfolio-item group border-b border-gray-100 last:border-b-0 block hover:bg-gray-50 transition-colors">
-          <div class="flex items-center justify-between px-5 py-4">
-            <div class="flex items-center gap-4">
-              <span class="rank-number text-2xl font-bold text-totem-green">2</span>
-              <div>
-                <div class="flex items-center gap-2 mb-1">
-                  <span class="font-semibold text-gray-900 group-hover:text-totem-green transition-colors">Snack Empire</span>
-                  <span class="px-2 py-0.5 bg-totem-green text-white text-xs font-medium">AWH</span>
+          return (
+            <Tag
+              href={hasAnalysis ? `/analyses/${position.analysisSlug}` : undefined}
+              class={`portfolio-item group block ${!isLast ? 'border-b border-gray-100' : ''} ${hasAnalysis ? 'hover:bg-gray-50 transition-colors cursor-pointer' : ''}`}
+            >
+              <div class="px-5 py-4">
+                <div class="flex items-center justify-between mb-2">
+                  <div class="flex items-center gap-4">
+                    <span class="rank-number text-2xl font-bold text-totem-green">{index + 1}</span>
+                    <div>
+                      <div class="flex items-center gap-2 mb-1">
+                        <span class={`font-semibold text-gray-900 ${hasAnalysis ? 'group-hover:text-totem-green transition-colors' : ''}`}>{position.name}</span>
+                        <span class={`px-2 py-0.5 text-xs font-medium ${hasAnalysis ? 'bg-totem-green text-white' : 'bg-gray-100 text-gray-600'}`}>{position.ticker}</span>
+                      </div>
+                      <div class="flex items-center gap-2">
+                        <span class="text-xs text-gray-500">{position.flag} {position.exchange}</span>
+                        <span class="text-xs text-gray-400">•</span>
+                        {hasAnalysis ? (
+                          <span class="text-xs text-totem-green font-medium">Voir l'analyse →</span>
+                        ) : (
+                          <span class="text-xs text-amber-600">Analyse à venir</span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="weight-bar w-24">
+                    <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
+                      <div class="h-full bg-totem-green rounded-full" style={`width: ${position.weight}%`}></div>
+                    </div>
+                  </div>
                 </div>
-                <div class="flex items-center gap-2">
-                  <span class="text-xs text-gray-500">🇸🇬 SGX</span>
-                  <span class="text-xs text-gray-400">•</span>
-                  <span class="text-xs text-totem-green font-medium">Voir l'analyse →</span>
-                </div>
+                <p class="text-xs text-gray-500 italic pl-12 border-l-2 border-gray-100 ml-3">{position.thesis}</p>
               </div>
-            </div>
-            <div class="weight-bar w-24">
-              <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
-                <div class="h-full bg-totem-green rounded-full" style="width: 70%"></div>
-              </div>
-            </div>
-          </div>
-        </a>
-
-        <!-- Position 3 - Duolingo -->
-        <a href="/analyses/duolingo" class="portfolio-item group block hover:bg-gray-50 transition-colors">
-          <div class="flex items-center justify-between px-5 py-4">
-            <div class="flex items-center gap-4">
-              <span class="rank-number text-2xl font-bold text-totem-green">3</span>
-              <div>
-                <div class="flex items-center gap-2 mb-1">
-                  <span class="font-semibold text-gray-900 group-hover:text-totem-green transition-colors">Duolingo</span>
-                  <span class="px-2 py-0.5 bg-totem-green text-white text-xs font-medium">DUOL</span>
-                </div>
-                <div class="flex items-center gap-2">
-                  <span class="text-xs text-gray-500">🇺🇸 NASDAQ</span>
-                  <span class="text-xs text-gray-400">•</span>
-                  <span class="text-xs text-totem-green font-medium">Voir l'analyse →</span>
-                </div>
-              </div>
-            </div>
-            <div class="weight-bar w-24">
-              <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
-                <div class="h-full bg-totem-green rounded-full" style="width: 50%"></div>
-              </div>
-            </div>
-          </div>
-        </a>
+            </Tag>
+          );
+        })}
       </div>
       <p class="text-xs text-gray-400 mt-2 text-center italic">Classé par taille de position</p>
     </div>
 
-    <!-- Description -->
-    <div class="mb-10 text-center">
-      <p class="text-gray-600 leading-relaxed text-sm">
-        Recherche fondamentale, valorisation et thèses d'investissement sur des entreprises cotées.
-      </p>
+    <!-- Watchlist Section -->
+    <div class="mb-10">
+      <p class="text-xs text-gray-500 uppercase tracking-wide mb-3">Watchlist</p>
+      <div class="bg-white border border-gray-200">
+        <div class="grid divide-y divide-gray-100">
+          {watchlist.map((item) => (
+            <div class="px-5 py-3 hover:bg-gray-50 transition-colors">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <span class="text-lg">{item.flag}</span>
+                  <div>
+                    <div class="flex items-center gap-2">
+                      <span class="font-medium text-gray-900 text-sm">{item.name}</span>
+                      <span class="px-1.5 py-0.5 bg-gray-100 text-gray-500 text-xs">{item.ticker}</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-0.5">{item.note}</p>
+                  </div>
+                </div>
+                <span class="text-xs text-gray-400">{item.exchange}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <p class="text-xs text-gray-400 mt-2 text-center italic">Entreprises suivies, pas encore en portefeuille</p>
+    </div>
+
+    <!-- Updates Feed -->
+    <div class="mb-10">
+      <p class="text-xs text-gray-500 uppercase tracking-wide mb-3">Dernières Mises à Jour</p>
+      <div class="bg-white border border-gray-200">
+        <div class="divide-y divide-gray-100">
+          {updates.slice(0, 5).map((update) => (
+            <div class="px-5 py-3 flex items-start gap-3">
+              <span class={`shrink-0 w-2 h-2 rounded-full mt-1.5 ${
+                update.type === 'new' ? 'bg-green-500' :
+                update.type === 'sold' ? 'bg-red-500' :
+                update.type === 'watch' ? 'bg-blue-500' :
+                'bg-amber-500'
+              }`}></span>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2">
+                  <span class="font-medium text-gray-900 text-sm">{update.text}</span>
+                </div>
+                <div class="flex items-center gap-2 mt-0.5">
+                  <span class="text-xs text-gray-400">{update.date}</span>
+                  <span class="px-1.5 py-0.5 bg-gray-100 text-gray-500 text-xs">{update.ticker}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Newsletter Signup -->
+    <div class="mb-10">
+      <div class="bg-gradient-to-br from-totem-green to-totem-light p-6 text-white text-center">
+        <h3 class="text-lg font-bold mb-2">Recevez nos analyses</h3>
+        <p class="text-sm opacity-90 mb-4">Une analyse approfondie par mois, directement dans votre boîte mail.</p>
+        <iframe
+          src="https://totemanalyse.substack.com/embed"
+          width="100%"
+          height="80"
+          style="background: transparent;"
+          frameborder="0"
+          scrolling="no"
+        ></iframe>
+      </div>
     </div>
 
     <!-- Social Links -->
