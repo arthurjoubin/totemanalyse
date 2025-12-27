@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { getCollection } from 'astro:content';
+import { sortHistoiresByDate } from '../../utils/sort';
+
+const histoires = sortHistoiresByDate(await getCollection('histoires'));
+---
+
+<BaseLayout title="Histoires - Totem Analyse" description="Découvrez les grandes histoires d'entreprises qui ont façonné les marchés financiers : scandales, success stories et leçons d'investissement.">
+  <div class="container mx-auto px-6 py-8 max-w-5xl">
+    <Header showHistoiresLink={false} />
+
+    <!-- Page Title -->
+    <div class="mb-10 border-b border-gray-200 pb-6">
+      <h1 class="text-3xl font-bold text-gray-900 mb-2">Histoires</h1>
+      <p class="text-gray-600">Les grandes histoires d'entreprises qui ont façonné les marchés</p>
+    </div>
+
+    <!-- Histoires List -->
+    <div class="space-y-6">
+      {histoires.map((histoire) => (
+        <a href={`/histoires/${histoire.slug}`} class="group block bg-white border border-gray-200 hover:border-amber-500 transition-colors duration-200">
+          <div class="flex flex-col md:flex-row">
+            <div class="md:w-36 h-32 md:h-auto bg-amber-50 flex items-center justify-center border-b md:border-b-0 md:border-r border-gray-200">
+              <span class="text-5xl">{histoire.data.emoji}</span>
+            </div>
+            <div class="flex-1 p-5">
+              <div class="flex items-center gap-2 mb-2">
+                {histoire.data.series && (
+                  <span class="px-2 py-0.5 bg-amber-100 text-amber-800 text-xs font-medium">{histoire.data.series}</span>
+                )}
+                {histoire.data.tags.map((tag: string) => (
+                  <span class="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs">{tag}</span>
+                ))}
+              </div>
+              <h2 class="text-xl font-bold text-gray-900 group-hover:text-amber-600 transition-colors mb-2">
+                {histoire.data.title}
+              </h2>
+              <p class="text-gray-600 text-sm mb-3 line-clamp-2">{histoire.data.description}</p>
+              <div class="flex items-center gap-3 text-xs text-gray-500">
+                <span>{histoire.data.publishDate}</span>
+                <span class="text-gray-300">|</span>
+                <span>{histoire.data.readTime}</span>
+              </div>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    {histoires.length === 0 && (
+      <div class="text-center py-12 text-gray-500">
+        <p>Aucune histoire publiée pour le moment.</p>
+      </div>
+    )}
+
+    <Footer />
+  </div>
+</BaseLayout>

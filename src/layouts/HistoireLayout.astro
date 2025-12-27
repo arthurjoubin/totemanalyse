@@ -1,0 +1,83 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import RelatedHistoiresSidebar from '../components/RelatedHistoiresSidebar.astro';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  frontmatter: {
+    title: string;
+    description: string;
+    publishDate: string;
+    readTime: string;
+    emoji: string;
+    tags: string[];
+    coverImage?: string;
+    series?: string;
+  };
+  slug?: string;
+  headings?: Heading[];
+}
+
+const { frontmatter, slug = '', headings = [] } = Astro.props;
+---
+
+<BaseLayout
+  title={`${frontmatter.title} - Totem Analyse`}
+  description={frontmatter.description}
+>
+  <div class="container mx-auto px-6 py-8 max-w-6xl">
+    <Header />
+
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      <!-- Main Content -->
+      <div class="lg:col-span-3 space-y-6">
+        <article class="bg-white border border-gray-200 p-8 md:p-12">
+          <!-- Article Header -->
+          <header class="mb-10 pb-8 border-b border-gray-200">
+            <div class="flex items-center gap-2 mb-4">
+              {frontmatter.series && (
+                <span class="px-2 py-0.5 bg-amber-100 text-amber-800 text-xs font-medium">{frontmatter.series}</span>
+              )}
+              {frontmatter.tags.map((tag: string) => (
+                <span class="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs">{tag}</span>
+              ))}
+            </div>
+            <div class="flex items-start gap-4 mb-4">
+              <span class="text-5xl">{frontmatter.emoji}</span>
+              <div>
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2 leading-tight">{frontmatter.title}</h1>
+                <p class="text-lg text-gray-600 leading-relaxed">{frontmatter.description}</p>
+              </div>
+            </div>
+            <p class="text-sm text-gray-500">
+              Publié le {frontmatter.publishDate} · {frontmatter.readTime}
+            </p>
+          </header>
+
+          <!-- Article Content -->
+          <div class="prose prose-lg max-w-none prose-headings:font-bold prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3 prose-p:text-gray-700 prose-p:leading-relaxed prose-li:text-gray-700 prose-strong:text-gray-900 prose-blockquote:border-l-4 prose-blockquote:border-amber-400 prose-blockquote:bg-amber-50 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:italic">
+            <slot />
+          </div>
+        </article>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="lg:col-span-1">
+        <div class="sticky top-6 space-y-6">
+          <TableOfContents headings={headings} />
+          <RelatedHistoiresSidebar currentSlug={slug} />
+        </div>
+      </div>
+    </div>
+
+    <Footer />
+  </div>
+</BaseLayout>
