@@ -58,7 +58,6 @@ watchlist:
 ## Philosophie d'investissement
 
 Nous recherchons des entreprises avec :
-- **Avantages concurrentiels durables** - Moats identifiables et défendables
 - **Management aligné** - Skin in the game significatif
 - **Valorisation attractive** - Marge de sécurité suffisante
 - **Catalyseurs identifiés** - Événements pouvant débloquer de la valeur
