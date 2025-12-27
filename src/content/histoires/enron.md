@@ -9,8 +9,6 @@ series: "Les grands scandales"
 coverImage: "/images/histoires/enron/cover.png"
 ---
 
-<img src="/images/histoires/enron/cover.png" alt="Enron - Le scandale comptable" class="w-full rounded-lg mb-8" />
-
 ## L'avènement d'un nouveau géant de l'énergie
 
 Enron a été fondée en 1985 par Kenneth Lay, figure influente conseillant le gouvernement américain et proche des Bush. L'entreprise résultait d'une fusion entre deux acteurs du secteur énergétique.
