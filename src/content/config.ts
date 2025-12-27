@@ -28,6 +28,29 @@ const analysesCollection = defineCollection({
   }),
 });
 
+// Schema pour une position (portfolio ou watchlist)
+const positionSchema = z.object({
+  name: z.string(),
+  ticker: z.string(),
+  exchange: z.string(),
+  flag: z.string(),
+  thesis: z.string(),
+  weight: z.number().optional(),
+  analysisSlug: z.string().optional(),
+});
+
+const portefeuilleCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    lastUpdated: z.string(),
+    portfolio: z.array(positionSchema),
+    watchlist: z.array(positionSchema),
+  }),
+});
+
 export const collections = {
   'analyses': analysesCollection,
+  'portefeuille': portefeuilleCollection,
 };
