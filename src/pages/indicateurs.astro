@@ -11,10 +11,37 @@ import LocalChart from '../components/LocalChart';
 
     <main>
       <!-- Header -->
-      <div class="text-center mb-10">
+      <div class="text-center mb-8">
         <h1 class="text-3xl font-bold text-gray-900 mb-2">Indicateurs Clés</h1>
         <p class="text-gray-600">Évolution sur 10 ans des principaux indicateurs économiques et financiers</p>
         <p class="text-xs text-gray-400 mt-2" id="last-updated"></p>
+      </div>
+
+      <!-- Contrôles globaux de timeline -->
+      <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-8">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+          <span class="text-sm font-medium text-gray-700">Période d'affichage pour tous les graphiques :</span>
+          <div class="flex gap-2" id="global-time-controls">
+            <button
+              data-range="1y"
+              class="px-4 py-2 text-sm rounded transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200"
+            >
+              1 an
+            </button>
+            <button
+              data-range="5y"
+              class="px-4 py-2 text-sm rounded transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200"
+            >
+              5 ans
+            </button>
+            <button
+              data-range="10y"
+              class="px-4 py-2 text-sm rounded transition-colors bg-totem-green text-white"
+            >
+              10 ans
+            </button>
+          </div>
+        </div>
       </div>
 
       <!-- Indices Boursiers -->
@@ -115,4 +142,29 @@ import LocalChart from '../components/LocalChart';
         el.textContent = `Données mises à jour le ${date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}`;
       }
     });
+
+  // Gérer les contrôles globaux de timeline
+  const globalControls = document.getElementById('global-time-controls');
+  if (globalControls) {
+    const buttons = globalControls.querySelectorAll('button');
+
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        const range = button.getAttribute('data-range');
+
+        // Mettre à jour l'apparence des boutons
+        buttons.forEach(btn => {
+          if (btn === button) {
+            btn.className = 'px-4 py-2 text-sm rounded transition-colors bg-totem-green text-white';
+          } else {
+            btn.className = 'px-4 py-2 text-sm rounded transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200';
+          }
+        });
+
+        // Émettre un événement personnalisé pour informer les composants
+        const event = new CustomEvent('globalTimeRangeChange', { detail: { range } });
+        window.dispatchEvent(event);
+      });
+    });
+  }
 </script>
