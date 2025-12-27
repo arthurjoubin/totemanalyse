@@ -2,10 +2,10 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import LocalChart from '../components/LocalChart';
+import ChartCard from '../components/ChartCard.astro';
 ---
 
-<BaseLayout title="Indicateurs Clés - Totem Analyse" description="Évolution sur 10 ans des principaux indicateurs économiques et financiers">
+<BaseLayout title="Indicateurs Clés - Totem Analyse" description="Évolution sur 20 ans des principaux indicateurs économiques et financiers">
   <div class="container mx-auto px-6 py-8 max-w-6xl">
     <Header />
 
@@ -13,7 +13,7 @@ import LocalChart from '../components/LocalChart';
       <!-- Header -->
       <div class="text-center mb-8">
         <h1 class="text-3xl font-bold text-gray-900 mb-2">Indicateurs Clés</h1>
-        <p class="text-gray-600">Évolution sur 10 ans des principaux indicateurs économiques et financiers</p>
+        <p class="text-gray-600">Évolution sur 20 ans des principaux indicateurs économiques et financiers</p>
         <p class="text-xs text-gray-400 mt-2" id="last-updated"></p>
       </div>
 
@@ -40,6 +40,12 @@ import LocalChart from '../components/LocalChart';
             >
               10 ans
             </button>
+            <button
+              data-range="20y"
+              class="px-4 py-2 text-sm rounded transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200"
+            >
+              20 ans
+            </button>
           </div>
         </div>
       </div>
@@ -50,8 +56,11 @@ import LocalChart from '../components/LocalChart';
           <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Indices Boursiers</h2>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <LocalChart client:load indicatorKey="sp500" color="#006B4F" />
-          <LocalChart client:load indicatorKey="cac40" color="#1e40af" />
+          <ChartCard indicatorKey="sp500" color="#006B4F" name="S&P 500" />
+          <ChartCard indicatorKey="nasdaq" color="#00d4aa" name="NASDAQ" />
+          <ChartCard indicatorKey="cac40" color="#1e40af" name="CAC 40" />
+          <ChartCard indicatorKey="dax" color="#dc2626" name="DAX" />
+          <ChartCard indicatorKey="nikkei" color="#ec4899" name="Nikkei 225" />
         </div>
       </section>
 
@@ -61,18 +70,20 @@ import LocalChart from '../components/LocalChart';
           <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Matières Premières</h2>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <LocalChart client:load indicatorKey="gold" color="#ca8a04" />
-          <LocalChart client:load indicatorKey="brent" color="#0f172a" />
+          <ChartCard indicatorKey="gold" color="#ca8a04" name="l'Or" />
+          <ChartCard indicatorKey="silver" color="#94a3b8" name="l'Argent" />
+          <ChartCard indicatorKey="brent" color="#0f172a" name="le Brent" />
+          <ChartCard indicatorKey="natgas" color="#0ea5e9" name="le Gaz Naturel" />
         </div>
       </section>
 
-      <!-- Crypto -->
+      <!-- Devises -->
       <section class="mb-10">
         <div class="flex items-center gap-3 mb-4">
-          <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Cryptomonnaies</h2>
+          <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Devises</h2>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <LocalChart client:load indicatorKey="bitcoin" color="#f7931a" />
+          <ChartCard indicatorKey="eurusd" color="#2563eb" name="EUR/USD" />
         </div>
       </section>
 
@@ -82,20 +93,17 @@ import LocalChart from '../components/LocalChart';
           <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Taux et Obligations</h2>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <LocalChart client:load indicatorKey="fr10y" color="#dc2626" />
-          <LocalChart client:load indicatorKey="ecb" color="#2563eb" />
-          <LocalChart client:load indicatorKey="fed" color="#059669" />
+          <ChartCard indicatorKey="fr10y" color="#dc2626" name="le Taux US 10 ans" />
         </div>
       </section>
 
-      <!-- Immobilier -->
+      <!-- Crypto -->
       <section class="mb-10">
         <div class="flex items-center gap-3 mb-4">
-          <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Immobilier</h2>
+          <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Cryptomonnaies</h2>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <LocalChart client:load indicatorKey="immoParis" color="#7c3aed" />
-          <LocalChart client:load indicatorKey="immoFrance" color="#be185d" />
+          <ChartCard indicatorKey="bitcoin" color="#f7931a" name="le Bitcoin" />
         </div>
       </section>
 
@@ -104,18 +112,14 @@ import LocalChart from '../components/LocalChart';
         <div class="bg-gray-50 border border-gray-200 p-6">
           <h3 class="font-semibold text-gray-900 mb-2">Sources des données</h3>
           <p class="text-sm text-gray-600 mb-3">
-            Les données sont hébergées localement et mises à jour périodiquement. Sources utilisées :
+            Les données sont mises à jour automatiquement via GitHub Actions. Sources utilisées :
           </p>
           <ul class="text-sm text-gray-600 list-disc pl-5 space-y-1">
-            <li><strong>Indices boursiers</strong> — Yahoo Finance, données mensuelles</li>
-            <li><strong>Matières premières</strong> — World Gold Council, EIA</li>
-            <li><strong>Cryptomonnaies</strong> — CoinGecko</li>
-            <li><strong>Taux et obligations</strong> — Banque de France, BCE, Fed</li>
-            <li><strong>Immobilier</strong> — Notaires de France (indices Notaires-INSEE)</li>
+            <li><strong>Indices boursiers</strong> — Yahoo Finance (S&P 500, CAC 40)</li>
+            <li><strong>Matières premières</strong> — Yahoo Finance (Or, Brent)</li>
+            <li><strong>Cryptomonnaies</strong> — Yahoo Finance (Bitcoin)</li>
+            <li><strong>Taux</strong> — Yahoo Finance (US 10 ans)</li>
           </ul>
-          <p class="text-xs text-gray-400 mt-4">
-            Les données sont mises à jour manuellement. Fichier source : <code>/public/data/indicators.json</code>
-          </p>
         </div>
       </section>
 

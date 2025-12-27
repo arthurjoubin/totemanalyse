@@ -21,7 +21,7 @@ SCRIPT_DIR = Path(__file__).parent
 DATA_FILE = SCRIPT_DIR.parent / "public" / "data" / "indicators.json"
 
 
-def get_yahoo_chart(symbol: str, range_: str = "10y", interval: str = "1mo") -> list:
+def get_yahoo_chart(symbol: str, range_: str = "20y", interval: str = "1mo") -> list:
     """Récupère les données depuis Yahoo Finance Chart API (sans lib externe)."""
     try:
         url = f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}"
@@ -68,7 +68,7 @@ def get_coingecko_data(coin_id: str = "bitcoin") -> list:
         url = f"https://api.coingecko.com/api/v3/coins/{coin_id}/market_chart"
         params = {
             "vs_currency": "usd",
-            "days": "3650",
+            "days": "max",
             "interval": "monthly"
         }
 
@@ -114,7 +114,7 @@ def get_ecb_rate() -> list:
                     "value": round(value, 2)
                 })
 
-        return sorted(data, key=lambda x: x["date"])[-120:]
+        return sorted(data, key=lambda x: x["date"])[-240:]
 
     except Exception as e:
         print(f"    ✗ Erreur ECB: {e}")
@@ -134,7 +134,7 @@ def get_fred_data(series_id: str) -> list:
             "api_key": api_key,
             "file_type": "json",
             "frequency": "m",
-            "observation_start": (datetime.now() - timedelta(days=3650)).strftime("%Y-%m-%d")
+            "observation_start": (datetime.now() - timedelta(days=7300)).strftime("%Y-%m-%d")
         }
 
         response = requests.get(url, params=params, timeout=30)
@@ -178,11 +178,23 @@ def main():
 
     # Configuration Yahoo Finance
     yahoo_config = {
+        # Indices
         "sp500": ("^GSPC", "S&P 500", "Indice des 500 plus grandes entreprises américaines", "points"),
         "cac40": ("^FCHI", "CAC 40", "Indice des 40 plus grandes entreprises françaises", "points"),
+        "nasdaq": ("^IXIC", "NASDAQ", "Indice des valeurs technologiques américaines", "points"),
+        "dax": ("^GDAXI", "DAX", "Indice des 40 plus grandes entreprises allemandes", "points"),
+        "nikkei": ("^N225", "Nikkei 225", "Indice des 225 plus grandes entreprises japonaises", "points"),
+        # Matières premières
         "gold": ("GC=F", "Or (Gold)", "Prix de l'once d'or en USD", "$/oz"),
+        "silver": ("SI=F", "Argent (Silver)", "Prix de l'once d'argent en USD", "$/oz"),
         "brent": ("BZ=F", "Brent (Pétrole)", "Prix du baril de Brent en USD", "$/baril"),
+        "natgas": ("NG=F", "Gaz Naturel", "Prix du gaz naturel en USD", "$/MMBtu"),
+        # Devises
+        "eurusd": ("EURUSD=X", "EUR/USD", "Taux de change Euro/Dollar", ""),
+        # Taux
         "fr10y": ("^TNX", "Taux US 10 ans", "Rendement des obligations d'État américaines à 10 ans", "%"),
+        # Crypto
+        "bitcoin": ("BTC-USD", "Bitcoin (BTC)", "Prix du Bitcoin en USD", "$"),
     }
 
     # Yahoo Finance
@@ -201,59 +213,6 @@ def main():
             print(f"    ✓ {len(data)} points")
         elif key in indicators:
             print(f"    ⚠ Données existantes conservées")
-
-    # CoinGecko
-    print("\n🪙 CoinGecko...")
-    print("  → Bitcoin")
-    btc_data = get_coingecko_data("bitcoin")
-    if btc_data:
-        indicators["bitcoin"] = {
-            "name": "Bitcoin (BTC)",
-            "description": "Prix du Bitcoin en USD",
-            "unit": "$",
-            "source": "CoinGecko",
-            "data": btc_data
-        }
-        print(f"    ✓ {len(btc_data)} points")
-
-    # ECB
-    print("\n🏦 ECB...")
-    print("  → Taux directeur BCE")
-    ecb_data = get_ecb_rate()
-    if ecb_data:
-        indicators["ecb"] = {
-            "name": "Taux directeur BCE",
-            "description": "Taux d'intérêt principal de la Banque Centrale Européenne",
-            "unit": "%",
-            "source": "ECB",
-            "data": ecb_data
-        }
-        print(f"    ✓ {len(ecb_data)} points")
-
-    # FRED
-    if os.environ.get("FRED_API_KEY"):
-        print("\n📈 FRED...")
-        print("  → Taux Fed")
-        fed_data = get_fred_data("FEDFUNDS")
-        if fed_data:
-            indicators["fed"] = {
-                "name": "Taux directeur Fed",
-                "description": "Taux d'intérêt de la Réserve Fédérale américaine",
-                "unit": "%",
-                "source": "FRED",
-                "data": fed_data
-            }
-            print(f"    ✓ {len(fed_data)} points")
-    else:
-        print("\n⚠ FRED_API_KEY non définie")
-        print("  → Clé gratuite: https://fred.stlouisfed.org/docs/api/api_key.html")
-
-    # Données manuelles
-    print("\n🏠 Données manuelles conservées...")
-    for key in ["immoParis", "immoFrance"]:
-        if key in existing.get("indicators", {}):
-            indicators[key] = existing["indicators"][key]
-            print(f"  → {key}: ✓")
 
     # Sauvegarder
     result = {
