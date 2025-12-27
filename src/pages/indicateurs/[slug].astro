@@ -1,0 +1,214 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import LocalChart from '../../components/LocalChart';
+import IndicatorNavigation from '../../components/IndicatorNavigation';
+
+// Définition des indicateurs disponibles
+const indicatorsConfig = {
+  sp500: {
+    name: 'S&P 500',
+    description: 'Indice des 500 plus grandes entreprises américaines cotées en bourse',
+    category: 'Indices Boursiers',
+    color: '#006B4F',
+    longDescription: `Le S&P 500 est l'un des indices boursiers les plus suivis au monde. Il regroupe les 500 plus grandes entreprises américaines cotées en bourse, pondérées par leur capitalisation boursière. Cet indice est souvent considéré comme le baromètre de l'économie américaine.`,
+  },
+  cac40: {
+    name: 'CAC 40',
+    description: 'Indice des 40 plus grandes entreprises françaises',
+    category: 'Indices Boursiers',
+    color: '#1e40af',
+    longDescription: `Le CAC 40 (Cotation Assistée en Continu) est l'indice phare de la Bourse de Paris. Il regroupe les 40 plus grandes capitalisations boursières françaises et constitue un indicateur clé de la santé économique de la France.`,
+  },
+  gold: {
+    name: 'Or (Gold)',
+    description: 'Prix de l\'once d\'or en dollars américains',
+    category: 'Matières Premières',
+    color: '#ca8a04',
+    longDescription: `L'or est traditionnellement considéré comme une valeur refuge en période d'incertitude économique. Son prix est influencé par l'inflation, les taux d'intérêt, la force du dollar et les tensions géopolitiques.`,
+  },
+  brent: {
+    name: 'Pétrole Brent',
+    description: 'Prix du baril de Brent en dollars américains',
+    category: 'Matières Premières',
+    color: '#0f172a',
+    longDescription: `Le Brent est la référence mondiale pour le prix du pétrole brut. Son cours influence directement le prix de l'essence, le coût du transport et de nombreux produits dérivés du pétrole.`,
+  },
+  bitcoin: {
+    name: 'Bitcoin (BTC)',
+    description: 'Prix du Bitcoin en dollars américains',
+    category: 'Cryptomonnaies',
+    color: '#f7931a',
+    longDescription: `Le Bitcoin est la première et la plus célèbre des cryptomonnaies. Créé en 2009, il a révolutionné le monde de la finance en introduisant un système de paiement décentralisé basé sur la blockchain.`,
+  },
+  fr10y: {
+    name: 'Taux US 10 ans',
+    description: 'Rendement des obligations d\'État américaines à 10 ans',
+    category: 'Taux et Obligations',
+    color: '#dc2626',
+    longDescription: `Le taux des obligations américaines à 10 ans est un indicateur clé des marchés financiers. Il influence les taux hypothécaires, les rendements obligataires et sert de référence pour évaluer le risque de crédit.`,
+  },
+  ecb: {
+    name: 'Taux directeur BCE',
+    description: 'Taux d\'intérêt principal de la Banque Centrale Européenne',
+    category: 'Taux et Obligations',
+    color: '#2563eb',
+    longDescription: `Le taux directeur de la BCE détermine le coût de l'argent dans la zone euro. Il influence directement les taux des crédits immobiliers, des prêts aux entreprises et le rendement de l'épargne.`,
+  },
+  fed: {
+    name: 'Taux directeur Fed',
+    description: 'Taux d\'intérêt de la Réserve Fédérale américaine',
+    category: 'Taux et Obligations',
+    color: '#059669',
+    longDescription: `Le taux des fonds fédéraux est l'outil principal de politique monétaire de la Fed. Ses variations impactent les marchés financiers mondiaux, le cours du dollar et l'économie américaine.`,
+  },
+  immoParis: {
+    name: 'Immobilier Paris',
+    description: 'Prix moyen au m² à Paris (appartements anciens)',
+    category: 'Immobilier',
+    color: '#7c3aed',
+    longDescription: `Le marché immobilier parisien est l'un des plus chers au monde. L'évolution des prix au m² reflète la demande soutenue pour la capitale française et les tendances du marché immobilier de luxe.`,
+  },
+  immoFrance: {
+    name: 'Immobilier France',
+    description: 'Prix moyen au m² en France (appartements anciens)',
+    category: 'Immobilier',
+    color: '#be185d',
+    longDescription: `L'indice des prix immobiliers en France donne une vision globale de l'évolution du marché résidentiel français, hors Paris, et permet de comparer les tendances régionales.`,
+  },
+};
+
+export function getStaticPaths() {
+  return Object.keys(indicatorsConfig).map((slug) => ({
+    params: { slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const config = indicatorsConfig[slug as keyof typeof indicatorsConfig];
+
+if (!config) {
+  return Astro.redirect('/indicateurs/');
+}
+---
+
+<BaseLayout title={`${config.name} - Indicateurs Totem Analyse`} description={config.description}>
+  <div class="container mx-auto px-6 py-8 max-w-4xl">
+    <Header />
+
+    <main>
+      <!-- Breadcrumb -->
+      <nav class="mb-6">
+        <ol class="flex items-center gap-2 text-sm text-gray-500">
+          <li><a href="/" class="hover:text-totem-green transition-colors">Accueil</a></li>
+          <li>/</li>
+          <li><a href="/indicateurs/" class="hover:text-totem-green transition-colors">Indicateurs</a></li>
+          <li>/</li>
+          <li class="text-gray-900 font-medium">{config.name}</li>
+        </ol>
+      </nav>
+
+      <!-- Header -->
+      <div class="mb-8">
+        <span class="inline-block px-3 py-1 text-xs font-semibold text-gray-600 bg-gray-100 rounded-full mb-3">
+          {config.category}
+        </span>
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">{config.name}</h1>
+        <p class="text-gray-600">{config.description}</p>
+      </div>
+
+      <!-- Contrôles de timeline -->
+      <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+          <span class="text-sm font-medium text-gray-700">Période d'affichage :</span>
+          <div class="flex gap-2" id="time-controls">
+            <button
+              data-range="1y"
+              class="px-4 py-2 text-sm rounded transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200"
+            >
+              1 an
+            </button>
+            <button
+              data-range="5y"
+              class="px-4 py-2 text-sm rounded transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200"
+            >
+              5 ans
+            </button>
+            <button
+              data-range="10y"
+              class="px-4 py-2 text-sm rounded transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200"
+            >
+              10 ans
+            </button>
+            <button
+              data-range="20y"
+              class="px-4 py-2 text-sm rounded transition-colors bg-totem-green text-white"
+            >
+              20 ans
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Graphique principal (plus grand) -->
+      <div class="mb-8">
+        <div class="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
+          <LocalChart
+            client:load
+            indicatorKey={slug}
+            color={config.color}
+            fullPage={true}
+          />
+        </div>
+      </div>
+
+      <!-- Description détaillée -->
+      <div class="bg-white border border-gray-200 rounded-lg p-6 mb-8">
+        <h2 class="text-lg font-semibold text-gray-900 mb-3">À propos de cet indicateur</h2>
+        <p class="text-gray-600 leading-relaxed">
+          {config.longDescription}
+        </p>
+      </div>
+
+      <!-- Navigation vers autres indicateurs -->
+      <IndicatorNavigation client:load currentIndicator={slug} />
+
+      <!-- Back link -->
+      <div class="text-center mt-8">
+        <a href="/indicateurs/" class="text-totem-green hover:text-totem-light text-sm font-medium">
+          ← Retour aux indicateurs
+        </a>
+      </div>
+    </main>
+
+    <Footer />
+  </div>
+</BaseLayout>
+
+<script>
+  // Gérer les contrôles de timeline
+  const timeControls = document.getElementById('time-controls');
+  if (timeControls) {
+    const buttons = timeControls.querySelectorAll('button');
+
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        const range = button.getAttribute('data-range');
+
+        // Mettre à jour l'apparence des boutons
+        buttons.forEach(btn => {
+          if (btn === button) {
+            btn.className = 'px-4 py-2 text-sm rounded transition-colors bg-totem-green text-white';
+          } else {
+            btn.className = 'px-4 py-2 text-sm rounded transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200';
+          }
+        });
+
+        // Émettre un événement personnalisé pour informer le composant
+        const event = new CustomEvent('globalTimeRangeChange', { detail: { range } });
+        window.dispatchEvent(event);
+      });
+    });
+  }
+</script>

@@ -21,7 +21,7 @@ SCRIPT_DIR = Path(__file__).parent
 DATA_FILE = SCRIPT_DIR.parent / "public" / "data" / "indicators.json"
 
 
-def get_yahoo_chart(symbol: str, range_: str = "10y", interval: str = "1mo") -> list:
+def get_yahoo_chart(symbol: str, range_: str = "20y", interval: str = "1mo") -> list:
     """Récupère les données depuis Yahoo Finance Chart API (sans lib externe)."""
     try:
         url = f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}"
@@ -68,7 +68,7 @@ def get_coingecko_data(coin_id: str = "bitcoin") -> list:
         url = f"https://api.coingecko.com/api/v3/coins/{coin_id}/market_chart"
         params = {
             "vs_currency": "usd",
-            "days": "3650",
+            "days": "max",
             "interval": "monthly"
         }
 
@@ -114,7 +114,7 @@ def get_ecb_rate() -> list:
                     "value": round(value, 2)
                 })
 
-        return sorted(data, key=lambda x: x["date"])[-120:]
+        return sorted(data, key=lambda x: x["date"])[-240:]
 
     except Exception as e:
         print(f"    ✗ Erreur ECB: {e}")
@@ -134,7 +134,7 @@ def get_fred_data(series_id: str) -> list:
             "api_key": api_key,
             "file_type": "json",
             "frequency": "m",
-            "observation_start": (datetime.now() - timedelta(days=3650)).strftime("%Y-%m-%d")
+            "observation_start": (datetime.now() - timedelta(days=7300)).strftime("%Y-%m-%d")
         }
 
         response = requests.get(url, params=params, timeout=30)

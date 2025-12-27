@@ -37,19 +37,20 @@ interface IndicatorData {
   data: DataPoint[];
 }
 
-type TimeRange = '1y' | '5y' | '10y';
+type TimeRange = '1y' | '5y' | '10y' | '20y';
 
 interface LocalChartProps {
   indicatorKey: string;
   color?: string;
   globalTimeRange?: TimeRange;
+  fullPage?: boolean;
 }
 
-export default function LocalChart({ indicatorKey, color = '#006B4F', globalTimeRange }: LocalChartProps) {
+export default function LocalChart({ indicatorKey, color = '#006B4F', globalTimeRange, fullPage = false }: LocalChartProps) {
   const [indicator, setIndicator] = useState<IndicatorData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [localTimeRange, setLocalTimeRange] = useState<TimeRange>('10y');
+  const [localTimeRange, setLocalTimeRange] = useState<TimeRange>(fullPage ? '20y' : '10y');
   const [showCopied, setShowCopied] = useState(false);
   const chartRef = useRef<any>(null);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -58,7 +59,7 @@ export default function LocalChart({ indicatorKey, color = '#006B4F', globalTime
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const urlTimeRange = params.get(`${indicatorKey}_time`) as TimeRange;
-    if (urlTimeRange && ['1y', '5y', '10y'].includes(urlTimeRange)) {
+    if (urlTimeRange && ['1y', '5y', '10y', '20y'].includes(urlTimeRange)) {
       setLocalTimeRange(urlTimeRange);
     }
   }, [indicatorKey]);
@@ -67,7 +68,7 @@ export default function LocalChart({ indicatorKey, color = '#006B4F', globalTime
   useEffect(() => {
     const handleGlobalChange = (event: any) => {
       const newRange = event.detail.range as TimeRange;
-      if (['1y', '5y', '10y'].includes(newRange)) {
+      if (['1y', '5y', '10y', '20y'].includes(newRange)) {
         setLocalTimeRange(newRange);
       }
     };
@@ -119,6 +120,9 @@ export default function LocalChart({ indicatorKey, color = '#006B4F', globalTime
         break;
       case '10y':
         cutoffDate.setFullYear(now.getFullYear() - 10);
+        break;
+      case '20y':
+        cutoffDate.setFullYear(now.getFullYear() - 20);
         break;
     }
 
@@ -193,7 +197,7 @@ export default function LocalChart({ indicatorKey, color = '#006B4F', globalTime
   const change = ((lastValue - firstValue) / firstValue * 100).toFixed(1);
   const isPositive = lastValue >= firstValue;
 
-  const timeRangeLabel = activeTimeRange === '1y' ? '1 an' : activeTimeRange === '5y' ? '5 ans' : '10 ans';
+  const timeRangeLabel = activeTimeRange === '1y' ? '1 an' : activeTimeRange === '5y' ? '5 ans' : activeTimeRange === '10y' ? '10 ans' : '20 ans';
 
   const chartData = {
     labels,
@@ -302,8 +306,8 @@ export default function LocalChart({ indicatorKey, color = '#006B4F', globalTime
           </div>
         </div>
 
-        {/* Contrôles individuels (seulement si pas de contrôle global) */}
-        {!globalTimeRange && (
+        {/* Contrôles individuels (seulement si pas de contrôle global et pas en fullPage) */}
+        {!globalTimeRange && !fullPage && (
           <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-100">
             <div className="flex gap-1">
               <button
@@ -336,6 +340,16 @@ export default function LocalChart({ indicatorKey, color = '#006B4F', globalTime
               >
                 10 ans
               </button>
+              <button
+                onClick={() => setLocalTimeRange('20y')}
+                className={`px-2 py-1 text-xs rounded transition-colors ${
+                  activeTimeRange === '20y'
+                    ? 'bg-totem-green text-white'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+              >
+                20 ans
+              </button>
             </div>
 
             <div className="flex gap-1">
@@ -367,7 +381,7 @@ export default function LocalChart({ indicatorKey, color = '#006B4F', globalTime
         )}
       </div>
 
-      <div className="p-4" style={{ height: '200px' }}>
+      <div className="p-4" style={{ height: fullPage ? '400px' : '200px' }}>
         <Line ref={chartRef} data={chartData} options={options} />
       </div>
 
