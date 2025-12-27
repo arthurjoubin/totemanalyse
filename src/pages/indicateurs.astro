@@ -17,35 +17,20 @@ import ChartCard from '../components/ChartCard.astro';
         <p class="text-xs text-gray-400 mt-2" id="last-updated"></p>
       </div>
 
-      <!-- Navigation rapide -->
-      <div class="border-t border-b border-gray-200 py-3 mb-8 overflow-x-auto">
-        <div class="flex items-center gap-2 min-w-max">
-          <span class="text-xs text-gray-400 uppercase tracking-wide shrink-0">Aller à</span>
-          <span class="text-gray-300 shrink-0">—</span>
-          <a href="#sp500" class="text-sm text-gray-600 hover:text-totem-green transition-colors">S&P 500</a>
-          <span class="text-gray-300">·</span>
-          <a href="#nasdaq" class="text-sm text-gray-600 hover:text-totem-green transition-colors">NASDAQ</a>
-          <span class="text-gray-300">·</span>
-          <a href="#cac40" class="text-sm text-gray-600 hover:text-totem-green transition-colors">CAC 40</a>
-          <span class="text-gray-300">·</span>
-          <a href="#dax" class="text-sm text-gray-600 hover:text-totem-green transition-colors">DAX</a>
-          <span class="text-gray-300">·</span>
-          <a href="#nikkei" class="text-sm text-gray-600 hover:text-totem-green transition-colors">Nikkei</a>
-          <span class="text-gray-300">·</span>
-          <a href="#gold" class="text-sm text-gray-600 hover:text-totem-green transition-colors">Or</a>
-          <span class="text-gray-300">·</span>
-          <a href="#silver" class="text-sm text-gray-600 hover:text-totem-green transition-colors">Argent</a>
-          <span class="text-gray-300">·</span>
-          <a href="#brent" class="text-sm text-gray-600 hover:text-totem-green transition-colors">Pétrole</a>
-          <span class="text-gray-300">·</span>
-          <a href="#natgas" class="text-sm text-gray-600 hover:text-totem-green transition-colors">Gaz</a>
-          <span class="text-gray-300">·</span>
-          <a href="#eurusd" class="text-sm text-gray-600 hover:text-totem-green transition-colors">EUR/USD</a>
-          <span class="text-gray-300">·</span>
-          <a href="#fr10y" class="text-sm text-gray-600 hover:text-totem-green transition-colors">US 10Y</a>
-          <span class="text-gray-300">·</span>
-          <a href="#bitcoin" class="text-sm text-gray-600 hover:text-totem-green transition-colors">Bitcoin</a>
-        </div>
+      <!-- Tabs de navigation principale -->
+      <div class="flex border-b border-gray-200 mb-6" id="main-tabs">
+        <button
+          data-tab="marches"
+          class="px-6 py-3 text-sm font-medium border-b-2 border-totem-green text-totem-green transition-colors"
+        >
+          Marchés
+        </button>
+        <button
+          data-tab="energie"
+          class="px-6 py-3 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors"
+        >
+          Énergie
+        </button>
       </div>
 
       <!-- Contrôles globaux de timeline -->
@@ -79,92 +64,153 @@ import ChartCard from '../components/ChartCard.astro';
             </button>
           </div>
         </div>
+
+        <!-- Toggle tri par performance (seulement pour l'onglet Marchés) -->
+        <div id="sort-controls" class="flex items-center justify-between mt-4 pt-4 border-t border-gray-200">
+          <span class="text-sm font-medium text-gray-700">Trier par performance :</span>
+          <button
+            id="sort-by-performance"
+            class="px-4 py-2 text-sm rounded transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200 flex items-center gap-2"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
+            </svg>
+            <span id="sort-label">Désactivé</span>
+          </button>
+        </div>
       </div>
 
-      <!-- Indices Boursiers -->
-      <section class="mb-10">
-        <div class="flex items-center gap-3 mb-4">
-          <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Indices Boursiers</h2>
+      <!-- ========== TAB MARCHÉS ========== -->
+      <div id="tab-marches">
+        <!-- Navigation rapide pour Marchés -->
+        <div class="border-t border-b border-gray-200 py-3 mb-8 overflow-x-auto" id="quick-nav-marches">
+          <div class="flex items-center gap-2 min-w-max">
+            <span class="text-xs text-gray-400 uppercase tracking-wide shrink-0">Aller à</span>
+            <span class="text-gray-300 shrink-0">—</span>
+            <a href="#sp500" class="text-sm text-gray-600 hover:text-totem-green transition-colors">S&P 500</a>
+            <span class="text-gray-300">·</span>
+            <a href="#nasdaq" class="text-sm text-gray-600 hover:text-totem-green transition-colors">NASDAQ</a>
+            <span class="text-gray-300">·</span>
+            <a href="#cac40" class="text-sm text-gray-600 hover:text-totem-green transition-colors">CAC 40</a>
+            <span class="text-gray-300">·</span>
+            <a href="#dax" class="text-sm text-gray-600 hover:text-totem-green transition-colors">DAX</a>
+            <span class="text-gray-300">·</span>
+            <a href="#nikkei" class="text-sm text-gray-600 hover:text-totem-green transition-colors">Nikkei</a>
+            <span class="text-gray-300">·</span>
+            <a href="#gold" class="text-sm text-gray-600 hover:text-totem-green transition-colors">Or</a>
+            <span class="text-gray-300">·</span>
+            <a href="#silver" class="text-sm text-gray-600 hover:text-totem-green transition-colors">Argent</a>
+            <span class="text-gray-300">·</span>
+            <a href="#brent" class="text-sm text-gray-600 hover:text-totem-green transition-colors">Pétrole</a>
+            <span class="text-gray-300">·</span>
+            <a href="#natgas" class="text-sm text-gray-600 hover:text-totem-green transition-colors">Gaz</a>
+            <span class="text-gray-300">·</span>
+            <a href="#eurusd" class="text-sm text-gray-600 hover:text-totem-green transition-colors">EUR/USD</a>
+            <span class="text-gray-300">·</span>
+            <a href="#fr10y" class="text-sm text-gray-600 hover:text-totem-green transition-colors">US 10Y</a>
+            <span class="text-gray-300">·</span>
+            <a href="#bitcoin" class="text-sm text-gray-600 hover:text-totem-green transition-colors">Bitcoin</a>
+          </div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <ChartCard id="sp500" indicatorKey="sp500" color="#006B4F" name="S&P 500" />
-          <ChartCard id="nasdaq" indicatorKey="nasdaq" color="#00d4aa" name="NASDAQ" />
-          <ChartCard id="cac40" indicatorKey="cac40" color="#1e40af" name="CAC 40" />
-          <ChartCard id="dax" indicatorKey="dax" color="#dc2626" name="DAX" />
-          <ChartCard id="nikkei" indicatorKey="nikkei" color="#ec4899" name="Nikkei 225" />
-        </div>
-      </section>
 
-      <!-- Matières Premières -->
-      <section class="mb-10">
-        <div class="flex items-center gap-3 mb-4">
-          <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Matières Premières</h2>
+        <!-- Container pour les indicateurs triés (caché par défaut) -->
+        <div id="sorted-indicators-container" class="hidden mb-10">
+          <div id="sorted-indicators-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Les indicateurs triés seront insérés ici -->
+          </div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <ChartCard id="gold" indicatorKey="gold" color="#ca8a04" name="l'Or" />
-          <ChartCard id="silver" indicatorKey="silver" color="#94a3b8" name="l'Argent" />
-          <ChartCard id="brent" indicatorKey="brent" color="#0f172a" name="le Brent" />
-          <ChartCard id="natgas" indicatorKey="natgas" color="#0ea5e9" name="le Gaz Naturel" />
-        </div>
-      </section>
 
-      <!-- Devises -->
-      <section class="mb-10">
-        <div class="flex items-center gap-3 mb-4">
-          <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Devises</h2>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <ChartCard id="eurusd" indicatorKey="eurusd" color="#2563eb" name="EUR/USD" />
-        </div>
-      </section>
+        <!-- Container pour les sections originales des marchés -->
+        <div id="sections-container">
+          <!-- Indices Boursiers -->
+          <section class="mb-10">
+            <div class="flex items-center gap-3 mb-4">
+              <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Indices Boursiers</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <ChartCard id="sp500" indicatorKey="sp500" color="#006B4F" name="S&P 500" />
+              <ChartCard id="nasdaq" indicatorKey="nasdaq" color="#00d4aa" name="NASDAQ" />
+              <ChartCard id="cac40" indicatorKey="cac40" color="#1e40af" name="CAC 40" />
+              <ChartCard id="dax" indicatorKey="dax" color="#dc2626" name="DAX" />
+              <ChartCard id="nikkei" indicatorKey="nikkei" color="#ec4899" name="Nikkei 225" />
+            </div>
+          </section>
 
-      <!-- Taux et Obligations -->
-      <section class="mb-10">
-        <div class="flex items-center gap-3 mb-4">
-          <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Taux et Obligations</h2>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <ChartCard id="fr10y" indicatorKey="fr10y" color="#dc2626" name="le Taux US 10 ans" />
-        </div>
-      </section>
+          <!-- Matières Premières -->
+          <section class="mb-10">
+            <div class="flex items-center gap-3 mb-4">
+              <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Matières Premières</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <ChartCard id="gold" indicatorKey="gold" color="#ca8a04" name="l'Or" />
+              <ChartCard id="silver" indicatorKey="silver" color="#94a3b8" name="l'Argent" />
+              <ChartCard id="brent" indicatorKey="brent" color="#0f172a" name="le Brent" />
+              <ChartCard id="natgas" indicatorKey="natgas" color="#0ea5e9" name="le Gaz Naturel" />
+            </div>
+          </section>
 
-      <!-- Crypto -->
-      <section class="mb-10">
-        <div class="flex items-center gap-3 mb-4">
-          <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Cryptomonnaies</h2>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <ChartCard id="bitcoin" indicatorKey="bitcoin" color="#f7931a" name="le Bitcoin" />
-        </div>
-      </section>
+          <!-- Devises -->
+          <section class="mb-10">
+            <div class="flex items-center gap-3 mb-4">
+              <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Devises</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <ChartCard id="eurusd" indicatorKey="eurusd" color="#2563eb" name="EUR/USD" />
+            </div>
+          </section>
 
-      <!-- Énergie - Consommation par région -->
-      <section class="mb-10">
-        <div class="flex items-center gap-3 mb-4">
-          <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Énergie - Consommation de Pétrole</h2>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <ChartCard indicatorKey="oil_consumption_world" color="#1e3a5f" name="la Conso. Pétrole Monde" />
-          <ChartCard indicatorKey="oil_consumption_usa" color="#3b82f6" name="la Conso. Pétrole USA" />
-          <ChartCard indicatorKey="oil_consumption_china" color="#ef4444" name="la Conso. Pétrole Chine" />
-          <ChartCard indicatorKey="oil_consumption_oecd" color="#8b5cf6" name="la Conso. Pétrole OCDE" />
-          <ChartCard indicatorKey="us_oil_stocks" color="#059669" name="les Stocks Pétrole US" />
-        </div>
-      </section>
+          <!-- Taux et Obligations -->
+          <section class="mb-10">
+            <div class="flex items-center gap-3 mb-4">
+              <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Taux et Obligations</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <ChartCard id="fr10y" indicatorKey="fr10y" color="#dc2626" name="le Taux US 10 ans" />
+            </div>
+          </section>
 
-      <!-- Énergie - Mix énergétique mondial -->
-      <section class="mb-10">
-        <div class="flex items-center gap-3 mb-4">
-          <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Énergie - Mix Énergétique Mondial</h2>
+          <!-- Crypto -->
+          <section class="mb-10">
+            <div class="flex items-center gap-3 mb-4">
+              <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Cryptomonnaies</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <ChartCard id="bitcoin" indicatorKey="bitcoin" color="#f7931a" name="le Bitcoin" />
+            </div>
+          </section>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <ChartCard indicatorKey="energy_petroleum" color="#0f172a" name="la Conso. Mondiale Pétrole" />
-          <ChartCard indicatorKey="energy_natgas" color="#0ea5e9" name="la Conso. Mondiale Gaz" />
-          <ChartCard indicatorKey="energy_coal" color="#374151" name="la Conso. Mondiale Charbon" />
-          <ChartCard indicatorKey="energy_nuclear" color="#eab308" name="la Conso. Mondiale Nucléaire" />
-          <ChartCard indicatorKey="energy_renewables" color="#22c55e" name="la Conso. Mondiale Renouvelables" />
-        </div>
-      </section>
+      </div>
+
+      <!-- ========== TAB ÉNERGIE ========== -->
+      <div id="tab-energie" class="hidden">
+        <!-- Énergie - Consommation par région -->
+        <section class="mb-10">
+          <div class="flex items-center gap-3 mb-4">
+            <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Consommation de Pétrole</h2>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <ChartCard indicatorKey="oil_consumption_world" color="#1e3a5f" name="la Conso. Pétrole Monde" />
+            <ChartCard indicatorKey="oil_consumption_usa" color="#3b82f6" name="la Conso. Pétrole USA" />
+            <ChartCard indicatorKey="oil_consumption_china" color="#ef4444" name="la Conso. Pétrole Chine" />
+            <ChartCard indicatorKey="oil_consumption_oecd" color="#8b5cf6" name="la Conso. Pétrole OCDE" />
+            <ChartCard indicatorKey="us_oil_stocks" color="#059669" name="les Stocks Pétrole US" />
+          </div>
+        </section>
+
+        <!-- Énergie - Mix énergétique mondial -->
+        <section class="mb-10">
+          <div class="flex items-center gap-3 mb-4">
+            <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Mix Énergétique Mondial</h2>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <ChartCard indicatorKey="energy_petroleum" color="#0f172a" name="la Conso. Mondiale Pétrole" />
+            <ChartCard indicatorKey="energy_natgas" color="#0ea5e9" name="la Conso. Mondiale Gaz" />
+            <ChartCard indicatorKey="energy_coal" color="#374151" name="la Conso. Mondiale Charbon" />
+            <ChartCard indicatorKey="energy_nuclear" color="#eab308" name="la Conso. Mondiale Nucléaire" />
+            <ChartCard indicatorKey="energy_renewables" color="#22c55e" name="la Conso. Mondiale Renouvelables" />
+          </div>
+        </section>
+      </div>
 
       <!-- Note sur les données -->
       <section class="mb-10">
@@ -196,16 +242,198 @@ import ChartCard from '../components/ChartCard.astro';
 </BaseLayout>
 
 <script>
-  // Afficher la date de dernière mise à jour
+  // Configuration des indicateurs MARCHÉS uniquement (pour le tri par performance)
+  const marketIndicatorConfigs = [
+    { key: 'sp500', color: '#006B4F', name: 'S&P 500' },
+    { key: 'nasdaq', color: '#00d4aa', name: 'NASDAQ' },
+    { key: 'cac40', color: '#1e40af', name: 'CAC 40' },
+    { key: 'dax', color: '#dc2626', name: 'DAX' },
+    { key: 'nikkei', color: '#ec4899', name: 'Nikkei 225' },
+    { key: 'gold', color: '#ca8a04', name: "l'Or" },
+    { key: 'silver', color: '#94a3b8', name: "l'Argent" },
+    { key: 'brent', color: '#0f172a', name: 'le Brent' },
+    { key: 'natgas', color: '#0ea5e9', name: 'le Gaz Naturel' },
+    { key: 'eurusd', color: '#2563eb', name: 'EUR/USD' },
+    { key: 'fr10y', color: '#dc2626', name: 'le Taux US 10 ans' },
+    { key: 'bitcoin', color: '#f7931a', name: 'le Bitcoin' },
+  ];
+
+  let currentTimeRange = '10y';
+  let sortByPerformance = false;
+  let indicatorsData = null;
+  let currentTab = 'marches';
+
+  // Fonction pour filtrer les données par période
+  function filterDataByTimeRange(data, range) {
+    const now = new Date();
+    const cutoffDate = new Date(now);
+
+    switch (range) {
+      case '1y':
+        cutoffDate.setFullYear(now.getFullYear() - 1);
+        break;
+      case '5y':
+        cutoffDate.setFullYear(now.getFullYear() - 5);
+        break;
+      case '10y':
+        cutoffDate.setFullYear(now.getFullYear() - 10);
+        break;
+      case '20y':
+        cutoffDate.setFullYear(now.getFullYear() - 20);
+        break;
+    }
+
+    return data.filter(d => new Date(d.date) >= cutoffDate);
+  }
+
+  // Calculer la performance d'un indicateur
+  function calculatePerformance(indicatorKey) {
+    if (!indicatorsData || !indicatorsData.indicators[indicatorKey]) {
+      return { change: 0, hasData: false };
+    }
+
+    const data = indicatorsData.indicators[indicatorKey].data;
+    const filteredData = filterDataByTimeRange(data, currentTimeRange);
+
+    if (filteredData.length < 2) {
+      return { change: 0, hasData: false };
+    }
+
+    const firstValue = filteredData[0].value;
+    const lastValue = filteredData[filteredData.length - 1].value;
+    const change = ((lastValue - firstValue) / firstValue) * 100;
+
+    return { change, hasData: true };
+  }
+
+  // Stocker les positions originales des éléments
+  const originalParents = new Map();
+
+  // Réorganiser les indicateurs par performance
+  function reorganizeByPerformance() {
+    const sortedContainer = document.getElementById('sorted-indicators-container');
+    const sortedGrid = document.getElementById('sorted-indicators-grid');
+    const sectionsContainer = document.getElementById('sections-container');
+    const quickNav = document.getElementById('quick-nav-marches');
+
+    if (!sortByPerformance) {
+      // Restaurer les éléments à leurs positions originales
+      originalParents.forEach((parentInfo, element) => {
+        if (parentInfo.nextSibling) {
+          parentInfo.parent.insertBefore(element, parentInfo.nextSibling);
+        } else {
+          parentInfo.parent.appendChild(element);
+        }
+      });
+      originalParents.clear();
+
+      // Revenir à l'affichage par sections
+      sortedContainer.classList.add('hidden');
+      sectionsContainer.classList.remove('hidden');
+      if (quickNav) quickNav.classList.remove('hidden');
+      return;
+    }
+
+    // Masquer les sections et la navigation rapide
+    sectionsContainer.classList.add('hidden');
+    if (quickNav) quickNav.classList.add('hidden');
+
+    // Calculer les performances et trier (seulement les indicateurs marchés)
+    const indicatorsWithPerf = marketIndicatorConfigs.map(config => {
+      const perf = calculatePerformance(config.key);
+      return { ...config, ...perf };
+    }).filter(ind => ind.hasData);
+
+    // Trier par performance décroissante
+    indicatorsWithPerf.sort((a, b) => b.change - a.change);
+
+    // Vider la grille triée
+    sortedGrid.innerHTML = '';
+
+    indicatorsWithPerf.forEach(ind => {
+      // Chercher l'élément existant par son id ou par l'indicatorKey dans le chart
+      const existingCard = document.querySelector(`#${ind.key}`) ||
+                          document.querySelector(`[id="chart-${ind.key}"]`)?.closest('.group');
+
+      if (existingCard) {
+        // Sauvegarder la position originale si pas déjà fait
+        if (!originalParents.has(existingCard)) {
+          originalParents.set(existingCard, {
+            parent: existingCard.parentNode,
+            nextSibling: existingCard.nextSibling
+          });
+        }
+        // Déplacer l'élément (pas de clonage)
+        sortedGrid.appendChild(existingCard);
+      }
+    });
+
+    sortedContainer.classList.remove('hidden');
+  }
+
+  // Gestion des tabs
+  function switchTab(tabName) {
+    currentTab = tabName;
+    const tabMarches = document.getElementById('tab-marches');
+    const tabEnergie = document.getElementById('tab-energie');
+    const sortControls = document.getElementById('sort-controls');
+    const tabButtons = document.querySelectorAll('#main-tabs button');
+
+    // Mettre à jour les boutons de tabs
+    tabButtons.forEach(btn => {
+      const btnTab = btn.getAttribute('data-tab');
+      if (btnTab === tabName) {
+        btn.className = 'px-6 py-3 text-sm font-medium border-b-2 border-totem-green text-totem-green transition-colors';
+      } else {
+        btn.className = 'px-6 py-3 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 transition-colors';
+      }
+    });
+
+    // Afficher/masquer les contenus
+    if (tabName === 'marches') {
+      tabMarches.classList.remove('hidden');
+      tabEnergie.classList.add('hidden');
+      sortControls.classList.remove('hidden');
+    } else {
+      tabMarches.classList.add('hidden');
+      tabEnergie.classList.remove('hidden');
+      sortControls.classList.add('hidden');
+
+      // Désactiver le tri si on change d'onglet
+      if (sortByPerformance) {
+        sortByPerformance = false;
+        const sortButton = document.getElementById('sort-by-performance');
+        const sortLabel = document.getElementById('sort-label');
+        sortButton.className = 'px-4 py-2 text-sm rounded transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200 flex items-center gap-2';
+        sortLabel.textContent = 'Désactivé';
+        reorganizeByPerformance();
+      }
+    }
+  }
+
+  // Afficher la date de dernière mise à jour et charger les données
   fetch('/data/indicators.json')
     .then(res => res.json())
     .then(data => {
+      indicatorsData = data;
+
       const el = document.getElementById('last-updated');
       if (el && data.lastUpdated) {
         const date = new Date(data.lastUpdated);
         el.textContent = `Données mises à jour le ${date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}`;
       }
     });
+
+  // Gérer les tabs
+  const mainTabs = document.getElementById('main-tabs');
+  if (mainTabs) {
+    mainTabs.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tab = btn.getAttribute('data-tab');
+        switchTab(tab);
+      });
+    });
+  }
 
   // Gérer les contrôles globaux de timeline
   const globalControls = document.getElementById('global-time-controls');
@@ -215,6 +443,7 @@ import ChartCard from '../components/ChartCard.astro';
     buttons.forEach(button => {
       button.addEventListener('click', () => {
         const range = button.getAttribute('data-range');
+        currentTimeRange = range;
 
         // Mettre à jour l'apparence des boutons
         buttons.forEach(btn => {
@@ -228,7 +457,33 @@ import ChartCard from '../components/ChartCard.astro';
         // Émettre un événement personnalisé pour informer les composants
         const event = new CustomEvent('globalTimeRangeChange', { detail: { range } });
         window.dispatchEvent(event);
+
+        // Réorganiser si le tri par performance est actif
+        if (sortByPerformance) {
+          // Attendre un peu que les graphiques se mettent à jour
+          setTimeout(reorganizeByPerformance, 100);
+        }
       });
+    });
+  }
+
+  // Gérer le bouton de tri par performance
+  const sortButton = document.getElementById('sort-by-performance');
+  const sortLabel = document.getElementById('sort-label');
+
+  if (sortButton && sortLabel) {
+    sortButton.addEventListener('click', () => {
+      sortByPerformance = !sortByPerformance;
+
+      if (sortByPerformance) {
+        sortButton.className = 'px-4 py-2 text-sm rounded transition-colors bg-totem-green text-white flex items-center gap-2';
+        sortLabel.textContent = 'Activé';
+      } else {
+        sortButton.className = 'px-4 py-2 text-sm rounded transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200 flex items-center gap-2';
+        sortLabel.textContent = 'Désactivé';
+      }
+
+      reorganizeByPerformance();
     });
   }
 </script>
