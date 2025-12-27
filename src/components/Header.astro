@@ -1,10 +1,14 @@
 ---
 interface Props {
-  showAnalysesLink?: boolean;
-  showHistoiresLink?: boolean;
+  currentPage?: 'analyses' | 'histoires' | 'portefeuille' | 'indicateurs';
 }
 
-const { showAnalysesLink = true, showHistoiresLink = true } = Astro.props;
+const { currentPage } = Astro.props;
+
+const linkClass = (page: string) =>
+  currentPage === page
+    ? 'text-totem-green font-medium'
+    : 'text-gray-600 hover:text-totem-green transition-colors';
 ---
 
 <header class="mb-8 pb-4 border-b border-gray-200">
@@ -16,10 +20,10 @@ const { showAnalysesLink = true, showHistoiresLink = true } = Astro.props;
 
         <!-- Menu desktop -->
         <nav class="hidden md:flex items-center gap-6 text-sm">
-            {showAnalysesLink && <a href="/analyses" class="text-gray-600 hover:text-totem-green transition-colors">Analyses</a>}
-            {showHistoiresLink && <a href="/histoires" class="text-gray-600 hover:text-totem-green transition-colors">Histoires</a>}
-            <a href="/portefeuille" class="text-gray-600 hover:text-totem-green transition-colors">Portefeuille</a>
-            <a href="/indicateurs" class="text-gray-600 hover:text-totem-green transition-colors">Indicateurs</a>
+            <a href="/analyses" class={linkClass('analyses')}>Analyses</a>
+            <a href="/histoires" class={linkClass('histoires')}>Histoires</a>
+            <a href="/portefeuille" class={linkClass('portefeuille')}>Portefeuille</a>
+            <a href="/indicateurs" class={linkClass('indicateurs')}>Indicateurs</a>
         </nav>
 
         <!-- Bouton menu mobile -->
@@ -36,10 +40,10 @@ const { showAnalysesLink = true, showHistoiresLink = true } = Astro.props;
 
     <!-- Menu mobile -->
     <nav id="mobile-menu" class="hidden md:hidden mt-4 pt-4 border-t border-gray-200 flex flex-col gap-3">
-        {showAnalysesLink && <a href="/analyses" class="text-gray-600 hover:text-totem-green transition-colors py-2">Analyses</a>}
-        {showHistoiresLink && <a href="/histoires" class="text-gray-600 hover:text-totem-green transition-colors py-2">Histoires</a>}
-        <a href="/portefeuille" class="text-gray-600 hover:text-totem-green transition-colors py-2">Portefeuille</a>
-        <a href="/indicateurs" class="text-gray-600 hover:text-totem-green transition-colors py-2">Indicateurs</a>
+        <a href="/analyses" class={`${linkClass('analyses')} py-2`}>Analyses</a>
+        <a href="/histoires" class={`${linkClass('histoires')} py-2`}>Histoires</a>
+        <a href="/portefeuille" class={`${linkClass('portefeuille')} py-2`}>Portefeuille</a>
+        <a href="/indicateurs" class={`${linkClass('indicateurs')} py-2`}>Indicateurs</a>
     </nav>
 </header>
 
