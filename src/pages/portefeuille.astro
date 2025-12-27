@@ -6,7 +6,7 @@ import { getEntry } from 'astro:content';
 
 const portefeuille = await getEntry('portefeuille', 'index');
 const { Content } = await portefeuille.render();
-const { portfolio, watchlist, lastUpdated } = portefeuille.data;
+const { portfolio, watchlist } = portefeuille.data;
 
 // Trier par poids décroissant
 const sortedPortfolio = [...portfolio].sort((a, b) => (b.weight || 0) - (a.weight || 0));
@@ -20,7 +20,6 @@ const sortedPortfolio = [...portfolio].sort((a, b) => (b.weight || 0) - (a.weigh
     <!-- Header -->
     <div class="text-center mb-10">
       <h1 class="text-3xl font-bold text-gray-900 mb-2">Notre Portefeuille</h1>
-      <p class="text-gray-500 text-sm">Dernière mise à jour : {lastUpdated}</p>
     </div>
 
     <!-- Portfolio Section -->
