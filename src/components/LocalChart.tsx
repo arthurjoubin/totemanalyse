@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import html2canvas from 'html2canvas';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -51,6 +52,7 @@ export default function LocalChart({ indicatorKey, color = '#006B4F', globalTime
   const [localTimeRange, setLocalTimeRange] = useState<TimeRange>('10y');
   const [showCopied, setShowCopied] = useState(false);
   const chartRef = useRef<any>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
 
   // Lire le paramètre de temps depuis l'URL au chargement
   useEffect(() => {
@@ -124,13 +126,22 @@ export default function LocalChart({ indicatorKey, color = '#006B4F', globalTime
   };
 
   // Fonction pour télécharger le screenshot
-  const handleScreenshot = () => {
-    if (chartRef.current) {
-      const canvas = chartRef.current.canvas;
-      const link = document.createElement('a');
-      link.download = `${indicatorKey}-${activeTimeRange}.png`;
-      link.href = canvas.toDataURL();
-      link.click();
+  const handleScreenshot = async () => {
+    if (cardRef.current) {
+      try {
+        const canvas = await html2canvas(cardRef.current, {
+          backgroundColor: '#ffffff',
+          scale: 2, // Pour une meilleure qualité
+          logging: false,
+        });
+
+        const link = document.createElement('a');
+        link.download = `${indicator?.name || indicatorKey}-${activeTimeRange}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      } catch (error) {
+        console.error('Erreur lors de la capture du screenshot:', error);
+      }
     }
   };
 
@@ -262,7 +273,7 @@ export default function LocalChart({ indicatorKey, color = '#006B4F', globalTime
   };
 
   return (
-    <div className="bg-white border border-gray-200 overflow-hidden">
+    <div ref={cardRef} className="bg-white border border-gray-200 overflow-hidden">
       <div className="px-4 py-3 border-b border-gray-100">
         <div className="flex items-center justify-between mb-2">
           <div>
