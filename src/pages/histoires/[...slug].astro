@@ -1,0 +1,19 @@
+---
+import { getCollection } from 'astro:content';
+import HistoireLayout from '../../layouts/HistoireLayout.astro';
+
+export async function getStaticPaths() {
+  const histoires = await getCollection('histoires');
+  return histoires.map((histoire) => ({
+    params: { slug: histoire.slug },
+    props: { histoire },
+  }));
+}
+
+const { histoire } = Astro.props;
+const { Content, headings } = await histoire.render();
+---
+
+<HistoireLayout frontmatter={histoire.data} slug={histoire.slug} headings={headings}>
+  <Content />
+</HistoireLayout>

@@ -39,6 +39,22 @@ const positionSchema = z.object({
   analysisSlug: z.string().optional(),
 });
 
+const histoiresCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    publishDate: z.string(),
+    readTime: z.string(),
+    emoji: z.string(),
+    tags: z.array(z.string()),
+    // Image de couverture optionnelle
+    coverImage: z.string().optional(),
+    // Série optionnelle (ex: "Les grands scandales")
+    series: z.string().optional(),
+  }),
+});
+
 const portefeuilleCollection = defineCollection({
   type: 'content',
   schema: z.object({
@@ -52,5 +68,6 @@ const portefeuilleCollection = defineCollection({
 
 export const collections = {
   'analyses': analysesCollection,
+  'histoires': histoiresCollection,
   'portefeuille': portefeuilleCollection,
 };

@@ -27,3 +27,14 @@ export function sortAnalysesByDate(analyses: any[]): any[] {
     return dateB.getTime() - dateA.getTime();
   });
 }
+
+/**
+ * Trie les histoires par date de publication (les plus récentes en premier)
+ */
+export function sortHistoiresByDate(histoires: any[]): any[] {
+  return [...histoires].sort((a, b) => {
+    const dateA = parseFrenchDate(a.data.publishDate);
+    const dateB = parseFrenchDate(b.data.publishDate);
+    return dateB.getTime() - dateA.getTime();
+  });
+}

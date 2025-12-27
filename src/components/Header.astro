@@ -1,9 +1,10 @@
 ---
 interface Props {
   showAnalysesLink?: boolean;
+  showHistoiresLink?: boolean;
 }
 
-const { showAnalysesLink = true } = Astro.props;
+const { showAnalysesLink = true, showHistoiresLink = true } = Astro.props;
 ---
 
 <header class="flex items-center justify-between mb-8 pb-4 border-b border-gray-200">
@@ -13,6 +14,7 @@ const { showAnalysesLink = true } = Astro.props;
     </a>
     <nav class="flex items-center gap-6 text-sm">
         {showAnalysesLink && <a href="/analyses" class="text-gray-600 hover:text-totem-green transition-colors">Analyses</a>}
+        {showHistoiresLink && <a href="/histoires" class="text-gray-600 hover:text-totem-green transition-colors">Histoires</a>}
         <a href="/portefeuille" class="text-gray-600 hover:text-totem-green transition-colors">Portefeuille</a>
     </nav>
 </header>
