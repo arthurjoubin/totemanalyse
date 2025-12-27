@@ -17,8 +17,6 @@ const indicators: IndicatorInfo[] = [
   { key: 'bitcoin', name: 'Bitcoin', category: 'Crypto', color: '#f7931a', icon: '₿' },
   // Taux
   { key: 'fr10y', name: 'US 10 ans', category: 'Taux', color: '#dc2626', icon: '📊' },
-  { key: 'ecb', name: 'BCE', category: 'Taux', color: '#2563eb', icon: '🇪🇺' },
-  { key: 'fed', name: 'Fed', category: 'Taux', color: '#059669', icon: '🇺🇸' },
 ];
 
 interface IndicatorNavigationProps {

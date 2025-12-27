@@ -203,55 +203,6 @@ def main():
         elif key in indicators:
             print(f"    ⚠ Données existantes conservées")
 
-    # CoinGecko (désactivé - Bitcoin récupéré via Yahoo Finance)
-    # print("\n🪙 CoinGecko...")
-    # print("  → Bitcoin")
-    # btc_data = get_coingecko_data("bitcoin")
-    # if btc_data:
-    #     indicators["bitcoin"] = {
-    #         "name": "Bitcoin (BTC)",
-    #         "description": "Prix du Bitcoin en USD",
-    #         "unit": "$",
-    #         "source": "CoinGecko",
-    #         "data": btc_data
-    #     }
-    #     print(f"    ✓ {len(btc_data)} points")
-
-    # ECB
-    print("\n🏦 ECB...")
-    print("  → Taux directeur BCE")
-    ecb_data = get_ecb_rate()
-    if ecb_data:
-        indicators["ecb"] = {
-            "name": "Taux directeur BCE",
-            "description": "Taux d'intérêt principal de la Banque Centrale Européenne",
-            "unit": "%",
-            "source": "ECB",
-            "data": ecb_data
-        }
-        print(f"    ✓ {len(ecb_data)} points")
-
-    # FRED
-    if os.environ.get("FRED_API_KEY"):
-        print("\n📈 FRED...")
-        print("  → Taux Fed")
-        fed_data = get_fred_data("FEDFUNDS")
-        if fed_data:
-            indicators["fed"] = {
-                "name": "Taux directeur Fed",
-                "description": "Taux d'intérêt de la Réserve Fédérale américaine",
-                "unit": "%",
-                "source": "FRED",
-                "data": fed_data
-            }
-            print(f"    ✓ {len(fed_data)} points")
-    else:
-        print("\n⚠ FRED_API_KEY non définie")
-        print("  → Clé gratuite: https://fred.stlouisfed.org/docs/api/api_key.html")
-
-    # Données immobilières supprimées (pas d'API automatique disponible)
-    # Les données des Notaires de France ne sont pas accessibles via API
-
     # Sauvegarder
     result = {
         "lastUpdated": datetime.now().strftime("%Y-%m-%d"),
