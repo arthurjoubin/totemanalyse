@@ -5,14 +5,14 @@ import Footer from '../components/Footer.astro';
 import ChartCard from '../components/ChartCard.astro';
 ---
 
-<BaseLayout title="Indicateurs Clés - Totem Analyse" description="Évolution sur 20 ans des principaux indicateurs économiques et financiers">
+<BaseLayout title="Indicateurs clé de l'économie - Totem Analyse" description="Suivez l'évolution des principaux indicateurs économiques et financiers : indices boursiers (S&P 500, CAC 40), matières premières (Or, Pétrole), devises (EUR/USD), taux et crypto. Données sur 20 ans.">
   <div class="container mx-auto px-6 py-8 max-w-6xl">
     <Header currentPage="indicateurs" />
 
     <main>
       <!-- Header -->
       <div class="text-center mb-6">
-        <h1 class="text-3xl font-bold text-gray-900 mb-2">Indicateurs Clés</h1>
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">Indicateurs Clé de l'Économie</h1>
         <p class="text-gray-600">Évolution sur 20 ans des principaux indicateurs économiques et financiers</p>
         <p class="text-xs text-gray-400 mt-2" id="last-updated"></p>
       </div>
@@ -93,9 +93,9 @@ import ChartCard from '../components/ChartCard.astro';
             <span class="text-gray-300">·</span>
             <a href="#eurusd" class="text-sm text-gray-600 hover:text-totem-green transition-colors">EUR/USD</a>
             <span class="text-gray-300">·</span>
-            <a href="#fr10y" class="text-sm text-gray-600 hover:text-totem-green transition-colors">US 10Y</a>
-            <span class="text-gray-300">·</span>
             <a href="#bitcoin" class="text-sm text-gray-600 hover:text-totem-green transition-colors">Bitcoin</a>
+            <span class="text-gray-300">·</span>
+            <a href="#fr10y" class="text-sm text-gray-600 hover:text-totem-green transition-colors">US 10Y</a>
           </div>
         </div>
 
@@ -127,33 +127,15 @@ import ChartCard from '../components/ChartCard.astro';
             </div>
           </section>
 
-          <!-- Devises -->
+          <!-- Devises, Crypto & Taux -->
           <section class="mb-10">
             <div class="flex items-center gap-3 mb-4">
-              <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Devises</h2>
+              <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Devises, Crypto & Taux</h2>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <ChartCard id="eurusd" indicatorKey="eurusd" color="#2563eb" name="EUR/USD" />
-            </div>
-          </section>
-
-          <!-- Taux et Obligations -->
-          <section class="mb-10">
-            <div class="flex items-center gap-3 mb-4">
-              <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Taux et Obligations</h2>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <ChartCard id="fr10y" indicatorKey="fr10y" color="#dc2626" name="le Taux US 10 ans" />
-            </div>
-          </section>
-
-          <!-- Crypto -->
-          <section class="mb-10">
-            <div class="flex items-center gap-3 mb-4">
-              <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Cryptomonnaies</h2>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <ChartCard id="bitcoin" indicatorKey="bitcoin" color="#f7931a" name="le Bitcoin" />
+              <ChartCard id="fr10y" indicatorKey="fr10y" color="#dc2626" name="le Taux US 10 ans" />
             </div>
           </section>
       </div>
@@ -197,10 +179,9 @@ import ChartCard from '../components/ChartCard.astro';
             Les données sont mises à jour automatiquement via GitHub Actions. Sources utilisées :
           </p>
           <ul class="text-sm text-gray-600 list-disc pl-5 space-y-1">
-            <li><strong>Indices boursiers</strong> — Yahoo Finance (S&P 500, CAC 40)</li>
-            <li><strong>Matières premières</strong> — Yahoo Finance (Or, Brent)</li>
-            <li><strong>Cryptomonnaies</strong> — Yahoo Finance (Bitcoin)</li>
-            <li><strong>Taux</strong> — Yahoo Finance (US 10 ans)</li>
+            <li><strong>Indices boursiers</strong> — Yahoo Finance (S&P 500, NASDAQ, CAC 40, DAX, Nikkei 225)</li>
+            <li><strong>Matières premières</strong> — Yahoo Finance (Or, Argent, Pétrole Brent, Gaz Naturel)</li>
+            <li><strong>Devises, Crypto & Taux</strong> — Yahoo Finance (EUR/USD, Bitcoin, Taux US 10 ans)</li>
             <li><strong>Énergie</strong> — EIA (Energy Information Administration)</li>
           </ul>
         </div>
