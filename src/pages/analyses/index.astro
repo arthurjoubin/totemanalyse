@@ -9,35 +9,35 @@ const analyses = sortAnalysesByDate(await getCollection('analyses'));
 ---
 
 <BaseLayout title="Nos Analyses - Totem Analyse">
-  <div class="container mx-auto px-6 py-8 max-w-5xl">
+  <div class="container mx-auto px-4 md:px-6 py-6 md:py-8 max-w-5xl">
     <Header currentPage="analyses" />
 
     <!-- Page Title -->
-    <div class="mb-10 border-b border-gray-200 pb-6">
-      <h1 class="text-3xl font-bold text-gray-900 mb-2">Analyses</h1>
-      <p class="text-gray-600">Recherche fondamentale sur des entreprises cotées</p>
+    <div class="mb-6 md:mb-10 border-b border-gray-200 pb-4 md:pb-6">
+      <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-1.5 md:mb-2">Analyses</h1>
+      <p class="text-sm md:text-base text-gray-600">Recherche fondamentale sur des entreprises cotées</p>
     </div>
 
     <!-- Analyses List -->
-    <div class="space-y-6">
+    <div class="space-y-4 md:space-y-6">
       {analyses.map((analysis) => (
         <a href={`/analyses/${analysis.slug}`} class="group block bg-white border border-gray-200 hover:border-totem-green transition-colors duration-200">
           <div class="flex flex-col md:flex-row">
-            <div class="md:w-36 h-32 md:h-auto bg-gray-100 flex items-center justify-center border-b md:border-b-0 md:border-r border-gray-200">
-              <span class="text-5xl">{analysis.data.emoji}</span>
+            <div class="md:w-36 h-24 md:h-auto bg-gray-100 flex items-center justify-center border-b md:border-b-0 md:border-r border-gray-200">
+              <span class="text-4xl md:text-5xl">{analysis.data.emoji}</span>
             </div>
-            <div class="flex-1 p-5">
-              <div class="flex items-center gap-2 mb-2">
-                <span class="px-2 py-0.5 bg-totem-green text-white text-xs font-medium">{analysis.data.ticker}</span>
+            <div class="flex-1 p-4 md:p-5">
+              <div class="flex items-center gap-1.5 md:gap-2 mb-1.5 md:mb-2 flex-wrap">
+                <span class="px-1.5 md:px-2 py-0.5 bg-totem-green text-white text-[10px] md:text-xs font-medium">{analysis.data.ticker}</span>
                 {analysis.data.tags.map((tag: string) => (
-                  <span class="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs">{tag}</span>
+                  <span class="px-1.5 md:px-2 py-0.5 bg-gray-100 text-gray-600 text-[10px] md:text-xs">{tag}</span>
                 ))}
               </div>
-              <h2 class="text-xl font-bold text-gray-900 group-hover:text-totem-green transition-colors mb-2">
+              <h2 class="text-lg md:text-xl font-bold text-gray-900 group-hover:text-totem-green transition-colors mb-1.5 md:mb-2">
                 {analysis.data.title.replace('Apparté sur ', '')}
               </h2>
-              <p class="text-gray-600 text-sm mb-3 line-clamp-2">{analysis.data.description}</p>
-              <div class="flex items-center gap-3 text-xs text-gray-500">
+              <p class="text-gray-600 text-xs md:text-sm mb-2 md:mb-3 line-clamp-2">{analysis.data.description}</p>
+              <div class="flex items-center gap-2 md:gap-3 text-[10px] md:text-xs text-gray-500">
                 <span>{analysis.data.publishDate}</span>
                 <span class="text-gray-300">|</span>
                 <span>{analysis.data.readTime}</span>
