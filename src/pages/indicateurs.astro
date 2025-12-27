@@ -64,29 +64,6 @@ import ChartCard from '../components/ChartCard.astro';
             </button>
           </div>
         </div>
-
-        <!-- Toggle tri par performance (seulement pour l'onglet Marchés) -->
-        <div id="sort-controls" class="flex items-center justify-between mt-4 pt-4 border-t border-gray-200">
-          <div class="flex items-center gap-2">
-            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
-            </svg>
-            <span class="text-sm font-medium text-gray-700">Trier par performance</span>
-          </div>
-          <button
-            id="sort-by-performance"
-            type="button"
-            role="switch"
-            aria-checked="false"
-            class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-gray-200 transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-totem-green focus:ring-offset-2"
-          >
-            <span class="sr-only">Trier par performance</span>
-            <span
-              id="sort-toggle-dot"
-              class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out translate-x-0"
-            ></span>
-          </button>
-        </div>
       </div>
 
       <!-- ========== TAB MARCHÉS ========== -->
@@ -122,15 +99,7 @@ import ChartCard from '../components/ChartCard.astro';
           </div>
         </div>
 
-        <!-- Container pour les indicateurs triés (caché par défaut) -->
-        <div id="sorted-indicators-container" class="hidden mb-10">
-          <div id="sorted-indicators-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Les indicateurs triés seront insérés ici -->
-          </div>
-        </div>
-
-        <!-- Container pour les sections originales des marchés -->
-        <div id="sections-container">
+        <!-- Sections des marchés -->
           <!-- Indices Boursiers -->
           <section class="mb-10">
             <div class="flex items-center gap-3 mb-4">
@@ -187,7 +156,6 @@ import ChartCard from '../components/ChartCard.astro';
               <ChartCard id="bitcoin" indicatorKey="bitcoin" color="#f7931a" name="le Bitcoin" />
             </div>
           </section>
-        </div>
       </div>
 
       <!-- ========== TAB ÉNERGIE ========== -->
@@ -251,151 +219,10 @@ import ChartCard from '../components/ChartCard.astro';
 </BaseLayout>
 
 <script>
-  // Configuration des indicateurs MARCHÉS uniquement (pour le tri par performance)
-  const marketIndicatorConfigs = [
-    { key: 'sp500', color: '#006B4F', name: 'S&P 500' },
-    { key: 'nasdaq', color: '#00d4aa', name: 'NASDAQ' },
-    { key: 'cac40', color: '#1e40af', name: 'CAC 40' },
-    { key: 'dax', color: '#dc2626', name: 'DAX' },
-    { key: 'nikkei', color: '#ec4899', name: 'Nikkei 225' },
-    { key: 'gold', color: '#ca8a04', name: "l'Or" },
-    { key: 'silver', color: '#94a3b8', name: "l'Argent" },
-    { key: 'brent', color: '#0f172a', name: 'le Brent' },
-    { key: 'natgas', color: '#0ea5e9', name: 'le Gaz Naturel' },
-    { key: 'eurusd', color: '#2563eb', name: 'EUR/USD' },
-    { key: 'fr10y', color: '#dc2626', name: 'le Taux US 10 ans' },
-    { key: 'bitcoin', color: '#f7931a', name: 'le Bitcoin' },
-  ];
-
-  let currentTimeRange = '10y';
-  let sortByPerformance = false;
-  let indicatorsData = null;
-  let currentTab = 'marches';
-
-  // Fonction pour filtrer les données par période
-  function filterDataByTimeRange(data, range) {
-    const now = new Date();
-    const cutoffDate = new Date(now);
-
-    switch (range) {
-      case '1y':
-        cutoffDate.setFullYear(now.getFullYear() - 1);
-        break;
-      case '5y':
-        cutoffDate.setFullYear(now.getFullYear() - 5);
-        break;
-      case '10y':
-        cutoffDate.setFullYear(now.getFullYear() - 10);
-        break;
-      case '20y':
-        cutoffDate.setFullYear(now.getFullYear() - 20);
-        break;
-    }
-
-    return data.filter(d => new Date(d.date) >= cutoffDate);
-  }
-
-  // Calculer la performance d'un indicateur
-  function calculatePerformance(indicatorKey) {
-    if (!indicatorsData || !indicatorsData.indicators[indicatorKey]) {
-      return { change: 0, hasData: false };
-    }
-
-    const data = indicatorsData.indicators[indicatorKey].data;
-    const filteredData = filterDataByTimeRange(data, currentTimeRange);
-
-    if (filteredData.length < 2) {
-      return { change: 0, hasData: false };
-    }
-
-    const firstValue = filteredData[0].value;
-    const lastValue = filteredData[filteredData.length - 1].value;
-    const change = ((lastValue - firstValue) / firstValue) * 100;
-
-    return { change, hasData: true };
-  }
-
-  // Stocker les positions originales des éléments
-  const originalParents = new Map();
-
-  // Réorganiser les indicateurs par performance
-  function reorganizeByPerformance() {
-    const sortedContainer = document.getElementById('sorted-indicators-container');
-    const sortedGrid = document.getElementById('sorted-indicators-grid');
-    const sectionsContainer = document.getElementById('sections-container');
-    const quickNav = document.getElementById('quick-nav-marches');
-
-    if (!sortByPerformance) {
-      // Restaurer les éléments à leurs positions originales
-      originalParents.forEach((parentInfo, element) => {
-        if (parentInfo.nextSibling) {
-          parentInfo.parent.insertBefore(element, parentInfo.nextSibling);
-        } else {
-          parentInfo.parent.appendChild(element);
-        }
-      });
-      originalParents.clear();
-
-      // Revenir à l'affichage par sections
-      sortedContainer.classList.add('hidden');
-      sectionsContainer.classList.remove('hidden');
-      if (quickNav) quickNav.classList.remove('hidden');
-      return;
-    }
-
-    // Masquer les sections et la navigation rapide
-    sectionsContainer.classList.add('hidden');
-    if (quickNav) quickNav.classList.add('hidden');
-
-    // Calculer les performances et trier (seulement les indicateurs marchés)
-    const indicatorsWithPerf = marketIndicatorConfigs.map(config => {
-      const perf = calculatePerformance(config.key);
-      return { ...config, ...perf };
-    }).filter(ind => ind.hasData);
-
-    // Trier par performance décroissante
-    indicatorsWithPerf.sort((a, b) => b.change - a.change);
-
-    // Récupérer tous les éléments existants avant de réorganiser
-    const elementsMap = new Map();
-    indicatorsWithPerf.forEach(ind => {
-      // Chercher l'élément existant par son id ou par l'indicatorKey dans le chart
-      const existingCard = document.querySelector(`#${ind.key}`) ||
-                          document.querySelector(`[id="chart-${ind.key}"]`)?.closest('.group');
-
-      if (existingCard) {
-        elementsMap.set(ind.key, existingCard);
-
-        // Sauvegarder la position originale si pas déjà fait
-        if (!originalParents.has(existingCard)) {
-          originalParents.set(existingCard, {
-            parent: existingCard.parentNode,
-            nextSibling: existingCard.nextSibling
-          });
-        }
-      }
-    });
-
-    // Vider la grille triée seulement si nécessaire
-    sortedGrid.innerHTML = '';
-
-    // Ajouter les éléments dans l'ordre trié
-    indicatorsWithPerf.forEach(ind => {
-      const element = elementsMap.get(ind.key);
-      if (element) {
-        sortedGrid.appendChild(element);
-      }
-    });
-
-    sortedContainer.classList.remove('hidden');
-  }
-
   // Gestion des tabs
   function switchTab(tabName) {
-    currentTab = tabName;
     const tabMarches = document.getElementById('tab-marches');
     const tabEnergie = document.getElementById('tab-energie');
-    const sortControls = document.getElementById('sort-controls');
     const tabButtons = document.querySelectorAll('#main-tabs button');
 
     // Mettre à jour les boutons de tabs
@@ -412,35 +239,16 @@ import ChartCard from '../components/ChartCard.astro';
     if (tabName === 'marches') {
       tabMarches.classList.remove('hidden');
       tabEnergie.classList.add('hidden');
-      sortControls.classList.remove('hidden');
     } else {
       tabMarches.classList.add('hidden');
       tabEnergie.classList.remove('hidden');
-      sortControls.classList.add('hidden');
-
-      // Désactiver le tri si on change d'onglet
-      if (sortByPerformance) {
-        sortByPerformance = false;
-        const sortButton = document.getElementById('sort-by-performance');
-        const sortToggleDot = document.getElementById('sort-toggle-dot');
-        if (sortButton && sortToggleDot) {
-          sortButton.classList.remove('bg-totem-green');
-          sortButton.classList.add('bg-gray-200');
-          sortButton.setAttribute('aria-checked', 'false');
-          sortToggleDot.classList.remove('translate-x-5');
-          sortToggleDot.classList.add('translate-x-0');
-        }
-        reorganizeByPerformance();
-      }
     }
   }
 
-  // Afficher la date de dernière mise à jour et charger les données
+  // Afficher la date de dernière mise à jour
   fetch('/data/indicators.json')
     .then(res => res.json())
     .then(data => {
-      indicatorsData = data;
-
       const el = document.getElementById('last-updated');
       if (el && data.lastUpdated) {
         const date = new Date(data.lastUpdated);
@@ -467,7 +275,6 @@ import ChartCard from '../components/ChartCard.astro';
     buttons.forEach(button => {
       button.addEventListener('click', () => {
         const range = button.getAttribute('data-range');
-        currentTimeRange = range;
 
         // Mettre à jour l'apparence des boutons
         buttons.forEach(btn => {
@@ -481,39 +288,7 @@ import ChartCard from '../components/ChartCard.astro';
         // Émettre un événement personnalisé pour informer les composants
         const event = new CustomEvent('globalTimeRangeChange', { detail: { range } });
         window.dispatchEvent(event);
-
-        // Réorganiser si le tri par performance est actif
-        if (sortByPerformance) {
-          // Attendre un peu que les graphiques se mettent à jour
-          setTimeout(reorganizeByPerformance, 100);
-        }
       });
-    });
-  }
-
-  // Gérer le toggle de tri par performance
-  const sortButton = document.getElementById('sort-by-performance');
-  const sortToggleDot = document.getElementById('sort-toggle-dot');
-
-  if (sortButton && sortToggleDot) {
-    sortButton.addEventListener('click', () => {
-      sortByPerformance = !sortByPerformance;
-
-      if (sortByPerformance) {
-        sortButton.classList.remove('bg-gray-200');
-        sortButton.classList.add('bg-totem-green');
-        sortButton.setAttribute('aria-checked', 'true');
-        sortToggleDot.classList.remove('translate-x-0');
-        sortToggleDot.classList.add('translate-x-5');
-      } else {
-        sortButton.classList.remove('bg-totem-green');
-        sortButton.classList.add('bg-gray-200');
-        sortButton.setAttribute('aria-checked', 'false');
-        sortToggleDot.classList.remove('translate-x-5');
-        sortToggleDot.classList.add('translate-x-0');
-      }
-
-      reorganizeByPerformance();
     });
   }
 </script>
