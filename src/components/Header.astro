@@ -7,15 +7,50 @@ interface Props {
 const { showAnalysesLink = true, showHistoiresLink = true } = Astro.props;
 ---
 
-<header class="flex items-center justify-between mb-8 pb-4 border-b border-gray-200">
-    <a href="/" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
-        <img src="/images/logo_totem_analyse.png" alt="Totem Analyse Logo" class="w-10">
-        <span class="text-lg font-bold text-totem-green">Totem Analyse</span>
-    </a>
-    <nav class="flex items-center gap-6 text-sm">
-        {showAnalysesLink && <a href="/analyses" class="text-gray-600 hover:text-totem-green transition-colors">Analyses</a>}
-        {showHistoiresLink && <a href="/histoires" class="text-gray-600 hover:text-totem-green transition-colors">Histoires</a>}
-        <a href="/portefeuille" class="text-gray-600 hover:text-totem-green transition-colors">Portefeuille</a>
-        <a href="/indicateurs" class="text-gray-600 hover:text-totem-green transition-colors">Indicateurs</a>
+<header class="mb-8 pb-4 border-b border-gray-200">
+    <div class="flex items-center justify-between">
+        <a href="/" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+            <img src="/images/logo_totem_analyse.png" alt="Totem Analyse Logo" class="w-10">
+            <span class="text-lg font-bold text-totem-green">Totem Analyse</span>
+        </a>
+
+        <!-- Menu desktop -->
+        <nav class="hidden md:flex items-center gap-6 text-sm">
+            {showAnalysesLink && <a href="/analyses" class="text-gray-600 hover:text-totem-green transition-colors">Analyses</a>}
+            {showHistoiresLink && <a href="/histoires" class="text-gray-600 hover:text-totem-green transition-colors">Histoires</a>}
+            <a href="/portefeuille" class="text-gray-600 hover:text-totem-green transition-colors">Portefeuille</a>
+            <a href="/indicateurs" class="text-gray-600 hover:text-totem-green transition-colors">Indicateurs</a>
+        </nav>
+
+        <!-- Bouton menu mobile -->
+        <button
+            id="mobile-menu-button"
+            class="md:hidden p-2 text-gray-600 hover:text-totem-green transition-colors"
+            aria-label="Menu"
+        >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
+    </div>
+
+    <!-- Menu mobile -->
+    <nav id="mobile-menu" class="hidden md:hidden mt-4 pt-4 border-t border-gray-200 flex flex-col gap-3">
+        {showAnalysesLink && <a href="/analyses" class="text-gray-600 hover:text-totem-green transition-colors py-2">Analyses</a>}
+        {showHistoiresLink && <a href="/histoires" class="text-gray-600 hover:text-totem-green transition-colors py-2">Histoires</a>}
+        <a href="/portefeuille" class="text-gray-600 hover:text-totem-green transition-colors py-2">Portefeuille</a>
+        <a href="/indicateurs" class="text-gray-600 hover:text-totem-green transition-colors py-2">Indicateurs</a>
     </nav>
 </header>
+
+<script>
+    // Gérer le menu mobile
+    const menuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    if (menuButton && mobileMenu) {
+        menuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    }
+</script>
