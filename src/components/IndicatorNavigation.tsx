@@ -9,10 +9,17 @@ interface IndicatorInfo {
 const indicators: IndicatorInfo[] = [
   // Indices Boursiers
   { key: 'sp500', name: 'S&P 500', category: 'Indices', color: '#006B4F', icon: '📈' },
+  { key: 'nasdaq', name: 'NASDAQ', category: 'Indices', color: '#00d4aa', icon: '💻' },
   { key: 'cac40', name: 'CAC 40', category: 'Indices', color: '#1e40af', icon: '🇫🇷' },
+  { key: 'dax', name: 'DAX', category: 'Indices', color: '#dc2626', icon: '🇩🇪' },
+  { key: 'nikkei', name: 'Nikkei 225', category: 'Indices', color: '#ec4899', icon: '🇯🇵' },
   // Matières Premières
   { key: 'gold', name: 'Or', category: 'Matières', color: '#ca8a04', icon: '🥇' },
+  { key: 'silver', name: 'Argent', category: 'Matières', color: '#94a3b8', icon: '🥈' },
   { key: 'brent', name: 'Pétrole Brent', category: 'Matières', color: '#0f172a', icon: '🛢️' },
+  { key: 'natgas', name: 'Gaz Naturel', category: 'Matières', color: '#0ea5e9', icon: '🔥' },
+  // Devises
+  { key: 'eurusd', name: 'EUR/USD', category: 'Devises', color: '#2563eb', icon: '💱' },
   // Crypto
   { key: 'bitcoin', name: 'Bitcoin', category: 'Crypto', color: '#f7931a', icon: '₿' },
   // Taux

@@ -57,7 +57,10 @@ import ChartCard from '../components/ChartCard.astro';
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <ChartCard indicatorKey="sp500" color="#006B4F" name="S&P 500" />
+          <ChartCard indicatorKey="nasdaq" color="#00d4aa" name="NASDAQ" />
           <ChartCard indicatorKey="cac40" color="#1e40af" name="CAC 40" />
+          <ChartCard indicatorKey="dax" color="#dc2626" name="DAX" />
+          <ChartCard indicatorKey="nikkei" color="#ec4899" name="Nikkei 225" />
         </div>
       </section>
 
@@ -68,17 +71,19 @@ import ChartCard from '../components/ChartCard.astro';
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <ChartCard indicatorKey="gold" color="#ca8a04" name="l'Or" />
+          <ChartCard indicatorKey="silver" color="#94a3b8" name="l'Argent" />
           <ChartCard indicatorKey="brent" color="#0f172a" name="le Brent" />
+          <ChartCard indicatorKey="natgas" color="#0ea5e9" name="le Gaz Naturel" />
         </div>
       </section>
 
-      <!-- Crypto -->
+      <!-- Devises -->
       <section class="mb-10">
         <div class="flex items-center gap-3 mb-4">
-          <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Cryptomonnaies</h2>
+          <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Devises</h2>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <ChartCard indicatorKey="bitcoin" color="#f7931a" name="le Bitcoin" />
+          <ChartCard indicatorKey="eurusd" color="#2563eb" name="EUR/USD" />
         </div>
       </section>
 
@@ -89,6 +94,16 @@ import ChartCard from '../components/ChartCard.astro';
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <ChartCard indicatorKey="fr10y" color="#dc2626" name="le Taux US 10 ans" />
+        </div>
+      </section>
+
+      <!-- Crypto -->
+      <section class="mb-10">
+        <div class="flex items-center gap-3 mb-4">
+          <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Cryptomonnaies</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <ChartCard indicatorKey="bitcoin" color="#f7931a" name="le Bitcoin" />
         </div>
       </section>
 

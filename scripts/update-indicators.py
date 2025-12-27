@@ -178,11 +178,22 @@ def main():
 
     # Configuration Yahoo Finance
     yahoo_config = {
+        # Indices
         "sp500": ("^GSPC", "S&P 500", "Indice des 500 plus grandes entreprises américaines", "points"),
         "cac40": ("^FCHI", "CAC 40", "Indice des 40 plus grandes entreprises françaises", "points"),
+        "nasdaq": ("^IXIC", "NASDAQ", "Indice des valeurs technologiques américaines", "points"),
+        "dax": ("^GDAXI", "DAX", "Indice des 40 plus grandes entreprises allemandes", "points"),
+        "nikkei": ("^N225", "Nikkei 225", "Indice des 225 plus grandes entreprises japonaises", "points"),
+        # Matières premières
         "gold": ("GC=F", "Or (Gold)", "Prix de l'once d'or en USD", "$/oz"),
+        "silver": ("SI=F", "Argent (Silver)", "Prix de l'once d'argent en USD", "$/oz"),
         "brent": ("BZ=F", "Brent (Pétrole)", "Prix du baril de Brent en USD", "$/baril"),
+        "natgas": ("NG=F", "Gaz Naturel", "Prix du gaz naturel en USD", "$/MMBtu"),
+        # Devises
+        "eurusd": ("EURUSD=X", "EUR/USD", "Taux de change Euro/Dollar", ""),
+        # Taux
         "fr10y": ("^TNX", "Taux US 10 ans", "Rendement des obligations d'État américaines à 10 ans", "%"),
+        # Crypto
         "bitcoin": ("BTC-USD", "Bitcoin (BTC)", "Prix du Bitcoin en USD", "$"),
     }
 

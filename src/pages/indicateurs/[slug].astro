@@ -14,12 +14,33 @@ const indicatorsConfig = {
     color: '#006B4F',
     longDescription: `Le S&P 500 est l'un des indices boursiers les plus suivis au monde. Il regroupe les 500 plus grandes entreprises américaines cotées en bourse, pondérées par leur capitalisation boursière. Cet indice est souvent considéré comme le baromètre de l'économie américaine.`,
   },
+  nasdaq: {
+    name: 'NASDAQ',
+    description: 'Indice des valeurs technologiques américaines',
+    category: 'Indices Boursiers',
+    color: '#00d4aa',
+    longDescription: `Le NASDAQ Composite est un indice boursier américain qui regroupe plus de 3 000 entreprises, principalement du secteur technologique. Il inclut des géants comme Apple, Microsoft, Amazon et Google, ce qui en fait un baromètre de la santé du secteur tech.`,
+  },
   cac40: {
     name: 'CAC 40',
     description: 'Indice des 40 plus grandes entreprises françaises',
     category: 'Indices Boursiers',
     color: '#1e40af',
     longDescription: `Le CAC 40 (Cotation Assistée en Continu) est l'indice phare de la Bourse de Paris. Il regroupe les 40 plus grandes capitalisations boursières françaises et constitue un indicateur clé de la santé économique de la France.`,
+  },
+  dax: {
+    name: 'DAX',
+    description: 'Indice des 40 plus grandes entreprises allemandes',
+    category: 'Indices Boursiers',
+    color: '#dc2626',
+    longDescription: `Le DAX (Deutscher Aktienindex) est l'indice phare de la Bourse de Francfort. Il regroupe les 40 plus grandes entreprises allemandes cotées et reflète la santé de la première économie européenne.`,
+  },
+  nikkei: {
+    name: 'Nikkei 225',
+    description: 'Indice des 225 plus grandes entreprises japonaises',
+    category: 'Indices Boursiers',
+    color: '#ec4899',
+    longDescription: `Le Nikkei 225 est l'indice boursier le plus suivi au Japon. Il regroupe les 225 plus grandes entreprises cotées à la Bourse de Tokyo et constitue un indicateur clé de l'économie japonaise et asiatique.`,
   },
   gold: {
     name: 'Or (Gold)',
@@ -28,12 +49,33 @@ const indicatorsConfig = {
     color: '#ca8a04',
     longDescription: `L'or est traditionnellement considéré comme une valeur refuge en période d'incertitude économique. Son prix est influencé par l'inflation, les taux d'intérêt, la force du dollar et les tensions géopolitiques.`,
   },
+  silver: {
+    name: 'Argent (Silver)',
+    description: 'Prix de l\'once d\'argent en dollars américains',
+    category: 'Matières Premières',
+    color: '#94a3b8',
+    longDescription: `L'argent est à la fois un métal précieux et industriel. Son prix est influencé par la demande industrielle (électronique, panneaux solaires) et son rôle de valeur refuge, similaire à l'or mais plus volatil.`,
+  },
   brent: {
     name: 'Pétrole Brent',
     description: 'Prix du baril de Brent en dollars américains',
     category: 'Matières Premières',
     color: '#0f172a',
     longDescription: `Le Brent est la référence mondiale pour le prix du pétrole brut. Son cours influence directement le prix de l'essence, le coût du transport et de nombreux produits dérivés du pétrole.`,
+  },
+  natgas: {
+    name: 'Gaz Naturel',
+    description: 'Prix du gaz naturel en dollars américains',
+    category: 'Matières Premières',
+    color: '#0ea5e9',
+    longDescription: `Le gaz naturel est une source d'énergie essentielle pour le chauffage, la production d'électricité et l'industrie. Son prix est très sensible aux conditions météorologiques et aux tensions géopolitiques, notamment en Europe.`,
+  },
+  eurusd: {
+    name: 'EUR/USD',
+    description: 'Taux de change Euro/Dollar américain',
+    category: 'Devises',
+    color: '#2563eb',
+    longDescription: `La paire EUR/USD est la plus échangée au monde sur le marché des changes. Elle représente le taux de change entre l'euro et le dollar américain, les deux principales devises mondiales.`,
   },
   bitcoin: {
     name: 'Bitcoin (BTC)',
@@ -52,7 +94,9 @@ const indicatorsConfig = {
 };
 
 export function getStaticPaths() {
-  return Object.keys(indicatorsConfig).map((slug) => ({
+  // Liste statique des indicateurs disponibles pour la génération
+  const slugs = ['sp500', 'nasdaq', 'cac40', 'dax', 'nikkei', 'gold', 'silver', 'brent', 'natgas', 'eurusd', 'bitcoin', 'fr10y'];
+  return slugs.map((slug) => ({
     params: { slug },
   }));
 }
