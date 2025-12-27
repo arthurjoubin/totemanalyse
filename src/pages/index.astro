@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 import { getCollection } from 'astro:content';
 import { sortAnalysesByDate } from '../utils/sort';
 
@@ -8,14 +10,16 @@ const latestAnalysis = analyses[0];
 ---
 
 <BaseLayout title="Totem Analyse - Lettre d'Investissement">
-  <div class="container mx-auto px-6 py-12 max-w-3xl">
-    <!-- Logo and Header -->
-    <header class="text-center mb-12 pt-8">
+  <div class="container mx-auto px-6 py-8 max-w-5xl">
+    <Header />
+
+    <!-- Hero Section -->
+    <section class="text-center mb-12 pt-4">
       <img src="/images/logo_totem_analyse.png" alt="Totem Analyse Logo" class="w-40 mx-auto mb-8">
       <h1 class="text-4xl font-bold text-totem-green mb-3 tracking-tight">Totem Analyse</h1>
       <p class="text-gray-600 text-lg">Lettre d'Investissement indépendante</p>
       <div class="w-24 h-0.5 bg-totem-green mx-auto mt-6"></div>
-    </header>
+    </section>
 
     <!-- Main CTA -->
     <div class="mb-6">
@@ -116,11 +120,7 @@ const latestAnalysis = analyses[0];
       </a>
     </div>
 
-    <!-- Footer -->
-    <footer class="text-center text-gray-500 text-sm border-t border-gray-200 pt-8">
-      <p>© 2025 Totem Analyse</p>
-      <p class="mt-2 text-xs">Ceci n'est pas un conseil en investissement.</p>
-    </footer>
+    <Footer />
   </div>
 </BaseLayout>
 
