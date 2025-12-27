@@ -76,6 +76,15 @@ export default function LocalChart({ indicatorKey, color = '#006B4F', globalTime
     return () => window.removeEventListener('globalTimeRangeChange', handleGlobalChange);
   }, []);
 
+  // Scroller vers ce graphique si l'URL contient son hash
+  useEffect(() => {
+    if (window.location.hash === `#chart-${indicatorKey}`) {
+      setTimeout(() => {
+        cardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 500); // Délai pour laisser le temps au composant de se charger
+    }
+  }, [indicatorKey]);
+
   useEffect(() => {
     fetch('/data/indicators.json')
       .then(res => res.json())
@@ -119,7 +128,12 @@ export default function LocalChart({ indicatorKey, color = '#006B4F', globalTime
   // Fonction pour copier le lien partageable
   const handleShare = () => {
     const url = new URL(window.location.href);
+    // Nettoyer les anciens paramètres de temps et hash
+    url.search = '';
+    url.hash = '';
+    // Ajouter le paramètre de temps et le hash pour ce graphique
     url.searchParams.set(`${indicatorKey}_time`, activeTimeRange);
+    url.hash = `chart-${indicatorKey}`;
     navigator.clipboard.writeText(url.toString());
     setShowCopied(true);
     setTimeout(() => setShowCopied(false), 2000);
@@ -273,7 +287,7 @@ export default function LocalChart({ indicatorKey, color = '#006B4F', globalTime
   };
 
   return (
-    <div ref={cardRef} className="bg-white border border-gray-200 overflow-hidden">
+    <div ref={cardRef} id={`chart-${indicatorKey}`} className="bg-white border border-gray-200 overflow-hidden">
       <div className="px-4 py-3 border-b border-gray-100">
         <div className="flex items-center justify-between mb-2">
           <div>
