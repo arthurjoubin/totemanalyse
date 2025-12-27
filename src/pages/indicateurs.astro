@@ -356,15 +356,16 @@ import ChartCard from '../components/ChartCard.astro';
     // Trier par performance décroissante
     indicatorsWithPerf.sort((a, b) => b.change - a.change);
 
-    // Vider la grille triée
-    sortedGrid.innerHTML = '';
-
+    // Récupérer tous les éléments existants avant de réorganiser
+    const elementsMap = new Map();
     indicatorsWithPerf.forEach(ind => {
       // Chercher l'élément existant par son id ou par l'indicatorKey dans le chart
       const existingCard = document.querySelector(`#${ind.key}`) ||
                           document.querySelector(`[id="chart-${ind.key}"]`)?.closest('.group');
 
       if (existingCard) {
+        elementsMap.set(ind.key, existingCard);
+
         // Sauvegarder la position originale si pas déjà fait
         if (!originalParents.has(existingCard)) {
           originalParents.set(existingCard, {
@@ -372,8 +373,17 @@ import ChartCard from '../components/ChartCard.astro';
             nextSibling: existingCard.nextSibling
           });
         }
-        // Déplacer l'élément (pas de clonage)
-        sortedGrid.appendChild(existingCard);
+      }
+    });
+
+    // Vider la grille triée seulement si nécessaire
+    sortedGrid.innerHTML = '';
+
+    // Ajouter les éléments dans l'ordre trié
+    indicatorsWithPerf.forEach(ind => {
+      const element = elementsMap.get(ind.key);
+      if (element) {
+        sortedGrid.appendChild(element);
       }
     });
 
