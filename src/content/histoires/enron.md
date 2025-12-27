@@ -53,15 +53,6 @@ Ces structures temporaires créées pour couvrir des risques financiers ont ét�
 
 La particularité scandaleuse : les dirigeants, notamment le directeur financier, créaient et géraient ces entités en se versant des commissions substantielles.
 
-<div class="my-6 py-4 px-5 border-l-4 border-totem-green bg-gray-50" style="border-left: 4px solid #006B4F; background: #f9fafb; padding: 1rem 1.25rem; margin: 1.5rem 0;">
-  <p style="margin: 0; font-size: 0.875rem; color: #374151;">
-    <strong>📬 Newsletter Totem Analyse</strong> — Recevez nos analyses approfondies chaque mois.
-    <a href="https://totemanalyse.substack.com/subscribe" target="_blank" rel="noopener noreferrer" style="color: #006B4F; font-weight: 500; margin-left: 0.25rem;">
-      S'abonner →
-    </a>
-  </p>
-</div>
-
 ## La chute
 
 En fin 2001, Enron annonce sa première perte trimestrielle depuis 4 ans, liée à des charges exceptionnelles de 1 milliard de dollars concernant les SPE précédemment décrites.

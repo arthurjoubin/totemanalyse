@@ -115,6 +115,20 @@ const { frontmatter, slug = '', headings = [] } = Astro.props;
       <div class="lg:col-span-1">
         <div class="sticky top-6 space-y-6">
           <TableOfContents headings={headings} />
+
+          <!-- Newsletter CTA -->
+          <div class="bg-white border border-gray-200 p-4">
+            <p class="text-xs text-gray-500 uppercase tracking-wide mb-2">Newsletter</p>
+            <p class="text-sm font-semibold text-gray-900 mb-2">Recevez nos analyses</p>
+            <p class="text-xs text-gray-600 mb-3">Une analyse par mois, directement dans votre boîte mail.</p>
+            <a href="https://totemanalyse.substack.com/subscribe"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="block py-2 px-3 bg-totem-green text-white text-xs font-medium text-center hover:bg-totem-light transition-colors">
+              S'abonner gratuitement →
+            </a>
+          </div>
+
           <RelatedAnalysisSidebar currentSlug={slug} />
         </div>
       </div>

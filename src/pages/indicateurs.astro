@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import LocalChart from '../components/LocalChart';
 ---
 
 <BaseLayout title="Indicateurs Clés - Totem Analyse" description="Évolution sur 10 ans des principaux indicateurs économiques et financiers">
@@ -13,6 +14,7 @@ import Footer from '../components/Footer.astro';
       <div class="text-center mb-10">
         <h1 class="text-3xl font-bold text-gray-900 mb-2">Indicateurs Clés</h1>
         <p class="text-gray-600">Évolution sur 10 ans des principaux indicateurs économiques et financiers</p>
+        <p class="text-xs text-gray-400 mt-2" id="last-updated"></p>
       </div>
 
       <!-- Indices Boursiers -->
@@ -21,8 +23,8 @@ import Footer from '../components/Footer.astro';
           <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Indices Boursiers</h2>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="chart-container" data-symbol="TVC:SPX" data-title="S&P 500" data-desc="Indice des 500 plus grandes entreprises américaines"></div>
-          <div class="chart-container" data-symbol="TVC:CAC40" data-title="CAC 40" data-desc="Indice des 40 plus grandes entreprises françaises"></div>
+          <LocalChart client:load indicatorKey="sp500" color="#006B4F" />
+          <LocalChart client:load indicatorKey="cac40" color="#1e40af" />
         </div>
       </section>
 
@@ -32,8 +34,8 @@ import Footer from '../components/Footer.astro';
           <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Matières Premières</h2>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="chart-container" data-symbol="TVC:GOLD" data-title="Or (Gold)" data-desc="Prix de l'once d'or en USD"></div>
-          <div class="chart-container" data-symbol="TVC:UKOIL" data-title="Brent (Pétrole)" data-desc="Prix du baril de Brent en USD"></div>
+          <LocalChart client:load indicatorKey="gold" color="#ca8a04" />
+          <LocalChart client:load indicatorKey="brent" color="#0f172a" />
         </div>
       </section>
 
@@ -43,8 +45,7 @@ import Footer from '../components/Footer.astro';
           <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Cryptomonnaies</h2>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="chart-container" data-symbol="BITSTAMP:BTCUSD" data-title="Bitcoin (BTC)" data-desc="Prix du Bitcoin en USD"></div>
-          <div class="chart-container" data-symbol="BITSTAMP:ETHUSD" data-title="Ethereum (ETH)" data-desc="Prix de l'Ethereum en USD"></div>
+          <LocalChart client:load indicatorKey="bitcoin" color="#f7931a" />
         </div>
       </section>
 
@@ -54,37 +55,40 @@ import Footer from '../components/Footer.astro';
           <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Taux et Obligations</h2>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="chart-container" data-symbol="TVC:FR10Y" data-title="OAT France 10 ans" data-desc="Rendement des obligations d'État françaises à 10 ans"></div>
-          <div class="chart-container" data-symbol="TVC:US10Y" data-title="Treasury US 10 ans" data-desc="Rendement des obligations d'État américaines à 10 ans"></div>
-          <div class="chart-container" data-symbol="TVC:DE10Y" data-title="Bund Allemand 10 ans" data-desc="Rendement des obligations d'État allemandes à 10 ans"></div>
-          <div class="chart-container" data-symbol="ECONOMICS:EUINTR" data-title="Taux directeur BCE" data-desc="Taux d'intérêt principal de la Banque Centrale Européenne"></div>
+          <LocalChart client:load indicatorKey="fr10y" color="#dc2626" />
+          <LocalChart client:load indicatorKey="ecb" color="#2563eb" />
+          <LocalChart client:load indicatorKey="fed" color="#059669" />
         </div>
       </section>
 
-      <!-- Devises -->
+      <!-- Immobilier -->
       <section class="mb-10">
         <div class="flex items-center gap-3 mb-4">
-          <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Devises</h2>
+          <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Immobilier</h2>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="chart-container" data-symbol="FX:EURUSD" data-title="EUR/USD" data-desc="Taux de change Euro / Dollar américain"></div>
-          <div class="chart-container" data-symbol="TVC:DXY" data-title="Dollar Index (DXY)" data-desc="Indice de force du dollar américain"></div>
+          <LocalChart client:load indicatorKey="immoParis" color="#7c3aed" />
+          <LocalChart client:load indicatorKey="immoFrance" color="#be185d" />
         </div>
       </section>
 
-      <!-- Note sur l'immobilier -->
+      <!-- Note sur les données -->
       <section class="mb-10">
         <div class="bg-gray-50 border border-gray-200 p-6">
-          <h3 class="font-semibold text-gray-900 mb-2">Note sur l'immobilier</h3>
+          <h3 class="font-semibold text-gray-900 mb-2">Sources des données</h3>
           <p class="text-sm text-gray-600 mb-3">
-            Les données sur l'immobilier à Paris et en France ne sont pas disponibles en temps réel via les API financières standard.
-            Pour suivre l'évolution des prix immobiliers, nous recommandons :
+            Les données sont hébergées localement et mises à jour périodiquement. Sources utilisées :
           </p>
           <ul class="text-sm text-gray-600 list-disc pl-5 space-y-1">
-            <li><a href="https://www.notaires.fr/fr/immobilier-fiscalite/prix-et-tendances-de-limmobilier" target="_blank" rel="noopener" class="text-totem-green hover:underline">Indices Notaires-INSEE</a> - Données officielles trimestrielles</li>
-            <li><a href="https://www.meilleursagents.com/prix-immobilier/" target="_blank" rel="noopener" class="text-totem-green hover:underline">MeilleursAgents</a> - Estimations mensuelles par ville</li>
-            <li><a href="https://www.seloger.com/prix-de-l-immo/vente/pays/france.htm" target="_blank" rel="noopener" class="text-totem-green hover:underline">SeLoger</a> - Tendances par région</li>
+            <li><strong>Indices boursiers</strong> — Yahoo Finance, données mensuelles</li>
+            <li><strong>Matières premières</strong> — World Gold Council, EIA</li>
+            <li><strong>Cryptomonnaies</strong> — CoinGecko</li>
+            <li><strong>Taux et obligations</strong> — Banque de France, BCE, Fed</li>
+            <li><strong>Immobilier</strong> — Notaires de France (indices Notaires-INSEE)</li>
           </ul>
+          <p class="text-xs text-gray-400 mt-4">
+            Les données sont mises à jour manuellement. Fichier source : <code>/public/data/indicators.json</code>
+          </p>
         </div>
       </section>
 
@@ -100,95 +104,15 @@ import Footer from '../components/Footer.astro';
   </div>
 </BaseLayout>
 
-<style>
-  .chart-wrapper {
-    background: white;
-    border: 1px solid #e5e7eb;
-    overflow: hidden;
-  }
-  .chart-header {
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid #f3f4f6;
-  }
-  .chart-title {
-    font-weight: 600;
-    color: #111827;
-    font-size: 0.95rem;
-  }
-  .chart-desc {
-    font-size: 0.75rem;
-    color: #6b7280;
-    margin-top: 0.25rem;
-  }
-</style>
-
 <script>
-  // Créer les widgets TradingView pour chaque conteneur
-  document.addEventListener('DOMContentLoaded', () => {
-    const containers = document.querySelectorAll('.chart-container');
-
-    containers.forEach((container, index) => {
-      const symbol = container.getAttribute('data-symbol');
-      const title = container.getAttribute('data-title');
-      const desc = container.getAttribute('data-desc');
-
-      // Créer la structure HTML
-      const wrapper = document.createElement('div');
-      wrapper.className = 'chart-wrapper';
-
-      const header = document.createElement('div');
-      header.className = 'chart-header';
-      header.innerHTML = `
-        <div class="chart-title">${title}</div>
-        <div class="chart-desc">${desc}</div>
-      `;
-
-      const chartDiv = document.createElement('div');
-      chartDiv.id = `tradingview_${index}`;
-      chartDiv.style.height = '300px';
-
-      wrapper.appendChild(header);
-      wrapper.appendChild(chartDiv);
-      container.appendChild(wrapper);
-
-      // Charger le widget TradingView
-      const script = document.createElement('script');
-      script.src = 'https://s3.tradingview.com/tv.js';
-      script.async = true;
-      script.onload = () => {
-        if ((window as any).TradingView) {
-          new (window as any).TradingView.widget({
-            container_id: `tradingview_${index}`,
-            symbol: symbol,
-            interval: 'M',
-            timezone: 'Europe/Paris',
-            theme: 'light',
-            style: '3',
-            locale: 'fr',
-            toolbar_bg: '#f1f3f6',
-            enable_publishing: false,
-            hide_top_toolbar: true,
-            hide_legend: false,
-            save_image: false,
-            height: 300,
-            width: '100%',
-            range: '60M',
-            hide_side_toolbar: true,
-            allow_symbol_change: false,
-            details: false,
-            hotlist: false,
-            calendar: false,
-            studies: [],
-          });
-        }
-      };
-
-      // Éviter de charger le script plusieurs fois
-      if (!(window as any).TradingView) {
-        document.head.appendChild(script);
-      } else {
-        script.onload(null as any);
+  // Afficher la date de dernière mise à jour
+  fetch('/data/indicators.json')
+    .then(res => res.json())
+    .then(data => {
+      const el = document.getElementById('last-updated');
+      if (el && data.lastUpdated) {
+        const date = new Date(data.lastUpdated);
+        el.textContent = `Données mises à jour le ${date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}`;
       }
     });
-  });
 </script>

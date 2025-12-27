@@ -91,15 +91,6 @@ Le bubble tea premium constitue une part importante de l'offre. Ces boissons gé
 
 **Trésorerie nette (sans dette) :** ~25M SGD à la fin du S1 2021/22.
 
-<div class="my-6 py-4 px-5 border-l-4 border-totem-green bg-gray-50" style="border-left: 4px solid #006B4F; background: #f9fafb; padding: 1rem 1.25rem; margin: 1.5rem 0;">
-  <p style="margin: 0; font-size: 0.875rem; color: #374151;">
-    <strong>📬 Newsletter Totem Analyse</strong> — Recevez nos analyses approfondies chaque mois.
-    <a href="https://totemanalyse.substack.com/subscribe" target="_blank" rel="noopener noreferrer" style="color: #006B4F; font-weight: 500; margin-left: 0.25rem;">
-      S'abonner →
-    </a>
-  </p>
-</div>
-
 ## Valorisation
 
 <img src="/images/snack-empire/11-valuation.png" alt="Valorisation" class="w-full rounded-lg my-6" />
