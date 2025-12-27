@@ -5,12 +5,13 @@ interface Props {
   indicatorKey: string;
   color: string;
   name: string;
+  id?: string;
 }
 
-const { indicatorKey, color, name } = Astro.props;
+const { indicatorKey, color, name, id } = Astro.props;
 ---
 
-<div class="group relative">
+<div class="group relative" id={id}>
   <LocalChart client:load indicatorKey={indicatorKey} color={color} />
   <a
     href={`/indicateurs/${indicatorKey}/`}
