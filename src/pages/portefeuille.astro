@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 import { getEntry } from 'astro:content';
 
 const portefeuille = await getEntry('portefeuille', 'index');
@@ -12,9 +13,10 @@ const sortedPortfolio = [...portfolio].sort((a, b) => (b.weight || 0) - (a.weigh
 ---
 
 <BaseLayout title="Portefeuille - Totem Analyse" description="Nos positions actuelles et watchlist">
-  <Header />
+  <div class="container mx-auto px-6 py-8 max-w-5xl">
+    <Header />
 
-  <main class="container mx-auto px-4 py-8 max-w-4xl">
+    <main>
     <!-- Header -->
     <div class="text-center mb-10">
       <h1 class="text-3xl font-bold text-gray-900 mb-2">Notre Portefeuille</h1>
@@ -153,5 +155,8 @@ const sortedPortfolio = [...portfolio].sort((a, b) => (b.weight || 0) - (a.weigh
         ← Retour à l'accueil
       </a>
     </div>
-  </main>
+    </main>
+
+    <Footer />
+  </div>
 </BaseLayout>
