@@ -249,12 +249,8 @@ def main():
         print("\n⚠ FRED_API_KEY non définie")
         print("  → Clé gratuite: https://fred.stlouisfed.org/docs/api/api_key.html")
 
-    # Données manuelles
-    print("\n🏠 Données manuelles conservées...")
-    for key in ["immoParis", "immoFrance"]:
-        if key in existing.get("indicators", {}):
-            indicators[key] = existing["indicators"][key]
-            print(f"  → {key}: ✓")
+    # Données immobilières supprimées (pas d'API automatique disponible)
+    # Les données des Notaires de France ne sont pas accessibles via API
 
     # Sauvegarder
     result = {

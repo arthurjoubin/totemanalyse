@@ -19,9 +19,6 @@ const indicators: IndicatorInfo[] = [
   { key: 'fr10y', name: 'US 10 ans', category: 'Taux', color: '#dc2626', icon: '📊' },
   { key: 'ecb', name: 'BCE', category: 'Taux', color: '#2563eb', icon: '🇪🇺' },
   { key: 'fed', name: 'Fed', category: 'Taux', color: '#059669', icon: '🇺🇸' },
-  // Immobilier
-  { key: 'immoParis', name: 'Immo Paris', category: 'Immobilier', color: '#7c3aed', icon: '🏠' },
-  { key: 'immoFrance', name: 'Immo France', category: 'Immobilier', color: '#be185d', icon: '🏡' },
 ];
 
 interface IndicatorNavigationProps {
