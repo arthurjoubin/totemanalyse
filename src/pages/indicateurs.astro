@@ -3,6 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ChartCard from '../components/ChartCard.astro';
+import EnergyMixChart from '../components/EnergyMixChart';
+import OilConsumptionByRegionChart from '../components/OilConsumptionByRegionChart';
 ---
 
 <BaseLayout title="Indicateurs clé de l'économie - Totem Analyse" description="Suivez l'évolution des principaux indicateurs économiques et financiers : indices boursiers (S&P 500, CAC 40), matières premières (Or, Pétrole), devises (EUR/USD), taux et crypto. Données sur 20 ans.">
@@ -151,8 +153,8 @@ import ChartCard from '../components/ChartCard.astro';
             <ChartCard indicatorKey="oil_consumption_world" color="#1e3a5f" name="la Conso. Pétrole Monde" />
             <ChartCard indicatorKey="oil_consumption_usa" color="#3b82f6" name="la Conso. Pétrole USA" />
             <ChartCard indicatorKey="oil_consumption_china" color="#ef4444" name="la Conso. Pétrole Chine" />
+            <ChartCard indicatorKey="oil_consumption_europe" color="#f59e0b" name="la Conso. Pétrole Europe" />
             <ChartCard indicatorKey="oil_consumption_oecd" color="#8b5cf6" name="la Conso. Pétrole OCDE" />
-            <ChartCard indicatorKey="us_oil_stocks" color="#059669" name="les Stocks Pétrole US" />
           </div>
         </section>
 
@@ -167,6 +169,17 @@ import ChartCard from '../components/ChartCard.astro';
             <ChartCard indicatorKey="energy_coal" color="#374151" name="la Conso. Mondiale Charbon" />
             <ChartCard indicatorKey="energy_nuclear" color="#eab308" name="la Conso. Mondiale Nucléaire" />
             <ChartCard indicatorKey="energy_renewables" color="#22c55e" name="la Conso. Mondiale Renouvelables" />
+          </div>
+        </section>
+
+        <!-- Graphiques de synthèse -->
+        <section class="mb-10">
+          <div class="flex items-center gap-3 mb-4">
+            <h2 class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Graphiques de Synthèse</h2>
+          </div>
+          <div class="grid grid-cols-1 gap-6">
+            <EnergyMixChart client:load />
+            <OilConsumptionByRegionChart client:load />
           </div>
         </section>
       </div>
